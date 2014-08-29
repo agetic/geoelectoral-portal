@@ -1,28 +1,32 @@
 <div class="row">
   <div class="col-sm-4 statistics">
-    <table class="table table-striped table-bordered">
+    <h3>
+      <small>{{anio}} - ELECCIONES GENERALES</small><br/>
+      BOLIVIA
+    </h3>
+    <table class="table table-condensed">
       <thead>
         <tr>
+          <th></th>
           <th>Partido</th>
           <th>Votos</th>
           <th>% votos</th>
-          <th></th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="partido in partidos | orderBy:'resultado':true">
+          <td><div class="bandera" style="background-color: #{{partido.color}};"></div></td>
           <td>{{partido.sigla}}</td>
           <td class="numero">{{partido.resultado | number}}</td>
           <td class="numero">{{partido.porcentaje}}%</td>
-          <td style="background-color: #{{partido.color}};"></td>
         </tr>
       </tbody>
     </table>
   </div>
-  <mapa-bolivia class="col-sm-8" data="dpaGeoJSON" votos="partidosDepartamento" ng-show="isSelected(1)">
+  <mapa-bolivia class="col-sm-8 grafico" data="dpaGeoJSON" votos="partidosDepartamento" ng-show="isSelected(1)">
   </mapa-bolivia>
-  <div ng-show="isSelected(2)">Barras</div>
-  <div ng-show="isSelected(3)">Torta</div>
+  <barras-bolivia class="col-sm-8 grafico" data="partidos" ng-show="isSelected(2)"></barras-bolivia>
+  <div class="col-sm-8 grafico" ng-show="isSelected(3)">Torta</div>
 </div>
 <div id="barras"></div>
 <div id="torta"></div>

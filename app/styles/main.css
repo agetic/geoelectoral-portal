@@ -85,6 +85,16 @@ body {
 .statistics .numero {
   text-align: right;
 }
+.statistics h3 {
+  margin-top: 0px;
+}
+.statistics table .bandera {
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  width: 20px;
+  height: 20px;
+}
 
 /* Tooltip */
 div.tooltip {
@@ -117,4 +127,28 @@ svg .fondos rect {
 
 svg .hover:hover {
   fill: orange;
+}
+
+/* Barras */
+.bar {
+  fill: steelblue;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: none;
+  shape-rendering: crispEdges;
+}
+
+.y.axis path {
+  display: none;
+}
+
+#barras text {
+  font: 13px sans-serif;
+}
+
+#barras text.etiqueta {
+  font: 13px sans-serif;
 }
