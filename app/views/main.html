@@ -10,53 +10,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>MAS</td>
-          <td>2851996</td>
-          <td>63.91%</td>
-          <td style="background-color: #0026FF;"></td>
-        </tr>
-        <tr>
-          <td>PPB-CN</td>
-          <td>1190603</td>
-          <td>26.68%</td>
-          <td style="background-color: #FF0000;"></td>
-        </tr>
-        <tr>
-          <td>UN</td>
-          <td>255299</td>
-          <td>5.72%</td>
-          <td style="background-color: #FFC500;"></td>
-        </tr>
-        <tr>
-          <td>AS</td>
-          <td>104952</td>
-          <td>2.35%</td>
-          <td style="background-color: #054600;"></td>
-        </tr>
-        <tr>
-          <td>MUSPA</td>
-          <td>21829</td>
-          <td>0.49%</td>
-          <td style="background-color: none;"></td>
-        </tr>
-        <tr>
-          <td>GENTE</td>
-          <td>15388</td>
-          <td>0.34%</td>
-          <td style="background-color: none;"></td>
-        </tr>
-        <tr>
-          <td>PULSO</td>
-          <td>12635</td>
-          <td>0.28%</td>
-          <td style="background-color: none;"></td>
-        </tr>
-        <tr>
-          <td>BSD</td>
-          <td>9709</td>
-          <td>0.22%</td>
-          <td style="background-color: none;"></td>
+        <tr ng-repeat="partido in partidos | orderBy:'resultado':true">
+          <td>{{partido.sigla}}</td>
+          <td class="numero">{{partido.resultado | number}}</td>
+          <td class="numero">{{partido.porcentaje}}%</td>
+          <td style="background-color: #{{partido.color}};"></td>
         </tr>
       </tbody>
     </table>

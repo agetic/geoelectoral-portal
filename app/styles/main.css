@@ -77,3 +77,8 @@ body {
     border-bottom: 0;
   }
 }
+
+/* Estadísticas */
+.statistics .numero {
+  text-align: right;
+}

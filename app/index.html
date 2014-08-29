@@ -21,17 +21,17 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="container">
+    <div class="container" ng-controller="MainCtrl">
       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a ng-href="#">Mapa</a></li>
           <li><a ng-href="#">Barras</a></li>
           <li><a ng-href="#">Torta</a></li>
         </ul>
-        <h3 class="text-muted">2009 - Elecciones Generales - Plurinominales</h3>
+        <h3 class="text-muted">{{anio}} - Elecciones Generales - Plurinominales</h3>
       </div>
 
-      <div ng-include="'views/main.html'" ng-controller="MainCtrl"></div>
+      <div ng-include="'views/main.html'"></div>
 
       <div class="footer">
         <center>&copy; 2014 - Agencia para el Desarrollo de la Sociedad de la Información en Bolivia</center>
@@ -53,6 +53,7 @@
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/d3/d3.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
