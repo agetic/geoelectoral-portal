@@ -82,3 +82,36 @@ body {
 .statistics .numero {
   text-align: right;
 }
+
+/* Tooltip */
+div.tooltip {
+  position: absolute;
+  text-align: left;
+  width: 115px;
+  font: 11px sans-serif;
+  background: #ddd;
+  border: solid 1px #aaa;
+  border-radius: 8px;
+  padding: 8px;
+  pointer-events: none;
+}
+
+/* Mapa */
+svg .departamentos path {
+  stroke: white;
+}
+
+/* Etiquetas de partidos ganadores - mapa */
+svg .etiquetas text {
+  fill: rgb(44, 44, 44);
+  text-anchor: middle;
+  font-size: 11px;
+}
+svg .fondos rect {
+  fill: white;
+  opacity: 0;
+}
+
+svg .hover:hover {
+  fill: orange;
+}
