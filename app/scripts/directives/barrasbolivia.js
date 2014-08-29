@@ -22,13 +22,9 @@ angular.module('geoelectoralFrontendApp')
       var y = d3.scale.ordinal()
           .rangeRoundBands([height, 0], 0.2);
 
-      var xAxis = d3.svg.axis()
-          .scale(x)
-          .orient("bottom");
-
       var yAxis = d3.svg.axis()
           .scale(y)
-          .orient("left");
+          .orient('left');
 
       // Tooltip container
       var div = d3.select('#tooltip')
@@ -36,17 +32,17 @@ angular.module('geoelectoralFrontendApp')
           .style('opacity', 1e-6);
 
       var tooltipTpl = [
-          "<strong>{sigla}</strong>",
-          "<div>Porcentaje: {porcentaje}%</div>",
-          "<div>Votos: {votos}</div>",
+          '<strong>{sigla}</strong>',
+          '<div>Porcentaje: {porcentaje}%</div>',
+          '<div>Votos: {votos}</div>',
         ].join('');
 
       // Barras container
-      var svg = d3.select(element[0]).append("svg")
-          .attr("width", width + margin.left + margin.right)
-          .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      var svg = d3.select(element[0]).append('svg')
+          .attr('width', width + margin.left + margin.right)
+          .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+          .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
       var esTextoMayor = function(texto, data) {
         var anchoTexto = Math.ceil(texto.getBBox().width) + marginTexto * 2;
@@ -79,25 +75,25 @@ angular.module('geoelectoralFrontendApp')
       };
 
       var graficarBarras = function() {
-        if (!scope.data) { return };
+        if (!scope.data) { return; }
 
         var partidos = scope.data;
 
         x.domain([0, 100]);
         y.domain(partidos.map(function(d) { return d.sigla; }));
 
-        svg.selectAll(".bar")
+        svg.selectAll('.bar')
             .data(partidos)
-          .enter().append("rect")
-            .attr("class", "bar hover")
-            .attr("width", function(d) { return x(d.porcentaje); })
-            .attr("y", function(d) { return y(d.sigla); })
-            .attr("height", y.rangeBand())
+          .enter().append('rect')
+            .attr('class', 'bar hover')
+            .attr('width', function(d) { return x(d.porcentaje); })
+            .attr('y', function(d) { return y(d.sigla); })
+            .attr('height', y.rangeBand())
             .on('mouseover', mouseover)
             .on('mousemove', mousemove)
             .on('mouseout', mouseout);
 
-        svg.selectAll("text")
+        svg.selectAll('text')
             .data(partidos)
           .enter().append('text')
             .attr('class', 'etiqueta')
@@ -118,8 +114,8 @@ angular.module('geoelectoralFrontendApp')
             .on('mousemove', mousemove)
             .on('mouseout', mouseout);
 
-        svg.append("g")
-            .attr("class", "y axis")
+        svg.append('g')
+            .attr('class', 'y axis')
             .call(yAxis);
       };
 

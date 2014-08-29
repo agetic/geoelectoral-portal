@@ -18,5 +18,5 @@ angular.module('geoelectoralFrontendApp')
 
     $scope.isSelected = function(checkTab) {
       return $scope.tab === checkTab;
-    }
+    };
   });

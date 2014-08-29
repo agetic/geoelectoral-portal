@@ -31,14 +31,14 @@ angular.module('geoelectoralFrontendApp')
           .style('opacity', 1e-6);
 
       var tooltipTpl = [
-          "<strong>{sigla}</strong>",
-          "<div>Porcentaje: {porcentaje}%</div>",
-          "<div>Votos: {votos}</div>",
+          '<strong>{sigla}</strong>',
+          '<div>Porcentaje: {porcentaje}%</div>',
+          '<div>Votos: {votos}</div>',
         ].join('');
 
       var svg = d3.select(element[0]).append('svg')
           .attr('width', width + margin.left + margin.right)
-          .attr('height', height + margin.top + margin.bottom)
+          .attr('height', height + margin.top + margin.bottom);
 
       // tooltip functions
       var mouseover = function() {
@@ -82,7 +82,7 @@ angular.module('geoelectoralFrontendApp')
       };
 
       var graficarMapa = function() {
-        if (!scope.data.data) { return };
+        if (!scope.data.data) { return; }
 
         var geojson = scope.data.data;
         var votos = scope.votos;
@@ -130,8 +130,8 @@ angular.module('geoelectoralFrontendApp')
             .attr('width', function(d) { return d.texto_width; })
             .attr('rx', '3')
             .attr('transform', function(d) {
-              return 'translate(' + (d.centroid[0] - d.texto_width/2) + ', '
-                + (d.centroid[1] - d.texto_height/2) + ')';
+              return 'translate(' + (d.centroid[0] - d.texto_width/2) + ', ' +
+                (d.centroid[1] - d.texto_height/2) + ')';
             })
             .on('mouseover', mouseover)
             .on('mousemove', mousemove)
@@ -140,7 +140,7 @@ angular.module('geoelectoralFrontendApp')
       };
 
       scope.$watch('data', graficarMapa);
-    };
+    }
     return {
       restrict: 'E',
       link: link,

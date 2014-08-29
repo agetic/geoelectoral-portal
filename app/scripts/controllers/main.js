@@ -48,7 +48,7 @@ angular.module('geoelectoralFrontendApp')
       var url = eleccionesUrl.replace(/{anio}/g, $scope.anio);
       $http.get(url).then(function(response) {
         $scope.partidos = establecerColor(eliminarValidos(response.data.dpas[0].partidos));
-        $scope.partidos = $scope.partidos.sort(function(a, b) { return a.porcentaje - b.porcentaje; })
+        $scope.partidos = $scope.partidos.sort(function(a, b) { return a.porcentaje - b.porcentaje; });
         $scope.eleccion = response.data.eleccion;
       }, function(err) {
         throw err;
