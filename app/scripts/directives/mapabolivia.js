@@ -86,7 +86,6 @@ angular.module('geoelectoralFrontendApp')
 
         var geojson = scope.data.data;
         var votos = scope.votos;
-        console.log(votos);
 
         svg.append('g')
             .attr('class', 'departamentos')
