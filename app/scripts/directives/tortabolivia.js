@@ -9,101 +9,103 @@
 angular.module('geoelectoralFrontendApp')
   .directive('tortaBolivia', function () {
     var link = function(scope, element, attrs) {
-      var width = 630,
-          height = 450,
-          leyendaHeight = 40,
-          radius = Math.min(width, height - leyendaHeight) / 2.2,
-          labelr = radius,
-          porcentajeMin = 10;
-
-      var color = d3.scale.ordinal();
-
-      var arc = d3.svg.arc()
-          .outerRadius(radius - 10)
-          .innerRadius(0);
-
-      var pie = d3.layout.pie()
-          .sort(null)
-          .value(function(d) { return d.porcentaje; });
-
-      // Tooltip container
-      var div = d3.select('#tooltip')
-          .attr('class', 'tooltip')
-          .style('opacity', 1e-6);
-
-      var tooltipTpl = [
-          '<strong>{sigla}</strong>',
-          '<div>Porcentaje: {porcentaje}%</div>',
-          '<div>Votos: {votos}</div>',
-        ].join('');
-
-      var svg = d3.select(element[0]).append('svg')
-          .attr('width', width)
-          .attr('height', height)
-        .append('g')
-          .attr('transform', 'translate(' + width / 2 + ', ' + (height - leyendaHeight) / 2 + ')');
-
-      var leyenda = d3.select('#torta svg').append('g');
-
-      // Agrupar partidos cuyo porcentaje sea menor al 10%
-      var agruparPartidos = function(data_partidos) {
-        var partidos = [];
-        var otros = { 'sigla': 'Otros', 'resultado': 0, 'porcentaje': 0,
-                      'color': 'bbb', 'partidos': [] };
-
-        data_partidos.forEach(function(p) {
-          if (p.porcentaje < porcentajeMin) {
-            otros.resultado += p.resultado;
-            otros.porcentaje += p.porcentaje;
-            otros.partidos.push(p);
-          } else {
-            partidos.push(p);
-          }
-        });
-        if (otros.partidos.length > 0) {
-          otros.partidos = otros.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
-          otros.porcentaje = d3.round(otros.porcentaje, 2);
-          partidos.push(otros);
-        }
-        return partidos;
-      };
-
-      // tooltip functions
-      var mouseover = function() {
-        div.transition()
-           .duration(500)
-           .style('opacity', 1);
-      };
-
-      var mousemove = function(d) {
-        var html = '';
-        if (d.data.partidos) {
-          html = d.data.partidos.map(function(p) {
-            return tooltipTpl.replace(/{sigla}/g, p.sigla)
-                             .replace(/{porcentaje}/g, p.porcentaje)
-                             .replace(/{votos}/g, d3.format(',d')(p.resultado));
-          }).join('<hr />');
-        } else {
-          html = tooltipTpl.replace(/{sigla}/g, d.data.sigla)
-                           .replace(/{porcentaje}/g, d.data.porcentaje)
-                           .replace(/{votos}/g, d3.format(',d')(d.data.resultado));
-        }
-
-        div
-          .style('left', (d3.event.pageX + 5) + 'px')
-          .style('top', d3.event.pageY + 'px');
-
-        div.html(html);
-      };
-
-      var mouseout = function() {
-        div.transition()
-           .duration(500)
-           .style('opacity', 1e-6);
-      };
-
       var graficarTorta = function() {
         if (!scope.data) { return; }
+
+        d3.select(element[0]).selectAll('*').remove();
+
+        var width = 630,
+            height = 450,
+            leyendaHeight = 40,
+            radius = Math.min(width, height - leyendaHeight) / 2.2,
+            labelr = radius,
+            porcentajeMin = 10;
+
+        var color = d3.scale.ordinal();
+
+        var arc = d3.svg.arc()
+            .outerRadius(radius - 10)
+            .innerRadius(0);
+
+        var pie = d3.layout.pie()
+            .sort(null)
+            .value(function(d) { return d.porcentaje; });
+
+        // Tooltip container
+        var div = d3.select('#tooltip')
+            .attr('class', 'tooltip')
+            .style('opacity', 1e-6);
+
+        var tooltipTpl = [
+            '<strong>{sigla}</strong>',
+            '<div>Porcentaje: {porcentaje}%</div>',
+            '<div>Votos: {votos}</div>',
+          ].join('');
+
+        var svg = d3.select(element[0]).append('svg')
+            .attr('width', width)
+            .attr('height', height)
+          .append('g')
+            .attr('transform', 'translate(' + width / 2 + ', ' + (height - leyendaHeight) / 2 + ')');
+
+        var leyenda = d3.select('#torta svg').append('g');
+
+        // Agrupar partidos cuyo porcentaje sea menor al 10%
+        var agruparPartidos = function(data_partidos) {
+          var partidos = [];
+          var otros = { 'sigla': 'Otros', 'resultado': 0, 'porcentaje': 0,
+                        'color': 'bbb', 'partidos': [] };
+
+          data_partidos.forEach(function(p) {
+            if (p.porcentaje < porcentajeMin) {
+              otros.resultado += p.resultado;
+              otros.porcentaje += p.porcentaje;
+              otros.partidos.push(p);
+            } else {
+              partidos.push(p);
+            }
+          });
+          if (otros.partidos.length > 0) {
+            otros.partidos = otros.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
+            otros.porcentaje = d3.round(otros.porcentaje, 2);
+            partidos.push(otros);
+          }
+          return partidos;
+        };
+
+        // tooltip functions
+        var mouseover = function() {
+          div.transition()
+             .duration(500)
+             .style('opacity', 1);
+        };
+
+        var mousemove = function(d) {
+          var html = '';
+          if (d.data.partidos) {
+            html = d.data.partidos.map(function(p) {
+              return tooltipTpl.replace(/{sigla}/g, p.sigla)
+                               .replace(/{porcentaje}/g, p.porcentaje)
+                               .replace(/{votos}/g, d3.format(',d')(p.resultado));
+            }).join('<hr />');
+          } else {
+            html = tooltipTpl.replace(/{sigla}/g, d.data.sigla)
+                             .replace(/{porcentaje}/g, d.data.porcentaje)
+                             .replace(/{votos}/g, d3.format(',d')(d.data.resultado));
+          }
+
+          div
+            .style('left', (d3.event.pageX + 5) + 'px')
+            .style('top', d3.event.pageY + 'px');
+
+          div.html(html);
+        };
+
+        var mouseout = function() {
+          div.transition()
+             .duration(500)
+             .style('opacity', 1e-6);
+        };
 
         var partidos = agruparPartidos(scope.data);
 
