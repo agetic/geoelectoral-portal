@@ -9,80 +9,81 @@
 angular.module('geoelectoralFrontendApp')
   .directive('mapaBolivia', function () {
     function link(scope, element, attr) {
-      // Margins
-      var margin = {top: 20, right: 10, bottom: 50, left: 55},
-        width = 630 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
-
-      // Mapa
-      var projection = d3.geo.mercator()
-                         .translate([width/2, height/2])
-                         .scale([2000]);
-
-      var mapaCentroide = [2250, -550];
-
-      // Define path generator
-      var path = d3.geo.path()
-               .projection(projection);
-
-      // Tooltip container
-      var div = d3.select('#tooltip')
-          .attr('class', 'tooltip')
-          .style('opacity', 1e-6);
-
-      var tooltipTpl = [
-          '<strong>{sigla}</strong>',
-          '<div>Porcentaje: {porcentaje}%</div>',
-          '<div>Votos: {votos}</div>',
-        ].join('');
-
-      var svg = d3.select(element[0]).append('svg')
-          .attr('width', width + margin.left + margin.right)
-          .attr('height', height + margin.top + margin.bottom);
-
-      // tooltip functions
-      var mouseover = function() {
-        div.transition()
-           .duration(500)
-           .style('opacity', 1);
-      };
-      var mousemove = function(d) {
-        div
-          .style('left', (d3.event.pageX + 5) + 'px')
-          .style('top', d3.event.pageY + 'px');
-        div.html(tooltipTpl.replace(/{sigla}/g, d.partido.sigla)
-                           .replace(/{porcentaje}/g, d.partido.porcentaje)
-                           .replace(/{votos}/g, d3.format(',d')(d.partido.resultado)));
-      };
-      var mouseout = function() {
-        div.transition()
-           .duration(500)
-           .style('opacity', 1e-6);
-      };
-
-      var partidoGanador = function(d, votos) {
-        var max = { porcentaje: 0 };
-        votos.forEach(function(v) {
-          if(d.properties.codigo === v.dpa_codigo) {
-            v.partidos.forEach(function(p) {
-               if (max.porcentaje < p.porcentaje) {
-                max = p;
-               }
-            });
-          }
-        });
-        return max;
-      };
-
-      var setColorPartido = function(d, votos) {
-        var colorEscala;
-        d.partido = partidoGanador(d, votos);
-        colorEscala = d3.scale.linear().domain([0, 100]);
-        return colorEscala.range(['white', '#' + d.partido.color])(d.partido.porcentaje);
-      };
-
       var graficarMapa = function() {
         if (!scope.data.data) { return; }
+
+        d3.select(element[0]).selectAll('*').remove();
+        // Margins
+        var margin = {top: 20, right: 10, bottom: 50, left: 55},
+          width = 630 - margin.left - margin.right,
+          height = 500 - margin.top - margin.bottom;
+
+        // Mapa
+        var projection = d3.geo.mercator()
+                           .translate([width/2, height/2])
+                           .scale([2000]);
+
+        var mapaCentroide = [2250, -550];
+
+        // Define path generator
+        var path = d3.geo.path()
+                 .projection(projection);
+
+        // Tooltip container
+        var div = d3.select('#tooltip')
+            .attr('class', 'tooltip')
+            .style('opacity', 1e-6);
+
+        var tooltipTpl = [
+            '<strong>{sigla}</strong>',
+            '<div>Porcentaje: {porcentaje}%</div>',
+            '<div>Votos: {votos}</div>',
+          ].join('');
+
+        var svg = d3.select(element[0]).append('svg')
+            .attr('width', width + margin.left + margin.right)
+            .attr('height', height + margin.top + margin.bottom);
+
+        // tooltip functions
+        var mouseover = function() {
+          div.transition()
+             .duration(500)
+             .style('opacity', 1);
+        };
+        var mousemove = function(d) {
+          div
+            .style('left', (d3.event.pageX + 5) + 'px')
+            .style('top', d3.event.pageY + 'px');
+          div.html(tooltipTpl.replace(/{sigla}/g, d.partido.sigla)
+                             .replace(/{porcentaje}/g, d.partido.porcentaje)
+                             .replace(/{votos}/g, d3.format(',d')(d.partido.resultado)));
+        };
+        var mouseout = function() {
+          div.transition()
+             .duration(500)
+             .style('opacity', 1e-6);
+        };
+
+        var partidoGanador = function(d, votos) {
+          var max = { porcentaje: 0 };
+          votos.forEach(function(v) {
+            if(d.properties.codigo === v.dpa_codigo) {
+              v.partidos.forEach(function(p) {
+                 if (max.porcentaje < p.porcentaje) {
+                  max = p;
+                 }
+              });
+            }
+          });
+          return max;
+        };
+
+        var setColorPartido = function(d, votos) {
+          var colorEscala;
+          d.partido = partidoGanador(d, votos);
+          colorEscala = d3.scale.linear().domain([0, 100]);
+          return colorEscala.range(['white', '#' + d.partido.color])(d.partido.porcentaje);
+        };
 
         var geojson = scope.data.data;
         var votos = scope.votos;
