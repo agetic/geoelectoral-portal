@@ -191,10 +191,11 @@ angular.module('geoelectoralFrontendApp')
       };
 
       scope.$watch('data', graficarTorta);
+      scope.$watch('tab', graficarTorta);
     };
     return {
       restrict: 'E',
       link: link,
-      scope: { data: '=' }
+      scope: { data: '=', tab: '@' }
     };
   });

@@ -29,11 +29,11 @@
   </mapa-bolivia>
 
   <!-- Barras -->
-  <barras-bolivia class="col-sm-8 grafico" data="partidos" ng-show="isSelected(2)">
+  <barras-bolivia class="col-sm-8 grafico" data="partidos" tab="{{tab}}" ng-show="isSelected(2)">
   </barras-bolivia>
 
   <!-- Torta -->
-  <torta-bolivia id="torta" class="col-sm-8 grafico" data="partidos" ng-show="isSelected(3)">
+  <torta-bolivia id="torta" class="col-sm-8 grafico" data="partidos" tab="{{tab}}" ng-show="isSelected(3)">
   </torta-bolivia>
 </div>
 <div id="barras"></div>

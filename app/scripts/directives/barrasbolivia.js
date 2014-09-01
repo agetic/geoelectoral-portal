@@ -122,12 +122,11 @@ angular.module('geoelectoralFrontendApp')
       };
 
       scope.$watch('data', graficarBarras);
+      scope.$watch('tab', graficarBarras);
     };
     return {
       restrict: 'E',
       link: link,
-      scope: { data: '=' },
-      replace: true,
-      template: '<div></div>'
+      scope: { data: '=', tab: '@' }
     };
   });
