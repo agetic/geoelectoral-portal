@@ -9,73 +9,75 @@
 angular.module('geoelectoralFrontendApp')
   .directive('barrasBolivia', function () {
     var link = function(scope, element, attrs) {
-      var colorBarra = 'steelblue';
-      var marginTexto = 5;
-
-      var margin = {top: 20, right: 20, bottom: 20, left: 90},
-          width = 630 - margin.left - margin.right,
-          height = 500 - margin.top - margin.bottom;
-
-      var x = d3.scale.linear()
-          .range([0, width]);
-
-      var y = d3.scale.ordinal()
-          .rangeRoundBands([height, 0], 0.2);
-
-      var yAxis = d3.svg.axis()
-          .scale(y)
-          .orient('left');
-
-      // Tooltip container
-      var div = d3.select('#tooltip')
-          .attr('class', 'tooltip')
-          .style('opacity', 1e-6);
-
-      var tooltipTpl = [
-          '<strong>{sigla}</strong>',
-          '<div>Porcentaje: {porcentaje}%</div>',
-          '<div>Votos: {votos}</div>',
-        ].join('');
-
-      // Barras container
-      var svg = d3.select(element[0]).append('svg')
-          .attr('width', width + margin.left + margin.right)
-          .attr('height', height + margin.top + margin.bottom)
-        .append('g')
-          .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-
-      var esTextoMayor = function(texto, data) {
-        var anchoTexto = Math.ceil(texto.getBBox().width) + marginTexto * 2;
-        var anchoBarra = Math.ceil(x(data.porcentaje));
-        return anchoTexto < anchoBarra;
-      };
-
-      var setFillColor = function(texto, data) {
-        return esTextoMayor(texto, data) ? 'white' : colorBarra;
-      };
-
-      // tooltip functions
-      var mouseover = function() {
-        div.transition()
-           .duration(500)
-           .style('opacity', 1);
-      };
-      var mousemove = function(d) {
-        div
-          .style('left', (d3.event.pageX + 5) + 'px')
-          .style('top', d3.event.pageY + 'px');
-        div.html(tooltipTpl.replace(/{sigla}/g, d.sigla)
-                           .replace(/{porcentaje}/g, d.porcentaje)
-                           .replace(/{votos}/g, d3.format(',d')(d.resultado)));
-      };
-      var mouseout = function() {
-        div.transition()
-           .duration(500)
-           .style('opacity', 1e-6);
-      };
-
       var graficarBarras = function() {
         if (!scope.data) { return; }
+
+        d3.select(element[0]).selectAll('*').remove();
+
+        var colorBarra = 'steelblue';
+        var marginTexto = 5;
+
+        var margin = {top: 20, right: 20, bottom: 20, left: 90},
+            width = 630 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom;
+
+        var x = d3.scale.linear()
+            .range([0, width]);
+
+        var y = d3.scale.ordinal()
+            .rangeRoundBands([height, 0], 0.2);
+
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient('left');
+
+        // Tooltip container
+        var div = d3.select('#tooltip')
+            .attr('class', 'tooltip')
+            .style('opacity', 1e-6);
+
+        var tooltipTpl = [
+            '<strong>{sigla}</strong>',
+            '<div>Porcentaje: {porcentaje}%</div>',
+            '<div>Votos: {votos}</div>',
+          ].join('');
+
+        // Barras container
+        var svg = d3.select(element[0]).append('svg')
+            .attr('width', width + margin.left + margin.right)
+            .attr('height', height + margin.top + margin.bottom)
+          .append('g')
+            .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+        var esTextoMayor = function(texto, data) {
+          var anchoTexto = Math.ceil(texto.getBBox().width) + marginTexto * 2;
+          var anchoBarra = Math.ceil(x(data.porcentaje));
+          return anchoTexto < anchoBarra;
+        };
+
+        var setFillColor = function(texto, data) {
+          return esTextoMayor(texto, data) ? 'white' : colorBarra;
+        };
+
+        // tooltip functions
+        var mouseover = function() {
+          div.transition()
+             .duration(500)
+             .style('opacity', 1);
+        };
+        var mousemove = function(d) {
+          div
+            .style('left', (d3.event.pageX + 5) + 'px')
+            .style('top', d3.event.pageY + 'px');
+          div.html(tooltipTpl.replace(/{sigla}/g, d.sigla)
+                             .replace(/{porcentaje}/g, d.porcentaje)
+                             .replace(/{votos}/g, d3.format(',d')(d.resultado)));
+        };
+        var mouseout = function() {
+          div.transition()
+             .duration(500)
+             .style('opacity', 1e-6);
+        };
 
         var partidos = scope.data;
 
@@ -124,6 +126,8 @@ angular.module('geoelectoralFrontendApp')
     return {
       restrict: 'E',
       link: link,
-      scope: { data: '=' }
+      scope: { data: '=' },
+      replace: true,
+      template: '<div></div>'
     };
   });
