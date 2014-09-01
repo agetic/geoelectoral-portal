@@ -26,7 +26,7 @@ angular.module('geoelectoralFrontendApp')
     $scope.gris = 'bbb';
     $scope.porcetajeGroup = 3; // 3% Porcentaje de agrupación
 
-    $scope.$watch('e.anioIndex', function(newValue, oldValue) {
+    $scope.$watch('e.anioIndex', function() {
       $scope.anio = $scope.anios[$scope.e.anioIndex];
       $location.path('/elecciones/' + $scope.anio);
     });
