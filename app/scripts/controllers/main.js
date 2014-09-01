@@ -8,7 +8,7 @@
  * Controller of the geoelectoralFrontendApp
  */
 angular.module('geoelectoralFrontendApp')
-  .controller('MainCtrl', function ($scope, $http, $routeParams) {
+  .controller('MainCtrl', function ($scope, $http, $routeParams, $location) {
     // Elecciones generales a nivel Bolivia
     var host = '//localhost:3000';
     var api = '/api/v1';
@@ -17,7 +17,7 @@ angular.module('geoelectoralFrontendApp')
     var dpaGeoJSONUrl = host + api + '/proxy';
 
     $scope.anios = [1979, 1980, 1985, 1989, 1993, 1997, 2002, 2005, 2006, 2009];
-    $scope.e = { anioIndex: 0 };
+    $scope.e = { anioIndex: $scope.anios.length - 1 };
     $scope.anio = $scope.anios[$scope.e.anioIndex];
     $scope.eleccion = {};
     $scope.partidos = [];
@@ -28,6 +28,7 @@ angular.module('geoelectoralFrontendApp')
 
     $scope.$watch('e.anioIndex', function(newValue, oldValue) {
       $scope.anio = $scope.anios[$scope.e.anioIndex];
+      $location.path('/elecciones/' + $scope.anio);
     });
 
     $scope.$on('$routeChangeSuccess', function() {
