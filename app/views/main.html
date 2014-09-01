@@ -15,7 +15,7 @@
       </thead>
       <tbody>
         <tr ng-repeat="partido in partidos | orderBy:'resultado':true">
-          <td><div class="bandera" style="background-color: #{{partido.color}};"></div></td>
+          <td><div class="bandera" style="background-color: #{{partido.color}};" ng-class="{sinbandera: partido.color==undefined}"></div></td>
           <td>{{partido.sigla}}</td>
           <td class="numero">{{partido.resultado | number}}</td>
           <td class="numero">{{partido.porcentaje}}%</td>

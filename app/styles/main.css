@@ -24,6 +24,13 @@ body {
   padding-bottom: 19px;
 }
 
+.header input[type=range] {
+  float: right;
+  width: 60%;
+  margin-top: 10px;
+  margin-right: 75px;
+}
+
 /* Custom page footer */
 .footer {
   padding-top: 19px;
@@ -168,4 +175,9 @@ svg .hover:hover {
 
 #torta svg {
   fill: white;
+}
+
+.sinbandera {
+  border: 1px dashed #888;
+  background-color: none;
 }

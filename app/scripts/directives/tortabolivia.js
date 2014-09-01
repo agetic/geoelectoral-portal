@@ -135,7 +135,10 @@ angular.module('geoelectoralFrontendApp')
             })
             .attr('dy', '.35em')
             .style('text-anchor', 'middle')
-            .text(function(d) { return d.data.porcentaje + '%'; });
+            .text(function(d) { return d.data.porcentaje + '%'; })
+            .on('mouseover', mouseover)
+            .on('mousemove', mousemove)
+            .on('mouseout', mouseout);
 
         g.append('text')
             .attr('transform', function(d) {
@@ -152,7 +155,10 @@ angular.module('geoelectoralFrontendApp')
                   'end' : 'start';
             })
             .style('fill', 'black')
-            .text(function(d) { return d.data.sigla; });
+            .text(function(d) { return d.data.sigla; })
+            .on('mouseover', mouseover)
+            .on('mousemove', mousemove)
+            .on('mouseout', mouseout);
 
         var pg = leyenda.selectAll('.partido')
             .data(partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; }))
