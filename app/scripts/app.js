@@ -11,5 +11,16 @@
 angular
   .module('geoelectoralFrontendApp', [
     'ngAnimate',
-    'ngTouch'
-  ]);
+    'ngTouch',
+    'ngRoute'
+  ])
+  .config(['$routeProvider',
+    function($routeProvider) {
+      $routeProvider.
+        when('/elecciones/:anio', {
+          templateUrl: 'views/main.html'
+        }).
+        otherwise({
+          redirectTo: '/elecciones/2009'
+        });
+  }]);;
