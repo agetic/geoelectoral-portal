@@ -23,10 +23,18 @@
       </tbody>
     </table>
   </div>
+
+  <!-- Mapa -->
   <mapa-bolivia class="col-sm-8 grafico" data="dpaGeoJSON" votos="partidosDepartamento" ng-show="isSelected(1)">
   </mapa-bolivia>
-  <barras-bolivia class="col-sm-8 grafico" data="partidos" ng-show="isSelected(2)"></barras-bolivia>
-  <div class="col-sm-8 grafico" ng-show="isSelected(3)">Torta</div>
+
+  <!-- Barras -->
+  <barras-bolivia class="col-sm-8 grafico" data="partidos" ng-show="isSelected(2)">
+  </barras-bolivia>
+
+  <!-- Torta -->
+  <torta-bolivia id="torta" class="col-sm-8 grafico" data="partidos" ng-show="isSelected(3)">
+  </torta-bolivia>
 </div>
 <div id="barras"></div>
 <div id="torta"></div>

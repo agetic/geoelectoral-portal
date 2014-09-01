@@ -97,6 +97,13 @@ body {
 }
 
 /* Tooltip */
+#tooltip hr {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
 div.tooltip {
   position: absolute;
   text-align: left;
@@ -151,4 +158,14 @@ svg .hover:hover {
 
 #barras text.etiqueta {
   font: 13px sans-serif;
+}
+
+/* Torta */
+.arc path {
+  stroke: #fff;
+  stroke-width: 5;
+}
+
+#torta svg {
+  fill: white;
 }
