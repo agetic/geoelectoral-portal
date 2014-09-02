@@ -17,7 +17,7 @@ angular.module('geoelectoralFrontendApp')
         var colorBarra = 'steelblue';
         var marginTexto = 5;
 
-        var margin = {top: 20, right: 20, bottom: 20, left: 90},
+        var margin = {top: 20, right: 20, bottom: 20, left: 95},
             width = 630 - margin.left - margin.right,
             height = 500 - margin.top - margin.bottom;
 
