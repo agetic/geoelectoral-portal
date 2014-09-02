@@ -12,11 +12,12 @@ angular.module('geoelectoralFrontendApp')
     // Elecciones generales a nivel Bolivia
     var host = '//localhost:3000';
     var api = '/api/v1';
+    var aniosUrl = host + api + '/anios';
     var eleccionesUrl = host + api + '/elecciones?anio={anio}&formato=json';
     var eleccionesDeptoUrl = host + api + '/elecciones?anio={anio}&id_tipo_dpa=2&formato=json';
     var dpaGeoJSONUrl = host + api + '/proxy';
 
-    $scope.anios = [1979, 1980, 1985, 1989, 1993, 1997, 2002, 2005, 2006, 2009];
+    $scope.anios = [1979, 1980, 1985, 1989, 1993, 1997, 2002, 2005, 2009];
     $scope.e = { anioIndex: $scope.anios.length - 1 };
     $scope.anio = $scope.anios[$scope.e.anioIndex];
     $scope.eleccion = {};
@@ -36,6 +37,7 @@ angular.module('geoelectoralFrontendApp')
       $scope.e = { anioIndex: $scope.anios.indexOf(parseInt($routeParams.anio)) };
       $scope.anio = $scope.anios[$scope.e.anioIndex];
       loadGeoJSON();
+      loadAnios();
       loadElecciones();
       loadEleccionesDepartamento();
     });
@@ -48,6 +50,16 @@ angular.module('geoelectoralFrontendApp')
       return dpas.map(function(d) {
         d.partidos = eliminarValidos(d.partidos);
         return d;
+      });
+    };
+    // Años de las elecciones generales
+    var loadAnios = function() {
+      var url = aniosUrl;
+      $http.get(url).then(function(response) {
+        // TODO habilitar para que se cargue los años desde el webservice
+        //$scope.anios = response.data.anios;
+      }, function(err) {
+        throw err;
       });
     };
     // Elecciones a nivel país
