@@ -10,7 +10,7 @@
  */
 angular
   .module('geoelectoralFrontendApp', [
-    'ngRoute'
+    'ngRoute', 'config'
   ])
   .config(function($routeProvider) {
       $routeProvider.

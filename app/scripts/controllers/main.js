@@ -8,10 +8,10 @@
  * Controller of the geoelectoralFrontendApp
  */
 angular.module('geoelectoralFrontendApp')
-  .controller('MainCtrl', function ($scope, $http, $routeParams, $location) {
+  .controller('MainCtrl', function ($scope, $http, $routeParams, $location, ENV) {
     // Elecciones generales a nivel Bolivia
-    var host = '//localhost:3000';
-    var api = '/api/v1';
+    var host = ENV.geoelectoralApi;
+    var api = ENV.geoelectoralApiVersion;
     var aniosUrl = host + api + '/anios';
     var eleccionesUrl = host + api + '/elecciones?anio={anio}&formato=json';
     var eleccionesDeptoUrl = host + api + '/elecciones?anio={anio}&id_tipo_dpa=2&formato=json';
