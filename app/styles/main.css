@@ -168,6 +168,15 @@ svg .hover:hover {
   display: none;
 }
 
+.x.axis path {
+  display: none;
+}
+
+.x.axis line {
+  stroke: #bbb;
+  stroke-dasharray: 2,2;
+}
+
 #barras text {
   font: 13px sans-serif;
 }

@@ -27,6 +27,13 @@ angular.module('geoelectoralFrontendApp')
         var y = d3.scale.ordinal()
             .rangeRoundBands([height, 0], 0.2);
 
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient('bottom')
+            .tickSize(height).tickSubdivide(true)
+            .tickValues([3, 40, 50, 100])
+            .tickFormat(function(d) { return d3.format('.0%')(d/100); });
+
         var yAxis = d3.svg.axis()
             .scale(y)
             .orient('left');
@@ -84,17 +91,6 @@ angular.module('geoelectoralFrontendApp')
         x.domain([0, 100]);
         y.domain(partidos.map(function(d) { return d.sigla; }));
 
-        svg.selectAll('.bar')
-            .data(partidos)
-          .enter().append('rect')
-            .attr('class', 'bar hover')
-            .attr('width', function(d) { return x(d.porcentaje); })
-            .attr('y', function(d) { return y(d.sigla); })
-            .attr('height', y.rangeBand())
-            .on('mouseover', mouseover)
-            .on('mousemove', mousemove)
-            .on('mouseout', mouseout);
-
         svg.selectAll('text')
             .data(partidos)
           .enter().append('text')
@@ -112,6 +108,21 @@ angular.module('geoelectoralFrontendApp')
                 return marginTexto;
               }
             })
+            .on('mouseover', mouseover)
+            .on('mousemove', mousemove)
+            .on('mouseout', mouseout);
+
+        svg.append('g')
+            .attr('class', 'x axis')
+            .call(xAxis);
+
+        svg.selectAll('.bar')
+            .data(partidos)
+          .enter().append('rect')
+            .attr('class', 'bar hover')
+            .attr('width', function(d) { return x(d.porcentaje); })
+            .attr('y', function(d) { return y(d.sigla); })
+            .attr('height', y.rangeBand())
             .on('mouseover', mouseover)
             .on('mousemove', mousemove)
             .on('mouseout', mouseout);
