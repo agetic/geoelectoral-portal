@@ -16,8 +16,7 @@ angular.module('geoelectoralFrontendApp')
 
         var width = 630,
             height = 450,
-            leyendaHeight = 40,
-            radius = Math.min(width, height - leyendaHeight) / 2.2,
+            radius = Math.min(width, height) / 2.2,
             labelr = radius,
             porcentajeMin = 10;
 
@@ -46,9 +45,7 @@ angular.module('geoelectoralFrontendApp')
             .attr('width', width)
             .attr('height', height)
           .append('g')
-            .attr('transform', 'translate(' + width / 2 + ', ' + (height - leyendaHeight) / 2 + ')');
-
-        var leyenda = d3.select('#torta svg').append('g');
+            .attr('transform', 'translate(' + width / 2 + ', ' + height / 2 + ')');
 
         // Agrupar partidos cuyo porcentaje sea menor al 10%
         var agruparPartidos = function(data_partidos) {
@@ -161,33 +158,6 @@ angular.module('geoelectoralFrontendApp')
             .on('mouseover', mouseover)
             .on('mousemove', mousemove)
             .on('mouseout', mouseout);
-
-        var pg = leyenda.selectAll('.partido')
-            .data(partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; }))
-          .enter().append('g')
-            .attr('class', 'partido')
-            .style('fill', 'black');
-
-        pg.append('circle')
-            .attr('cx', 10)
-            .attr('cy', 10)
-            .attr('r', 10)
-            .style('fill', function(d) { return color(d.sigla); });
-
-        pg.append('text')
-            .attr('x', 24)
-            .attr('y', 9)
-            .attr('dy', '.35em')
-            .text(function(d) { return d.sigla; });
-
-        var ancho = 0;
-        pg.attr('transform', function() {
-          var translate = 'translate(' + ancho +', 0)';
-          ancho += this.getBBox().width + 10;
-          return translate;
-        });
-
-        leyenda.attr('transform', 'translate(' + (width - ancho)/2 + ', ' + (height - leyendaHeight) + ')');
       };
 
       scope.$watch('data', graficarTorta);
