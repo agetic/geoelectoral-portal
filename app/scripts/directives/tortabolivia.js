@@ -30,17 +30,6 @@ angular.module('geoelectoralFrontendApp')
             .sort(null)
             .value(function(d) { return d.porcentaje; });
 
-        // Tooltip container
-        var div = d3.select('#tooltip')
-            .attr('class', 'tooltip')
-            .style('opacity', 1e-6);
-
-        var tooltipTpl = [
-            '<strong>{sigla}</strong>',
-            '<div>Porcentaje: {porcentaje}%</div>',
-            '<div>Votos: {votos}</div>',
-          ].join('');
-
         var svg = d3.select(element[0]).append('svg')
             .attr('width', width)
             .attr('height', height)
@@ -73,38 +62,14 @@ angular.module('geoelectoralFrontendApp')
           return partidos;
         };
 
-        // tooltip functions
-        var mouseover = function() {
-          div.transition()
-             .duration(500)
-             .style('opacity', 1);
+        // funciones hover sobre las barras
+        var mouseover = function(d) {
+          var partido = $('#partido_' + d.data.id_partido);
+          partido.addClass('active');
         };
-
-        var mousemove = function(d) {
-          var html = '';
-          if (d.data.partidos) {
-            html = d.data.partidos.map(function(p) {
-              return tooltipTpl.replace(/{sigla}/g, p.sigla)
-                               .replace(/{porcentaje}/g, p.porcentaje)
-                               .replace(/{votos}/g, d3.format(',d')(p.resultado));
-            }).join('<hr />');
-          } else {
-            html = tooltipTpl.replace(/{sigla}/g, d.data.sigla)
-                             .replace(/{porcentaje}/g, d.data.porcentaje)
-                             .replace(/{votos}/g, d3.format(',d')(d.data.resultado));
-          }
-
-          div
-            .style('left', (d3.event.pageX + 5) + 'px')
-            .style('top', d3.event.pageY + 'px');
-
-          div.html(html);
-        };
-
-        var mouseout = function() {
-          div.transition()
-             .duration(500)
-             .style('opacity', 1e-6);
+        var mouseout = function(d) {
+          var partido = $('#partido_' + d.data.id_partido);
+          partido.removeClass('active');
         };
 
         var partidos = scope.data.sort(function(a, b) {
@@ -130,7 +95,6 @@ angular.module('geoelectoralFrontendApp')
             .attr('class', 'hover')
             .attr('fill', function(d) { return color(d.data.sigla); })
             .on('mouseover', mouseover)
-            .on('mousemove', mousemove)
             .on('mouseout', mouseout);
 
         g.append('svg:text')
@@ -142,7 +106,6 @@ angular.module('geoelectoralFrontendApp')
             .style('text-anchor', 'middle')
             .text(function(d) { return d.data.porcentaje + '%'; })
             .on('mouseover', mouseover)
-            .on('mousemove', mousemove)
             .on('mouseout', mouseout);
 
         g.append('svg:text')
@@ -162,7 +125,6 @@ angular.module('geoelectoralFrontendApp')
             .style('fill', 'black')
             .text(function(d) { return d.data.sigla; })
             .on('mouseover', mouseover)
-            .on('mousemove', mousemove)
             .on('mouseout', mouseout);
       };
 
