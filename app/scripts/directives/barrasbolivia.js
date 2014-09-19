@@ -7,15 +7,16 @@
  * # barrasBolivia
  */
 angular.module('geoelectoralFrontendApp')
-  .directive('barrasBolivia', function () {
+  .directive('barrasBolivia', function(ENV) {
     var link = function(scope, element, attrs) {
       var graficarBarras = function() {
         if (!scope.data) { return; }
 
         d3.select(element[0]).selectAll('*').remove();
 
-        var colorBarra = 'steelblue';
-        var marginTexto = 5;
+        var colorBarra = 'steelblue',
+            marginTexto = 5,
+            porcentajeMin = ENV.porcentajeMin;
 
         var margin = {top: 20, right: 20, bottom: 20, left: 95},
             width = 630 - margin.left - margin.right,
@@ -25,7 +26,7 @@ angular.module('geoelectoralFrontendApp')
             .range([0, width]);
 
         var y = d3.scale.ordinal()
-            .rangeRoundBands([height, 0], 0.2);
+            .rangeRoundBands([0, height], 0.2);
 
         var xAxis = d3.svg.axis()
             .scale(x)
@@ -91,7 +92,10 @@ angular.module('geoelectoralFrontendApp')
         x.domain([0, 100]);
         y.domain(partidos.map(function(d) { return d.sigla; }));
 
-        svg.selectAll('text')
+        var barras = svg.append('g').attr('class', 'barras');
+        var etiquetas = svg.append('g').attr('class', 'barras-etiquetas');
+
+        etiquetas.selectAll('text')
             .data(partidos)
           .enter().append('text')
             .attr('class', 'etiqueta')
@@ -116,7 +120,7 @@ angular.module('geoelectoralFrontendApp')
             .attr('class', 'x axis')
             .call(xAxis);
 
-        svg.selectAll('.bar')
+        barras.selectAll('.bar')
             .data(partidos)
           .enter().append('rect')
             .attr('class', 'bar hover')
