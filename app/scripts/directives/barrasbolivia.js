@@ -58,11 +58,11 @@ angular.module('geoelectoralFrontendApp')
 
         // funciones hover sobre las barras
         var mouseover = function(d) {
-          var partido = $('#partido_' + d.id_partido)
+          var partido = $('#partido_' + d.id_partido);
           partido.addClass('active');
         };
         var mouseout = function(d) {
-          var partido = $('#partido_' + d.id_partido)
+          var partido = $('#partido_' + d.id_partido);
           partido.removeClass('active');
         };
 
