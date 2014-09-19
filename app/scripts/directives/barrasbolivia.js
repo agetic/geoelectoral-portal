@@ -92,6 +92,10 @@ angular.module('geoelectoralFrontendApp')
         x.domain([0, 100]);
         y.domain(partidos.map(function(d) { return d.sigla; }));
 
+        svg.append('g')
+            .attr('class', 'x axis')
+            .call(xAxis);
+
         var barras = svg.append('g').attr('class', 'barras');
         var etiquetas = svg.append('g').attr('class', 'barras-etiquetas');
 
@@ -115,10 +119,6 @@ angular.module('geoelectoralFrontendApp')
             .on('mouseover', mouseover)
             .on('mousemove', mousemove)
             .on('mouseout', mouseout);
-
-        svg.append('g')
-            .attr('class', 'x axis')
-            .call(xAxis);
 
         barras.selectAll('.bar')
             .data(partidos)
