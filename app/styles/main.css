@@ -191,6 +191,11 @@ svg .hover:hover {
   stroke-width: 5;
 }
 
+.arc text {
+  stroke: none;
+  fill: #333;
+}
+
 #torta svg {
   fill: white;
 }

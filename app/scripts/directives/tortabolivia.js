@@ -49,8 +49,9 @@ angular.module('geoelectoralFrontendApp')
 
         // Agrupar partidos cuyo porcentaje sea menor al 10%
         var agruparPartidos = function(data_partidos) {
-          var partidos = [];
-          var otros = { 'sigla': 'Otros', 'resultado': 0, 'porcentaje': 0,
+          var partidos = [],
+              orden = 0,
+              otros = { 'sigla': 'Otros', 'resultado': 0, 'porcentaje': 0,
                         'color': 'bbb', 'partidos': [] };
 
           data_partidos.forEach(function(p) {
@@ -59,12 +60,14 @@ angular.module('geoelectoralFrontendApp')
               otros.porcentaje += p.porcentaje;
               otros.partidos.push(p);
             } else {
+              p.orden = orden++;
               partidos.push(p);
             }
           });
           if (otros.partidos.length > 0) {
             otros.partidos = otros.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
             otros.porcentaje = d3.round(otros.porcentaje, 2);
+            otros.orden = orden;
             partidos.push(otros);
           }
           return partidos;
@@ -104,9 +107,12 @@ angular.module('geoelectoralFrontendApp')
              .style('opacity', 1e-6);
         };
 
-        var partidos = agruparPartidos(scope.data);
+        var partidos = scope.data.sort(function(a, b) {
+          return b.porcentaje - a.porcentaje;
+        });
+        partidos = agruparPartidos(partidos);
 
-        color.range(partidos.sort(function(a, b) { return a.porcentaje - b.porcentaje; }).map(function(d) {
+        color.range(partidos.map(function(d) {
           var color = '#bbb';
           if (d.color) {
             color = '#' + d.color;
@@ -119,7 +125,7 @@ angular.module('geoelectoralFrontendApp')
           .enter().append('g')
             .attr('class', 'arc');
 
-        g.append('path')
+        g.append('svg:path')
             .attr('d', arc)
             .attr('class', 'hover')
             .attr('fill', function(d) { return color(d.data.sigla); })
@@ -127,10 +133,10 @@ angular.module('geoelectoralFrontendApp')
             .on('mousemove', mousemove)
             .on('mouseout', mouseout);
 
-        g.append('text')
+        g.append('svg:text')
             .attr('transform', function(d) {
               var c = arc.centroid(d);
-              return 'translate(' + c[0]*1.3 + ', ' + c[1]*1.3 + ')';
+              return 'translate(' + c[0]*1.4 + ', ' + c[1]*1.4 + ')';
             })
             .attr('dy', '.35em')
             .style('text-anchor', 'middle')
@@ -139,7 +145,7 @@ angular.module('geoelectoralFrontendApp')
             .on('mousemove', mousemove)
             .on('mouseout', mouseout);
 
-        g.append('text')
+        g.append('svg:text')
             .attr('transform', function(d) {
               var c = arc.centroid(d),
                   x = c[0],
