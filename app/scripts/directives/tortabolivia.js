@@ -7,7 +7,7 @@
  * # tortaBolivia
  */
 angular.module('geoelectoralFrontendApp')
-  .directive('tortaBolivia', function () {
+  .directive('tortaBolivia', function(ENV) {
     var link = function(scope, element, attrs) {
       var graficarTorta = function() {
         if (!scope.data) { return; }
@@ -18,7 +18,7 @@ angular.module('geoelectoralFrontendApp')
             height = 450,
             radius = Math.min(width, height) / 2.2,
             labelr = radius,
-            porcentajeMin = 10;
+            porcentajeMin = ENV.porcentajeMin;
 
         var color = d3.scale.ordinal();
 

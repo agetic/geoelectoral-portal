@@ -7,15 +7,16 @@
  * # barrasBolivia
  */
 angular.module('geoelectoralFrontendApp')
-  .directive('barrasBolivia', function () {
+  .directive('barrasBolivia', function(ENV) {
     var link = function(scope, element, attrs) {
       var graficarBarras = function() {
         if (!scope.data) { return; }
 
         d3.select(element[0]).selectAll('*').remove();
 
-        var colorBarra = 'steelblue';
-        var marginTexto = 5;
+        var colorBarra = 'steelblue',
+            marginTexto = 5,
+            porcentajeMin = ENV.porcentajeMin;
 
         var margin = {top: 20, right: 20, bottom: 20, left: 95},
             width = 630 - margin.left - margin.right,
