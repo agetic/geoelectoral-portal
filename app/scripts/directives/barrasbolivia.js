@@ -39,17 +39,6 @@ angular.module('geoelectoralFrontendApp')
             .scale(y)
             .orient('left');
 
-        // Tooltip container
-        var div = d3.select('#tooltip')
-            .attr('class', 'tooltip')
-            .style('opacity', 1e-6);
-
-        var tooltipTpl = [
-            '<strong>{sigla}</strong>',
-            '<div>Porcentaje: {porcentaje}%</div>',
-            '<div>Votos: {votos}</div>',
-          ].join('');
-
         // Barras container
         var svg = d3.select(element[0]).append('svg')
             .attr('width', width + margin.left + margin.right)
@@ -67,24 +56,14 @@ angular.module('geoelectoralFrontendApp')
           return esTextoMayor(texto, data) ? 'white' : colorBarra;
         };
 
-        // tooltip functions
-        var mouseover = function() {
-          div.transition()
-             .duration(500)
-             .style('opacity', 1);
+        // funciones hover sobre las barras
+        var mouseover = function(d) {
+          var partido = $('#partido_' + d.id_partido)
+          partido.addClass('active');
         };
-        var mousemove = function(d) {
-          div
-            .style('left', (d3.event.pageX + 5) + 'px')
-            .style('top', d3.event.pageY + 'px');
-          div.html(tooltipTpl.replace(/{sigla}/g, d.sigla)
-                             .replace(/{porcentaje}/g, d.porcentaje)
-                             .replace(/{votos}/g, d3.format(',d')(d.resultado)));
-        };
-        var mouseout = function() {
-          div.transition()
-             .duration(500)
-             .style('opacity', 1e-6);
+        var mouseout = function(d) {
+          var partido = $('#partido_' + d.id_partido)
+          partido.removeClass('active');
         };
 
         var partidos = scope.data;
@@ -117,7 +96,6 @@ angular.module('geoelectoralFrontendApp')
               }
             })
             .on('mouseover', mouseover)
-            .on('mousemove', mousemove)
             .on('mouseout', mouseout);
 
         barras.selectAll('.bar')
@@ -128,7 +106,6 @@ angular.module('geoelectoralFrontendApp')
             .attr('y', function(d) { return y(d.sigla); })
             .attr('height', y.rangeBand())
             .on('mouseover', mouseover)
-            .on('mousemove', mousemove)
             .on('mouseout', mouseout);
 
         svg.append('g')
