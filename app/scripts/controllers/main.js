@@ -39,6 +39,14 @@ angular.module('geoelectoralFrontendApp')
       loadServices();
     });
 
+    // Hover sobre las filas de la tabla
+    $scope.hoverIn = function() {
+      this.hoverTooltip = true;
+    };
+    $scope.hoverOut = function() {
+      this.hoverTooltip = false;
+    };
+
     // Funciones
     var eliminarValidos = function(partidos) {
       return partidos.slice(0, partidos.length-1);

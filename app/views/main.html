@@ -4,7 +4,7 @@
       <small>{{anio}} - ELECCIONES GENERALES</small><br/>
       BOLIVIA
     </h3>
-    <table class="table table-condensed">
+    <table class="table table-condensed table-hover">
       <thead>
         <tr>
           <th></th>
@@ -14,11 +14,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr id="partido_{{partido.id_partido}}" ng-repeat="partido in partidos | orderBy:'resultado':true">
+        <tr id="partido_{{partido.id_partido}}" ng-repeat="partido in partidos | orderBy:'resultado':true" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
           <td><div class="bandera" style="background-color: #{{partido.color}};" ng-class="{sinbandera: partido.color==undefined}"></div></td>
-          <td>{{partido.sigla}}</td>
-          <td class="numero">{{partido.resultado | number}}</td>
-          <td class="numero">{{partido.porcentaje}}%</td>
+          <td ng-hide="hoverTooltip">{{partido.sigla}}</td>
+          <td ng-hide="hoverTooltip" class="numero">{{partido.resultado | number}}</td>
+          <td ng-hide="hoverTooltip" class="numero">{{partido.porcentaje}}%</td>
+          <td ng-show="hoverTooltip" colspan="3">{{partido.partido_nombre}}</td>
         </tr>
       </tbody>
     </table>
