@@ -26,17 +26,38 @@ angular.module('geoelectoralFrontendApp')
     $scope.dpaGeoJSON = [];
     $scope.gris = 'bbb';
     $scope.porcetajeGroup = 3; // 3% Porcentaje de agrupación
+    $scope.currentDpa = { idDpa: 1, idTipoDpa: 2, dpaNombre: 'Bolivia'};
 
+    // Se ejecuta cuando cambia el año en el slider
     $scope.$watch('e.anioIndex', function() {
       $scope.anio = $scope.anios[$scope.e.anioIndex];
-      $location.path('/elecciones/' + $scope.anio);
+      if ($scope.currentDpa.idDpa > 1) {
+        $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
+      } else {
+        $location.path('/elecciones/' + $scope.anio);
+      }
     });
 
+    // Se ejecuta cuando se hace clic a un departamento, provincia, ...
+    $scope.$watch('currentDpa.idDpa', function() {
+      if ($scope.currentDpa.idDpa > 1) {
+        $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
+      }
+    });
+
+    // Se ejecuta cuando hay cambios en la URL
     $scope.$on('$routeChangeSuccess', function() {
-      if (!$routeParams.anio) { return; }
-      $scope.e = { anioIndex: $scope.anios.indexOf(parseInt($routeParams.anio)) };
-      $scope.anio = $scope.anios[$scope.e.anioIndex];
-      loadServices();
+      if ($routeParams.anio && $routeParams.idDpa) {
+        $scope.e = { anioIndex: $scope.anios.indexOf(parseInt($routeParams.anio)) };
+        $scope.anio = $scope.anios[$scope.e.anioIndex];
+        loadServices();
+      } else if ($routeParams.anio) {
+        $scope.e = { anioIndex: $scope.anios.indexOf(parseInt($routeParams.anio)) };
+        $scope.anio = $scope.anios[$scope.e.anioIndex];
+        loadServices();
+      } else {
+        return;
+      }
     });
 
     // Hover sobre las filas de la tabla
@@ -60,7 +81,7 @@ angular.module('geoelectoralFrontendApp')
     var loadServices = function() {
       var promises = [];
       // GeoJSON político administrativo de Bolivia
-      promises.push($http.get(dpaGeoJSONUrl.replace(/{anio}/g, $scope.anio)));
+      promises.push($http.get(dpaGeoJSONUrl, { params: $scope.currentDpa }));
       // Años de las elecciones generales
       promises.push($http.get(aniosUrl));
       // Elecciones a nivel país
