@@ -19,15 +19,33 @@ angular.module('geoelectoralFrontendApp')
           height = 500 - margin.top - margin.bottom;
 
         // Mapa
+        var mapaCentroide = d3.geo.centroid(scope.data.data); //[2250, -550];
+        var escala = 1;
+        var offset = [width/2 - margin.left - margin.right,
+                      height/2 - margin.top - margin.bottom];
         var projection = d3.geo.mercator()
-                           .translate([width/2, height/2])
-                           .scale([2000]);
-
-        var mapaCentroide = [2250, -550];
+                           .translate(offset)
+                           .scale(escala)
+                           .center(mapaCentroide);
 
         // Define path generator
         var path = d3.geo.path()
-                 .projection(projection);
+                     .projection(projection);
+
+        var bounds = path.bounds(scope.data.data);
+        var hEscala = escala*width / (bounds[1][0] - bounds[0][0]);
+        var vEscala = escala*height / (bounds[1][1] - bounds[0][1]);
+        escala = (hEscala < vEscala) ? hEscala : vEscala;
+        offset = [width - (bounds[0][0] + bounds[1][0])/2,
+                  height - (bounds[0][1] + bounds[1][1])/2];
+
+        // Nueva proyección
+        projection = d3.geo.mercator()
+                       .center(mapaCentroide)
+                       .scale(escala)
+                       .translate(offset);
+
+        path = path.projection(projection);
 
         // Tooltip container
         var div = d3.select('#tooltip')
@@ -43,6 +61,29 @@ angular.module('geoelectoralFrontendApp')
         var svg = d3.select(element[0]).append('svg')
             .attr('width', width + margin.left + margin.right)
             .attr('height', height + margin.top + margin.bottom);
+
+        // Estable el descendiente: departamento => provincia
+        var establecerDescendiente = function(d, currentDpa, tiposDpa) {
+          var idTipoDpa = null;
+          // Seleccionar la primera ocurrencia
+          tiposDpa.some(function(t) {
+            if (t.idTipoDpaSuperior === d.properties.id_tipo_dpa) {
+              idTipoDpa = t.idTipoDpa;
+              return true;
+            }
+          });
+          if (idTipoDpa !== null) {
+            currentDpa.idTipoDpa = idTipoDpa;
+          }
+        };
+
+        // Evento click departamento
+        var click = function(d) {
+          scope.currentDpa.idDpa = d.properties.id_dpa;
+          establecerDescendiente(d, scope.currentDpa, scope.tiposDpa);
+          scope.currentDpa.dpaNombre = d.properties.nombre;
+          scope.$apply();
+        };
 
         // tooltip functions
         var mouseover = function() {
@@ -85,8 +126,8 @@ angular.module('geoelectoralFrontendApp')
           return colorEscala.range(['white', '#' + d.partido.color])(d.partido.porcentaje);
         };
 
-        var geojson = scope.data.data;
-        var votos = scope.votos;
+        var geojson = scope.data.data,
+          votos = scope.votos;
 
         svg.append('g')
             .attr('class', 'departamentos')
@@ -100,6 +141,7 @@ angular.module('geoelectoralFrontendApp')
             .on('mouseover', mouseover)
             .on('mousemove', mousemove)
             .on('mouseout', mouseout)
+            .on('click', click)
             .each(function(d) { d.centroid = path.centroid(d); });
 
         var fondoLayer = svg.append('g')
@@ -145,6 +187,6 @@ angular.module('geoelectoralFrontendApp')
     return {
       restrict: 'E',
       link: link,
-      scope: { data: '=', votos: '=' }
+      scope: { data: '=', votos: '=', currentDpa: '=', tiposDpa: '=' }
     };
   });
