@@ -24,6 +24,13 @@
     <div class="container" ng-controller="MainCtrl">
       <section ng-controller="PanelCtrl">
         <div class="header">
+          <input type="range" min="0" max="{{anios.length - 1}}" ng-model="e.anioIndex" list="anioslist">
+          <datalist id="anioslist">
+            <option ng-repeat="a in anios" value="{{$index}}"></option>
+          </datalist>
+          <h3 class="text-muted">
+            <span>{{anio}}</span>
+          </h3>
           <ul class="nav nav-pills pull-right">
             <li ng-class="{active: isSelected(1)}">
               <a href ng-click="selectTab(1)">Mapa</a>
@@ -35,13 +42,6 @@
               <a href ng-click="selectTab(3)">Torta</a>
             </li>
           </ul>
-          <input type="range" min="0" max="{{anios.length - 1}}" ng-model="e.anioIndex" list="anioslist">
-          <datalist id="anioslist">
-            <option ng-repeat="a in anios" value="{{$index}}"></option>
-          </datalist>
-          <h3 class="text-muted">
-            <span>{{anio}}</span>
-          </h3>
         </div>
 
         <div ng-view></div>
