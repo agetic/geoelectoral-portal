@@ -28,8 +28,6 @@ angular.module('geoelectoralFrontendApp')
                            .scale(escala)
                            .center(mapaCentroide);
 
-        console.log(mapaCentroide);
-
         // Define path generator
         var path = d3.geo.path()
                      .projection(projection);
@@ -64,9 +62,25 @@ angular.module('geoelectoralFrontendApp')
             .attr('width', width + margin.left + margin.right)
             .attr('height', height + margin.top + margin.bottom);
 
+        // Estable el descendiente: departamento => provincia
+        var establecerDescendiente = function(d, currentDpa, tiposDpa) {
+          var idTipoDpa = null;
+          // Seleccionar la primera ocurrencia
+          tiposDpa.some(function(t) {
+            if (t.idTipoDpaSuperior === d.properties.id_tipo_dpa) {
+              idTipoDpa = t.idTipoDpa;
+              return true;
+            }
+          });
+          if (idTipoDpa !== null) {
+            currentDpa.idTipoDpa = idTipoDpa;
+          }
+        };
+
         // Evento click departamento
         var click = function(d) {
           scope.currentDpa.idDpa = d.properties.id_dpa;
+          establecerDescendiente(d, scope.currentDpa, scope.tiposDpa);
           scope.currentDpa.dpaNombre = d.properties.nombre;
           scope.$apply();
         };
@@ -113,8 +127,7 @@ angular.module('geoelectoralFrontendApp')
         };
 
         var geojson = scope.data.data,
-          votos = scope.votos,
-          currentDpa = scope.currentDpa;
+          votos = scope.votos;
 
         svg.append('g')
             .attr('class', 'departamentos')
@@ -174,6 +187,6 @@ angular.module('geoelectoralFrontendApp')
     return {
       restrict: 'E',
       link: link,
-      scope: { data: '=', votos: '=', currentDpa: '=' }
+      scope: { data: '=', votos: '=', currentDpa: '=', tiposDpa: '=' }
     };
   });
