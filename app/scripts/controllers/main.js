@@ -34,9 +34,10 @@ angular.module('geoelectoralFrontendApp')
     $scope.gris = 'bbb';
     $scope.porcetajeGroup = 3; // 3% Porcentaje de agrupación
     $scope.currentDpa = {
-                          idDpa: 1,            // Dpa que se está mostrando actualmente
-                          idTipoDpa: 2,        // Tipo de Dpa hijos que se va mostrar
-                          dpaNombre: 'Bolivia' // Nombre del dpa actual
+                          idDpa: 1,             // Dpa que se está mostrando actualmente
+                          idTipoDpaActual: 1,   // Tipo de Dpa del dpa actual
+                          dpaNombre: 'Bolivia', // Nombre del dpa actual
+                          idTipoDpa: 2          // Tipo de Dpa hijos que se va mostrar
                         };
 
     // Se ejecuta cuando cambia el año en el slider
@@ -77,6 +78,20 @@ angular.module('geoelectoralFrontendApp')
     };
     $scope.hoverOut = function() {
       this.hoverTooltip = false;
+    };
+
+    // Establecer el título para la ubicación en el mapa
+    $scope.getLugar = function() {
+      var titulo = $scope.currentDpa.dpaNombre;
+      if ($scope.currentDpa.idDpa > 1) {
+        $scope.tiposDpa.some(function(e) {
+          if (e.idTipoDpa === $scope.currentDpa.idTipoDpaActual) {
+            titulo = e.nombre + ' ' + titulo;
+            return true;
+          }
+        });
+      }
+      return titulo;
     };
 
     // Funciones

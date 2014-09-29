@@ -75,6 +75,7 @@ angular.module('geoelectoralFrontendApp')
           if (idTipoDpa !== null) {
             currentDpa.idTipoDpa = idTipoDpa;
           }
+          currentDpa.idTipoDpaActual = d.properties.id_tipo_dpa;
         };
 
         // Evento click departamento
