@@ -204,3 +204,7 @@ svg .hover:hover {
   border: 1px dashed #888;
   background-color: none;
 }
+
+.titulo h3 {
+  margin-top: 0;
+}
