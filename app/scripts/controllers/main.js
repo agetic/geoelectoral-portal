@@ -86,7 +86,7 @@ angular.module('geoelectoralFrontendApp')
       if ($scope.currentDpa.idDpa > 1) {
         $scope.tiposDpa.some(function(e) {
           if (e.idTipoDpa === $scope.currentDpa.idTipoDpaActual) {
-            titulo = e.nombre + ' ' + titulo;
+            titulo = capitalize(e.nombre) + ' ' + titulo;
             return true;
           }
         });
@@ -95,6 +95,9 @@ angular.module('geoelectoralFrontendApp')
     };
 
     // Funciones
+    var capitalize = function(string) {
+      return string.charAt(0).toUpperCase() + string.substr(1).toLowerCase();
+    };
     var eliminarValidos = function(partidos) {
       return partidos.slice(0, partidos.length-1);
     };
