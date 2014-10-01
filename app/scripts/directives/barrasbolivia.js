@@ -55,16 +55,6 @@ angular.module('geoelectoralFrontendApp')
           return esTextoMayor(texto, data) ? 'white' : colorBarra;
         };
 
-        // funciones hover sobre las barras
-        var mouseover = function(d) {
-          var partido = $('#partido_' + d.id_partido);
-          partido.addClass('active');
-        };
-        var mouseout = function(d) {
-          var partido = $('#partido_' + d.id_partido);
-          partido.removeClass('active');
-        };
-
         var partidos = GrupoFactory.agruparPartidos(scope.data);
 
         x.domain([0, 100]);
@@ -94,8 +84,8 @@ angular.module('geoelectoralFrontendApp')
                 return marginTexto;
               }
             })
-            .on('mouseover', mouseover)
-            .on('mouseout', mouseout);
+            .on('mouseover', GrupoFactory.barraMouseover)
+            .on('mouseout', GrupoFactory.barraMouseout);
 
         barras.selectAll('.bar')
             .data(partidos)
@@ -104,8 +94,8 @@ angular.module('geoelectoralFrontendApp')
             .attr('width', function(d) { return x(d.porcentaje); })
             .attr('y', function(d) { return y(d.sigla); })
             .attr('height', y.rangeBand())
-            .on('mouseover', mouseover)
-            .on('mouseout', mouseout);
+            .on('mouseover', GrupoFactory.barraMouseover)
+            .on('mouseout', GrupoFactory.barraMouseout);
 
         svg.append('g')
             .attr('class', 'y axis')
