@@ -7,7 +7,7 @@
  * # barrasBolivia
  */
 angular.module('geoelectoralFrontendApp')
-  .directive('barrasBolivia', function(ENV) {
+  .directive('barrasBolivia', function(GrupoFactory) {
     var link = function(scope, element, attrs) {
       var graficarBarras = function() {
         if (!scope.data) { return; }
@@ -15,8 +15,7 @@ angular.module('geoelectoralFrontendApp')
         d3.select(element[0]).selectAll('*').remove();
 
         var colorBarra = 'steelblue',
-            marginTexto = 5,
-            porcentajeMin = ENV.porcentajeMin;
+            marginTexto = 5;
 
         var margin = {top: 20, right: 20, bottom: 20, left: 95},
             width = 630 - margin.left - margin.right,
@@ -66,7 +65,7 @@ angular.module('geoelectoralFrontendApp')
           partido.removeClass('active');
         };
 
-        var partidos = scope.data;
+        var partidos = GrupoFactory.agruparPartidos(scope.data);
 
         x.domain([0, 100]);
         y.domain(partidos.map(function(d) { return d.sigla; }));
