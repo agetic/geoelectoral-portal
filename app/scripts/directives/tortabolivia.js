@@ -45,10 +45,7 @@ angular.module('geoelectoralFrontendApp')
           partido.removeClass('active');
         };
 
-        var partidos = scope.data.sort(function(a, b) {
-          return b.porcentaje - a.porcentaje;
-        });
-        partidos = GrupoFactory.agruparPartidos(partidos);
+        var partidos = GrupoFactory.agruparPartidos(scope.data);
 
         color.range(partidos.map(function(d) {
           var color = '#bbb';

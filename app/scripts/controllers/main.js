@@ -123,7 +123,7 @@ angular.module('geoelectoralFrontendApp')
         $scope.dpaGeoJSON = response[0];
         //$scope.anios = response[1].data.anios;
         $scope.partidos = eliminarValidos(response[2].data.dpas[0].partidos);
-        $scope.partidos = $scope.partidos.sort(function(a, b) { return a.porcentaje - b.porcentaje; });
+        $scope.partidos = $scope.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
         $scope.eleccion = response[2].data.eleccion;
         $scope.partidosDepartamento = establecerColorValidos(response[3].data.dpas);
       }, function(error) {
