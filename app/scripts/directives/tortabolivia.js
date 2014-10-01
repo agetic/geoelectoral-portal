@@ -7,7 +7,7 @@
  * # tortaBolivia
  */
 angular.module('geoelectoralFrontendApp')
-  .directive('tortaBolivia', function(ENV) {
+  .directive('tortaBolivia', function(GrupoFactory) {
     var link = function(scope, element, attrs) {
       var graficarTorta = function() {
         if (!scope.data) { return; }
@@ -17,8 +17,7 @@ angular.module('geoelectoralFrontendApp')
         var width = 630,
             height = 450,
             radius = Math.min(width, height) / 2.2,
-            labelr = radius,
-            porcentajeMin = ENV.porcentajeMin;
+            labelr = radius;
 
         var color = d3.scale.ordinal();
 
@@ -36,32 +35,6 @@ angular.module('geoelectoralFrontendApp')
           .append('g')
             .attr('transform', 'translate(' + width / 2 + ', ' + height / 2 + ')');
 
-        // Agrupar partidos cuyo porcentaje sea menor al 10%
-        var agruparPartidos = function(data_partidos) {
-          var partidos = [],
-              orden = 0,
-              otros = { 'sigla': 'Otros', 'resultado': 0, 'porcentaje': 0,
-                        'color': 'bbb', 'partidos': [] };
-
-          data_partidos.forEach(function(p) {
-            if (p.porcentaje < porcentajeMin) {
-              otros.resultado += p.resultado;
-              otros.porcentaje += p.porcentaje;
-              otros.partidos.push(p);
-            } else {
-              p.orden = orden++;
-              partidos.push(p);
-            }
-          });
-          if (otros.partidos.length > 0) {
-            otros.partidos = otros.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
-            otros.porcentaje = d3.round(otros.porcentaje, 2);
-            otros.orden = orden;
-            partidos.push(otros);
-          }
-          return partidos;
-        };
-
         // funciones hover sobre las barras
         var mouseover = function(d) {
           var partido = $('#partido_' + d.data.id_partido);
@@ -75,7 +48,7 @@ angular.module('geoelectoralFrontendApp')
         var partidos = scope.data.sort(function(a, b) {
           return b.porcentaje - a.porcentaje;
         });
-        partidos = agruparPartidos(partidos);
+        partidos = GrupoFactory.agruparPartidos(partidos);
 
         color.range(partidos.map(function(d) {
           var color = '#bbb';
