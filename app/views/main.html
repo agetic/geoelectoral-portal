@@ -24,12 +24,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr id="partido_{{partido.id_partido}}" ng-repeat="partido in partidos | orderBy:'resultado':true" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
+        <tr id="partido_{{partido.id_partido}}" ng-repeat="partido in partidos | orderBy:'resultado':true" title="{{partido.partido_nombre}}" data-toggle="tooltip" data-placement="left" class="tooltip-tabla" ng-mouseover="hoverIn()">
           <td><div class="bandera" style="background-color: #{{partido.color}};" ng-class="{sinbandera: partido.color==undefined}"></div></td>
-          <td ng-hide="hoverTooltip">{{partido.sigla}}</td>
-          <td ng-hide="hoverTooltip" class="numero">{{partido.resultado | number}}</td>
-          <td ng-hide="hoverTooltip" class="numero">{{partido.porcentaje}}%</td>
-          <td ng-show="hoverTooltip" colspan="3">{{partido.partido_nombre}}</td>
+          <td>{{partido.sigla}}</td>
+          <td class="numero">{{partido.resultado | number}}</td>
+          <td class="numero">{{partido.porcentaje}}%</td>
         </tr>
       </tbody>
     </table>
@@ -49,4 +48,4 @@
 </div>
 <div id="barras"></div>
 <div id="torta"></div>
-<div id="tooltip"></div>
+<div id="tooltip-mapa"></div>

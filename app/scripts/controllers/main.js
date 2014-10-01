@@ -74,10 +74,7 @@ angular.module('geoelectoralFrontendApp')
 
     // Hover sobre las filas de la tabla
     $scope.hoverIn = function() {
-      this.hoverTooltip = true;
-    };
-    $scope.hoverOut = function() {
-      this.hoverTooltip = false;
+      jQuery('.tooltip-tabla').tooltip();
     };
 
     // Establecer el título para la ubicación en el mapa

@@ -48,8 +48,8 @@ angular.module('geoelectoralFrontendApp')
         path = path.projection(projection);
 
         // Tooltip container
-        var div = d3.select('#tooltip')
-            .attr('class', 'tooltip')
+        var div = d3.select('#tooltip-mapa')
+            .attr('class', 'tooltip-mapa')
             .style('opacity', 1e-6);
 
         var tooltipTpl = [
