@@ -21,15 +21,16 @@ body {
   margin-top: 0;
   margin-bottom: 0;
   line-height: 40px;
-  padding-bottom: 19px;
-  width:70px;
+  width:60px;
 }
 
 .header input[type=range] {
   float: right;
-  width: 60%;
+  width: 75%;
   margin-top: 10px;
-  margin-right: 5%;
+}
+.slider {
+  clear: both;
 }
 
 /* Custom page footer */
@@ -75,13 +76,11 @@ body {
 }
 
 /* Responsive: Portrait tablets and up 768 */
-@media screen and (max-width: 990px) {
+@media screen and (max-width: 768px) {
   /* Customize container */
   .container {
     max-width: 768px;
   }
-}
-@media screen and (max-width: 990px) {
   /* Remove the padding we set earlier */
   .header,
   .marketing,
@@ -98,19 +97,12 @@ body {
   .jumbotron {
     border-bottom: 0;
   }
+}
+@media screen and (min-width: 550px) {
   .header input[type=range] {
     float: right;
-    width: 80%;
-    margin-right: 10%;
-  }
-  .nav {
-    margin-right: 10%;
-  }
-}
-@media screen and (max-width: 990px) {
-  .header h3 {
-    margin-left: 10%;
-    margin-bottom: 20px;
+    width: 88%;
+    margin-top: 10px;
   }
 }
 
