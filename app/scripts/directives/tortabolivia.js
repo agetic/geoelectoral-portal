@@ -99,17 +99,6 @@ angular.module('geoelectoralFrontendApp')
 
         g.append('svg:text')
             .attr('transform', function(d) {
-              var c = arc.centroid(d);
-              return 'translate(' + c[0]*1.4 + ', ' + c[1]*1.4 + ')';
-            })
-            .attr('dy', '.35em')
-            .style('text-anchor', 'middle')
-            .text(function(d) { return d.data.porcentaje + '%'; })
-            .on('mouseover', mouseover)
-            .on('mouseout', mouseout);
-
-        g.append('svg:text')
-            .attr('transform', function(d) {
               var c = arc.centroid(d),
                   x = c[0],
                   y = c[1],
@@ -117,15 +106,27 @@ angular.module('geoelectoralFrontendApp')
               return 'translate(' + (x/h * labelr) + ',' +
                 (y/h * labelr) + ')';
             })
-            .attr('dy', '.35em')
+            .attr('dy', function(d) {
+              return (d.endAngle + d.startAngle)/2 > (3*Math.PI/2) ?
+                  '-0.35em' : '+0.35em';
+            })
             .attr('text-anchor', function(d) {
               return (d.endAngle + d.startAngle)/2 > Math.PI ?
                   'end' : 'start';
             })
             .style('fill', 'black')
-            .text(function(d) { return d.data.sigla; })
             .on('mouseover', mouseover)
-            .on('mouseout', mouseout);
+            .on('mouseout', mouseout)
+            .each(function(d) {
+              d3.select(this)
+                .append('tspan')
+                .text(d.data.sigla);
+              d3.select(this)
+                .append('tspan')
+                .attr('dy', 15)
+                .attr('x', 0)
+                .text(d.data.porcentaje + '%');
+            });
       };
 
       scope.$watch('data', graficarTorta);
