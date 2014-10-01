@@ -32,7 +32,7 @@ angular.module('geoelectoralFrontendApp')
             .scale(x)
             .orient('bottom')
             .tickSize(height).tickSubdivide(true)
-            .tickValues([3, 40, 50, 100])
+            .tickValues([3, 40, 50])
             .tickFormat(function(d) { return d3.format('.0%')(d/100); });
 
         var yAxis = d3.svg.axis()
