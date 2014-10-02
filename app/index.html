@@ -34,6 +34,7 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                 </button>
+                <a class="navbar-brand">Elecciones Generales {{getLugar()}}</a>
               </div>
 
               <!-- Collect the nav links, forms, and other content for toggling -->
@@ -50,6 +51,12 @@
                   </li>
                 </ul>
                 <div class="slider">
+                  <!-- <div class="btn-group">
+                    <button type="button" class="btn btn-default active">Departamento</button>
+                    <button type="button" class="btn btn-default">Provincia</button>
+                    <button type="button" class="btn btn-default">Municipio</button>
+                    <button type="button" class="btn btn-default">Circunscripción</button>
+                  </div> -->
                   <input type="range" min="0" max="{{anios.length - 1}}" ng-model="e.anioIndex" list="anioslist">
                   <datalist id="anioslist">
                     <option ng-repeat="a in anios" value="{{$index}}"></option>

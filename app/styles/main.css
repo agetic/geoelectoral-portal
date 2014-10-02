@@ -16,12 +16,17 @@ body {
 .header {
   border-bottom: 1px solid #e5e5e5;
 }
+.navbar-brand{
+  color: #000 !important;
+  margin-left: 0px !important;
+}
 /* Make the masthead heading the same height as the navigation */
 .header h3 {
   margin-top: 0;
   margin-bottom: 0;
   line-height: 40px;
   width:60px;
+  color: #000;
 }
 
 .header input[type=range] {
@@ -31,6 +36,14 @@ body {
 }
 .slider {
   clear: both;
+}
+.navbar{
+  background-color: #fff;
+  margin-bottom: 0px;
+}
+.titulo{
+  float: right;
+  text-align: right;
 }
 
 /* Custom page footer */
@@ -76,7 +89,7 @@ body {
 }
 
 /* Responsive: Portrait tablets and up 768 */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
   /* Customize container */
   .container {
     max-width: 768px;
@@ -90,7 +103,10 @@ body {
   }
   /* Space out the masthead */
   .header {
-    margin-bottom: 20px;
+    margin-bottom: 0px;
+  }
+  .titulo{
+    float: none;
   }
 
   /* Remove the bottom border on the jumbotron for visual effect */
@@ -98,11 +114,23 @@ body {
     border-bottom: 0;
   }
 }
+@media screen and (max-width: 370px) {
+  .navbar-brand{
+    color: #000;
+    font-size: 11px;
+    font-weight: bold;
+  }
+}
 @media screen and (min-width: 550px) {
   .header input[type=range] {
     float: right;
     width: 88%;
-    margin-top: 10px;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .header input[type=range] {
+    float: right;
+    width: 90%;
   }
 }
 
