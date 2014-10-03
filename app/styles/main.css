@@ -88,12 +88,8 @@ body {
   margin-top: 28px;
 }
 
-/* Responsive: Portrait tablets and up 768 */
+/* Responsive: Portrait tablets and down 768 */
 @media screen and (max-width: 767px) {
-  /* Customize container */
-  .container {
-    max-width: 768px;
-  }
   /* Remove the padding we set earlier */
   .header,
   .marketing,
@@ -107,11 +103,18 @@ body {
   }
   .titulo{
     float: none;
+    text-align: center;
   }
 
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
     border-bottom: 0;
+  }
+}
+@media screen and (max-width: 450px) {
+  .btn{
+    font-size: 12px;
+    padding: 6px 4px;
   }
 }
 @media screen and (max-width: 370px) {
@@ -120,7 +123,23 @@ body {
     font-size: 11px;
     font-weight: bold;
   }
+  .btn{
+    font-size: 9px;
+    padding: 6px 4px;
+  }
 }
+@media screen and (max-width: 280px) {
+  .navbar-brand{
+    color: #000;
+    font-size: 8px;
+    font-weight: bold;
+  }
+  .btn{
+    font-size: 8px;
+    padding: 6px 4px;
+  }
+}
+/* Responsive: Portrait tablets and up 558 */
 @media screen and (min-width: 550px) {
   .header input[type=range] {
     float: right;
