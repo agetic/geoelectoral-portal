@@ -40,6 +40,7 @@ body {
 .navbar{
   background-color: #fff;
   margin-bottom: 0px;
+  border: none;
 }
 .titulo{
   float: right;
