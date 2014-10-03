@@ -127,8 +127,17 @@ body {
     font-size: 9px;
     padding: 6px 4px;
   }
+  .nav > li > a{
+    padding: 4px 15px;
+  }
 }
 @media screen and (max-width: 280px) {
+  .nav{
+    font-size: 10px;
+  }
+  .header h3{
+    font-size: 16px;
+  }
   .navbar-brand{
     color: #000;
     font-size: 8px;
