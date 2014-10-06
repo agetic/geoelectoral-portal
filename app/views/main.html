@@ -26,7 +26,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr id="partido_{{partido.id_partido}}" ng-repeat="partido in partidos | orderBy:'resultado':true" title="{{partido.partido_nombre}}" data-toggle="tooltip" data-placement="left" class="tooltip-tabla" ng-mouseover="hoverIn()">
+        <tr id="partido_{{partido.id_partido}}" ng-repeat="partido in partidos | orderBy:'resultado':true" title="{{partido.partido_nombre}}" data-toggle="tooltip" data-placement="bottom" class="tooltip-tabla" ng-mouseover="hoverIn()">
           <td><div class="bandera" style="background-color: #{{partido.color}};" ng-class="{sinbandera: partido.color==undefined}"></div></td>
           <td>{{partido.sigla}}</td>
           <td class="numero">{{partido.resultado | number}}</td>
