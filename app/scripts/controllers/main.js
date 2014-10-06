@@ -8,7 +8,7 @@
  * Controller of the geoelectoralFrontendApp
  */
 angular.module('geoelectoralFrontendApp')
-  .controller('MainCtrl', function ($scope, $http, $q, $routeParams, $location, ENV, Dpa) {
+  .controller('MainCtrl', function ($scope, $http, $q, $routeParams, $location, ENV, Dpa, BreadcrumbFactory) {
     // Elecciones generales a nivel Bolivia
     var host = ENV.geoelectoralApi;
     var api = ENV.geoelectoralApiVersion;
@@ -40,6 +40,14 @@ angular.module('geoelectoralFrontendApp')
                           idTipoDpa: 2          // Tipo de Dpa hijos que se va mostrar
                         };
 
+    var breadcrumbFactory = function() {
+      console.log($scope.currentDpa);
+      BreadcrumbFactory.push('mapa-breadcrumb', {
+        href: '#' + $location.path(),
+        label: $scope.currentDpa.dpaNombre
+      });
+    };
+
     // Se ejecuta cuando cambia el año en el slider
     $scope.$watch('e.anioIndex', function(newVal, oldVal) {
       if (newVal != oldVal) {
@@ -67,6 +75,7 @@ angular.module('geoelectoralFrontendApp')
           $scope.anio = $scope.anios[$scope.e.anioIndex];
           if ($scope.e.anioIndex >= 0) {
             loadServices();
+            breadcrumbFactory();
           } else {
             $scope.e = { anioIndex: $scope.anios.length - 1 };
             $scope.anio = $scope.anios[$scope.e.anioIndex];
@@ -76,7 +85,7 @@ angular.module('geoelectoralFrontendApp')
       } else if ($routeParams.anio) {
         $scope.e = { anioIndex: $scope.anios.indexOf(parseInt($routeParams.anio)) };
         $scope.anio = $scope.anios[$scope.e.anioIndex];
-        loadServices();
+        $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
       } else {
         return;
       }
