@@ -17,6 +17,16 @@ angular.module('geoelectoralFrontendApp')
       }
     };
     return {
+      fromDpa: function(id, dpas, anio) {
+        data[id] = [];
+        dpas.forEach(function(d) {
+          data[id].push({
+            href: '#/elecciones/' + anio + '/dpa/' + d.id_dpa,
+            label: d.nombre
+          });
+        });
+        $rootScope.$broadcast( 'breadcrumbsRefresh' );
+      },
       push: function(id, item) {
         var elem = null;
         ensureIdIsRegistered(id);

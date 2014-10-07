@@ -42,10 +42,7 @@ angular.module('geoelectoralFrontendApp')
 
     var breadcrumbFactory = function() {
       console.log($scope.currentDpa);
-      BreadcrumbFactory.push('mapa-breadcrumb', {
-        href: '#' + $location.path(),
-        label: $scope.currentDpa.dpaNombre
-      });
+      BreadcrumbFactory.fromDpa('mapa-breadcrumb', Dpa.breadcrumb($scope.currentDpa.idDpa), $scope.anio);
     };
 
     // Se ejecuta cuando cambia el año en el slider

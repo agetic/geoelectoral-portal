@@ -54,6 +54,18 @@ angular.module('geoelectoralFrontendApp')
       currentDpa.idTipoDpaActual = d.properties.id_tipo_dpa;*/
     };
 
+    var buscarIdDpaSuperior = function (idDpa, bc) {
+      var id_dpa_superior;
+      _dpa.some(function(d) {
+        if (d.id_dpa === idDpa) {
+          id_dpa_superior = d.id_dpa_superior;
+          bc.push(d);
+          return true;
+        }
+      });
+      return id_dpa_superior;
+    };
+
     // Public API here
     return {
 
@@ -81,6 +93,16 @@ angular.module('geoelectoralFrontendApp')
           d.idTipoDpa = establecerDescendiente(d);
         }
         return d;
+      },
+
+      // Generar Breadcrumb a partir de los descendientes
+      breadcrumb: function (idDpa) {
+        var id_dpa_superior, bc = [];
+        id_dpa_superior = buscarIdDpaSuperior(idDpa, bc);
+        while (id_dpa_superior !== null) {
+          id_dpa_superior = buscarIdDpaSuperior(id_dpa_superior, bc);
+        }
+        return bc.reverse();
       }
 
     };
