@@ -41,14 +41,12 @@ angular.module('geoelectoralFrontendApp')
                         };
 
     var breadcrumbFactory = function() {
-      console.log($scope.currentDpa);
       BreadcrumbFactory.fromDpa('mapa-breadcrumb', Dpa.breadcrumb($scope.currentDpa.idDpa), $scope.anio);
     };
 
     // Se ejecuta cuando cambia el año en el slider
     $scope.$watch('e.anioIndex', function(newVal, oldVal) {
       if (newVal != oldVal) {
-        console.log('e.anioIndex', oldVal, newVal);
         $scope.anio = $scope.anios[$scope.e.anioIndex];
         $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
       }
@@ -57,14 +55,12 @@ angular.module('geoelectoralFrontendApp')
     // Se ejecuta cuando se hace clic a un departamento, provincia, ...
     $scope.$watch('currentDpa.idDpa', function(newVal, oldVal) {
       if (newVal != oldVal) {
-        console.log('currentDpa.idDpa', oldVal, newVal);
         $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
       }
     });
 
     // Se ejecuta cuando hay cambios en la URL
     $scope.$on('$routeChangeSuccess', function() {
-      console.log('$routeChangeSuccess', $routeParams);
       if ($routeParams.anio && $routeParams.idDpa) {
         Dpa.query().then(function(data) {
           $scope.currentDpa = Dpa.find(parseInt($routeParams.idDpa));;
