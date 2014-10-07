@@ -8,7 +8,7 @@
  * Controller of the geoelectoralFrontendApp
  */
 angular.module('geoelectoralFrontendApp')
-  .controller('MainCtrl', function ($scope, $http, $q, $routeParams, $location, ENV) {
+  .controller('MainCtrl', function ($scope, $http, $q, $routeParams, $location, ENV, Dpa, BreadcrumbFactory) {
     // Elecciones generales a nivel Bolivia
     var host = ENV.geoelectoralApi;
     var api = ENV.geoelectoralApiVersion;
@@ -40,19 +40,21 @@ angular.module('geoelectoralFrontendApp')
                           idTipoDpa: 2          // Tipo de Dpa hijos que se va mostrar
                         };
 
+    var breadcrumbFactory = function() {
+      BreadcrumbFactory.fromDpa('mapa-breadcrumb', Dpa.breadcrumb($scope.currentDpa.idDpa), $scope.anio);
+    };
+
     // Se ejecuta cuando cambia el año en el slider
-    $scope.$watch('e.anioIndex', function() {
-      $scope.anio = $scope.anios[$scope.e.anioIndex];
-      if ($scope.currentDpa.idDpa > 1) {
+    $scope.$watch('e.anioIndex', function(newVal, oldVal) {
+      if (newVal != oldVal) {
+        $scope.anio = $scope.anios[$scope.e.anioIndex];
         $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
-      } else {
-        $location.path('/elecciones/' + $scope.anio);
       }
     });
 
     // Se ejecuta cuando se hace clic a un departamento, provincia, ...
-    $scope.$watch('currentDpa.idDpa', function() {
-      if ($scope.currentDpa.idDpa > 1) {
+    $scope.$watch('currentDpa.idDpa', function(newVal, oldVal) {
+      if (newVal != oldVal) {
         $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
       }
     });
@@ -60,13 +62,23 @@ angular.module('geoelectoralFrontendApp')
     // Se ejecuta cuando hay cambios en la URL
     $scope.$on('$routeChangeSuccess', function() {
       if ($routeParams.anio && $routeParams.idDpa) {
-        $scope.e = { anioIndex: $scope.anios.indexOf(parseInt($routeParams.anio)) };
-        $scope.anio = $scope.anios[$scope.e.anioIndex];
-        loadServices();
+        Dpa.query().then(function(data) {
+          $scope.currentDpa = Dpa.find(parseInt($routeParams.idDpa));;
+          $scope.e = { anioIndex: $scope.anios.indexOf(parseInt($routeParams.anio)) };
+          $scope.anio = $scope.anios[$scope.e.anioIndex];
+          if ($scope.e.anioIndex >= 0) {
+            loadServices();
+            breadcrumbFactory();
+          } else {
+            $scope.e = { anioIndex: $scope.anios.length - 1 };
+            $scope.anio = $scope.anios[$scope.e.anioIndex];
+            $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
+          }
+        });
       } else if ($routeParams.anio) {
         $scope.e = { anioIndex: $scope.anios.indexOf(parseInt($routeParams.anio)) };
         $scope.anio = $scope.anios[$scope.e.anioIndex];
-        loadServices();
+        $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
       } else {
         return;
       }

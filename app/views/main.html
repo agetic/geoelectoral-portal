@@ -26,7 +26,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr id="partido_{{partido.id_partido}}" ng-repeat="partido in partidos | orderBy:'resultado':true" title="{{partido.partido_nombre}}" data-toggle="tooltip" data-placement="left" class="tooltip-tabla" ng-mouseover="hoverIn()">
+        <tr id="partido_{{partido.id_partido}}" ng-repeat="partido in partidos | orderBy:'resultado':true" title="{{partido.partido_nombre}}" data-toggle="tooltip" data-placement="bottom" class="tooltip-tabla" ng-mouseover="hoverIn()">
           <td><div class="bandera" style="background-color: #{{partido.color}};" ng-class="{sinbandera: partido.color==undefined}"></div></td>
           <td>{{partido.sigla}}</td>
           <td class="numero">{{partido.resultado | number}}</td>
@@ -41,11 +41,7 @@
     <mapa-bolivia class="grafico" data="dpaGeoJSON" votos="partidosDepartamento" current-dpa="currentDpa" tipos-dpa="tiposDpa" ng-show="isSelected(1)">
     </mapa-bolivia>
 
-    <ol class="breadcrumb" ng-show="isSelected(1)">
-      <li><a href="#/elecciones/2009/dpa/1">Bolivia</a></li>
-      <li><a href="#/elecciones/2009/dpa/2">La Paz</a></li>
-      <li class="active">Murillo</li>
-    </ol>
+    <ol id="mapa-breadcrumb" bread-crumbs></ol>
   </div>
 
   <!-- Barras -->
