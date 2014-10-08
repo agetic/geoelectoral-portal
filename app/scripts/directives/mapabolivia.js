@@ -164,6 +164,7 @@ angular.module('geoelectoralFrontendApp')
             .on('mouseover', mouseover)
             .on('mousemove', mousemove)
             .on('mouseout', mouseout)
+            .on('click', click)
             .each(function(d) {
               d.texto_height = this.getBBox().height + 2;
               d.texto_width = this.getBBox().width + 4;

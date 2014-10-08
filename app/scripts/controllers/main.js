@@ -104,7 +104,6 @@ angular.module('geoelectoralFrontendApp')
     var agruparPartidos = function (dpas, idDpa) {
       var partidos = [], r = null;
       dpas.forEach(function (d) {
-        console.log(idDpa, d);
         if (idDpa === d.id_dpa_superior) {
           angular.copy(d.partidos).forEach(function (p) {
             r = null;
