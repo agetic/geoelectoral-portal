@@ -23,6 +23,7 @@ angular.module('geoelectoralFrontendApp')
       { idTipoDpa: 4, nombre: 'municipio', idTipoDpaSuperior: 3 },
       { idTipoDpa: 5, nombre: 'circunscripción', idTipoDpaSuperior: 2 }
     ];
+    $scope.partidoSeleccionado = null;
     $scope.e = { anioIndex: $scope.anios.length - 1 };
     $scope.anio = $scope.anios[$scope.e.anioIndex];
     $scope.partidos = [];
@@ -83,6 +84,7 @@ angular.module('geoelectoralFrontendApp')
 
     // Hover sobre las filas de la tabla
     $scope.hoverIn = function() {
+      console.log($scope.partidoSeleccionado);
       jQuery('.tooltip-tabla').tooltip();
     };
 
@@ -98,6 +100,11 @@ angular.module('geoelectoralFrontendApp')
         });
       }
       return titulo;
+    };
+
+    // Seleccionar un partido en la tabla de votos
+    $scope.seleccionarPartido = function(index, idPartido) {
+      $scope.partidoSeleccionado = $scope.partidos[index];
     };
 
     // Funciones
