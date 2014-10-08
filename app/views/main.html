@@ -27,7 +27,9 @@
       </thead>
       <tbody>
         <tr id="partido_{{partido.id_partido}}" ng-repeat="partido in partidos" title="{{partido.partido_nombre}}" data-toggle="tooltip" data-placement="bottom" class="tooltip-tabla" ng-mouseover="hoverIn()">
-          <td><div ng-click="seleccionarPartido($index, partido.id_partido)" class="bandera" style="background-color: #{{partido.color}};" ng-class="{sinbandera: partido.color==undefined}"></div></td>
+          <td>
+            <div ng-click="seleccionarPartido($index)" class="bandera" style="background-color: #{{partido.color}};" ng-class="establecerClases(partido)"></div>
+          </td>
           <td>{{partido.sigla}}</td>
           <td class="numero">{{partido.resultado | number}}</td>
           <td class="numero">{{partido.porcentaje}}%</td>

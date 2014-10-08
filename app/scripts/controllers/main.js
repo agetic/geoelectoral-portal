@@ -84,7 +84,6 @@ angular.module('geoelectoralFrontendApp')
 
     // Hover sobre las filas de la tabla
     $scope.hoverIn = function() {
-      console.log($scope.partidoSeleccionado);
       jQuery('.tooltip-tabla').tooltip();
     };
 
@@ -102,9 +101,25 @@ angular.module('geoelectoralFrontendApp')
       return titulo;
     };
 
+    // Establecer clases para la bandera
+    $scope.establecerClases = function(partido) {
+      var clases = [];
+      if (partido.color == undefined) {
+        clases.push('sinbandera');
+      }
+      if (partido === $scope.partidoSeleccionado) {
+        clases.push('seleccionado');
+      }
+      return clases.join(' ');
+    };
+
     // Seleccionar un partido en la tabla de votos
-    $scope.seleccionarPartido = function(index, idPartido) {
-      $scope.partidoSeleccionado = $scope.partidos[index];
+    $scope.seleccionarPartido = function(index) {
+      if ($scope.partidoSeleccionado && $scope.partidoSeleccionado === $scope.partidos[index]) {
+        $scope.partidoSeleccionado = null;
+      } else {
+        $scope.partidoSeleccionado = $scope.partidos[index];
+      }
     };
 
     // Funciones
