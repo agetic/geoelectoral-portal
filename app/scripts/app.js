@@ -10,9 +10,15 @@
  */
 angular
   .module('geoelectoralFrontendApp', [
-    'ngRoute', 'config'
+    'ngRoute', 'config', 'angular-growl'
   ])
-  .config(function($routeProvider) {
+  .config(function($routeProvider, growlProvider) {
+      // Growl configuraciones
+      growlProvider.globalTimeToLive(3000);
+      growlProvider.globalDisableCountDown(true);
+      growlProvider.globalDisableIcons(true);
+
+      // Rutas
       $routeProvider.
         when('/elecciones/:anio', {
           templateUrl: 'views/main.html'

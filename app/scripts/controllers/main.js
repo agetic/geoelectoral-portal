@@ -8,7 +8,7 @@
  * Controller of the geoelectoralFrontendApp
  */
 angular.module('geoelectoralFrontendApp')
-  .controller('MainCtrl', function ($scope, $http, $q, $routeParams, $location, ENV, Dpa, BreadcrumbFactory) {
+  .controller('MainCtrl', function ($scope, $http, $q, $routeParams, $location, ENV, Dpa, BreadcrumbFactory, growl) {
     // Elecciones generales a nivel Bolivia
     var host = ENV.geoelectoralApi;
     var api = ENV.geoelectoralApiVersion;
@@ -175,6 +175,13 @@ angular.module('geoelectoralFrontendApp')
         return d;
       });
     };
+    var redireccionLugarSuperior = function () {
+      var breadcrumbs = BreadcrumbFactory.get('mapa-breadcrumb');
+      if (breadcrumbs.length > 1) {
+        growl.info("No hay datos de elecciones disponibles", {});
+        $location.path(breadcrumbs[breadcrumbs.length - 2].href.replace(/^#/g, ''));
+      }
+    };
     var loadServices = function() {
       var promises = [];
       // GeoJSON político administrativo de Bolivia
@@ -184,10 +191,14 @@ angular.module('geoelectoralFrontendApp')
                                                 .replace(/{idTipoDpa}/g, $scope.currentDpa.idTipoDpa)));
 
       $q.all(promises).then(function(response) {
-        $scope.dpaGeoJSON = response[0];
-        $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
-        $scope.partidos = agruparPartidos($scope.partidosDepartamento, $scope.currentDpa.idDpa);
-        $scope.partidos = $scope.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
+        if (response[1].data.dpas) {
+          $scope.dpaGeoJSON = response[0];
+          $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
+          $scope.partidos = agruparPartidos($scope.partidosDepartamento, $scope.currentDpa.idDpa);
+          $scope.partidos = $scope.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
+        } else {
+          redireccionLugarSuperior();
+        }
       }, function(error) {
         console.warn("Error en la conexión a GeoElectoral API");
       });
