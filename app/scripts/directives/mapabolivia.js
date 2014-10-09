@@ -108,29 +108,66 @@ angular.module('geoelectoralFrontendApp')
              .style('opacity', 1e-6);
         };
 
-        var partidoGanador = function(d, votos) {
+        var maximoPorcentaje = function(d, votos, partido, currentDpa) {
+          var max = { porcentaje: 0 };
+          votos.forEach(function(v) {
+            if (v.id_dpa_superior === currentDpa.idDpa) {
+              v.partidos.forEach(function(p) {
+                if (partido.id_partido === p.id_partido && max.porcentaje < p.porcentaje) {
+                  max = p;
+                }
+              });
+            }
+          });
+          if (max.porcentaje == 0 || max.porcentaje === undefined) {
+            max = d.partido;
+          }
+          return max.porcentaje;
+        };
+
+        var partidoSeleccionado = function(d, votos, partido) {
           var max = { porcentaje: 0 };
           votos.forEach(function(v) {
             if(d.properties.codigo === v.dpa_codigo) {
               v.partidos.forEach(function(p) {
-                 if (max.porcentaje < p.porcentaje) {
+                if (partido.id_partido === p.id_partido) {
                   max = p;
-                 }
+                }
               });
             }
           });
           return max;
         };
 
-        var setColorPartido = function(d, votos) {
-          var colorEscala;
-          d.partido = partidoGanador(d, votos);
-          colorEscala = d3.scale.linear().domain([0, 100]);
+        var partidoGanador = function(d, votos) {
+          var max = { porcentaje: 0 };
+          votos.forEach(function(v) {
+            if(d.properties.codigo === v.dpa_codigo) {
+              v.partidos.forEach(function(p) {
+                if (max.porcentaje < p.porcentaje) {
+                  max = p;
+                }
+              });
+            }
+          });
+          return max;
+        };
+
+        var setColorPartido = function(d, votos, partido) {
+          var colorEscala, color;
+          if (partido) {
+            d.partido = partidoSeleccionado(d, votos, partido);
+            colorEscala = d3.scale.linear().domain([0, maximoPorcentaje(d, votos, partido, scope.currentDpa)]);
+          } else {
+            d.partido = partidoGanador(d, votos);
+            colorEscala = d3.scale.linear().domain([0, 100]);          }
+
           return colorEscala.range(['white', '#' + d.partido.color])(d.partido.porcentaje);
         };
 
         var geojson = scope.data.data,
-          votos = scope.votos;
+          votos = scope.votos,
+          partido = scope.partido;
 
         svg.append('g')
             .attr('class', 'departamentos')
@@ -139,7 +176,7 @@ angular.module('geoelectoralFrontendApp')
             .data(geojson.features)
           .enter().append('path')
             .attr('class', 'departamento hover')
-            .attr('fill', function(d) { return setColorPartido(d, votos); })
+            .attr('fill', function(d) { return setColorPartido(d, votos, partido); })
             .attr('d', path)
             .on('mouseover', mouseover)
             .on('mousemove', mousemove)
@@ -187,10 +224,17 @@ angular.module('geoelectoralFrontendApp')
       };
 
       scope.$watch('data', graficarMapa);
+      scope.$watch('partido', graficarMapa);
     }
     return {
       restrict: 'E',
       link: link,
-      scope: { data: '=', votos: '=', currentDpa: '=', tiposDpa: '=' }
+      scope: {
+        data: '=',
+        votos: '=',
+        currentDpa: '=',
+        tiposDpa: '=',
+        partido: '='
+      }
     };
   });
