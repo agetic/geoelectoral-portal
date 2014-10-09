@@ -2,11 +2,15 @@
   "development": {
     "name": "development",
     "geoelectoralApi": "//localhost:3000",
-    "geoelectoralApiVersion": "/api/v1"
+    "geoelectoralApiVersion": "/api/v1",
+    "porcentajeMin": 3,
+    "color": "bbb"
   },
   "production": {
     "name": "production",
     "geoelectoralApi": "//test.geo.gob.bo/geoelectoral-api",
-    "geoelectoralApiVersion": "/api/v1"
+    "geoelectoralApiVersion": "/api/v1",
+    "porcentajeMin": 3,
+    "color": "bbb"
   }
 }

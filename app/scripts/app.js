@@ -17,6 +17,9 @@ angular
         when('/elecciones/:anio', {
           templateUrl: 'views/main.html'
         }).
+        when('/elecciones/:anio/dpa/:idDpa', {
+          templateUrl: 'views/main.html'
+        }).
         otherwise({
           redirectTo: '/elecciones/2009'
         });

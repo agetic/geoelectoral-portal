@@ -7,15 +7,15 @@
  * # barrasBolivia
  */
 angular.module('geoelectoralFrontendApp')
-  .directive('barrasBolivia', function () {
+  .directive('barrasBolivia', function(GrupoFactory) {
     var link = function(scope, element, attrs) {
       var graficarBarras = function() {
         if (!scope.data) { return; }
 
         d3.select(element[0]).selectAll('*').remove();
 
-        var colorBarra = 'steelblue';
-        var marginTexto = 5;
+        var colorBarra = 'steelblue',
+            marginTexto = 5;
 
         var margin = {top: 20, right: 20, bottom: 20, left: 95},
             width = 630 - margin.left - margin.right,
@@ -25,34 +25,25 @@ angular.module('geoelectoralFrontendApp')
             .range([0, width]);
 
         var y = d3.scale.ordinal()
-            .rangeRoundBands([height, 0], 0.2);
+            .rangeRoundBands([0, height], 0.2);
 
         var xAxis = d3.svg.axis()
             .scale(x)
             .orient('bottom')
             .tickSize(height).tickSubdivide(true)
-            .tickValues([3, 40, 50, 100])
+            .tickValues([3, 40, 50])
             .tickFormat(function(d) { return d3.format('.0%')(d/100); });
 
         var yAxis = d3.svg.axis()
             .scale(y)
             .orient('left');
 
-        // Tooltip container
-        var div = d3.select('#tooltip')
-            .attr('class', 'tooltip')
-            .style('opacity', 1e-6);
-
-        var tooltipTpl = [
-            '<strong>{sigla}</strong>',
-            '<div>Porcentaje: {porcentaje}%</div>',
-            '<div>Votos: {votos}</div>',
-          ].join('');
-
         // Barras container
         var svg = d3.select(element[0]).append('svg')
-            .attr('width', width + margin.left + margin.right)
-            .attr('height', height + margin.top + margin.bottom)
+            //.attr('width', width + margin.left + margin.right)
+            //.attr('height', height + margin.top + margin.bottom)
+            .attr('version','1.1')
+            .attr('viewBox','0 0 ' + (width + margin.left + margin.right) +' '+ (height + margin.top + margin.bottom) )
           .append('g')
             .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
@@ -66,32 +57,19 @@ angular.module('geoelectoralFrontendApp')
           return esTextoMayor(texto, data) ? 'white' : colorBarra;
         };
 
-        // tooltip functions
-        var mouseover = function() {
-          div.transition()
-             .duration(500)
-             .style('opacity', 1);
-        };
-        var mousemove = function(d) {
-          div
-            .style('left', (d3.event.pageX + 5) + 'px')
-            .style('top', d3.event.pageY + 'px');
-          div.html(tooltipTpl.replace(/{sigla}/g, d.sigla)
-                             .replace(/{porcentaje}/g, d.porcentaje)
-                             .replace(/{votos}/g, d3.format(',d')(d.resultado)));
-        };
-        var mouseout = function() {
-          div.transition()
-             .duration(500)
-             .style('opacity', 1e-6);
-        };
-
-        var partidos = scope.data;
+        var partidos = GrupoFactory.agruparPartidos(scope.data);
 
         x.domain([0, 100]);
         y.domain(partidos.map(function(d) { return d.sigla; }));
 
-        svg.selectAll('text')
+        svg.append('g')
+            .attr('class', 'x axis')
+            .call(xAxis);
+
+        var barras = svg.append('g').attr('class', 'barras');
+        var etiquetas = svg.append('g').attr('class', 'barras-etiquetas');
+
+        etiquetas.selectAll('text')
             .data(partidos)
           .enter().append('text')
             .attr('class', 'etiqueta')
@@ -108,24 +86,18 @@ angular.module('geoelectoralFrontendApp')
                 return marginTexto;
               }
             })
-            .on('mouseover', mouseover)
-            .on('mousemove', mousemove)
-            .on('mouseout', mouseout);
+            .on('mouseover', GrupoFactory.barraMouseover)
+            .on('mouseout', GrupoFactory.barraMouseout);
 
-        svg.append('g')
-            .attr('class', 'x axis')
-            .call(xAxis);
-
-        svg.selectAll('.bar')
+        barras.selectAll('.bar')
             .data(partidos)
           .enter().append('rect')
             .attr('class', 'bar hover')
             .attr('width', function(d) { return x(d.porcentaje); })
             .attr('y', function(d) { return y(d.sigla); })
             .attr('height', y.rangeBand())
-            .on('mouseover', mouseover)
-            .on('mousemove', mousemove)
-            .on('mouseout', mouseout);
+            .on('mouseover', GrupoFactory.barraMouseover)
+            .on('mouseout', GrupoFactory.barraMouseout);
 
         svg.append('g')
             .attr('class', 'y axis')

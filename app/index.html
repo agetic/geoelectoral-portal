@@ -24,26 +24,51 @@
     <div class="container" ng-controller="MainCtrl">
       <section ng-controller="PanelCtrl">
         <div class="header">
-          <ul class="nav nav-pills pull-right">
-            <li ng-class="{active: isSelected(1)}">
-              <a href ng-click="selectTab(1)">Mapa</a>
-            </li>
-            <li ng-class="{active: isSelected(2)}">
-              <a href ng-click="selectTab(2)">Barras</a>
-            </li>
-            <li ng-class="{active: isSelected(3)}">
-              <a href ng-click="selectTab(3)">Torta</a>
-            </li>
-          </ul>
-          <input type="range" min="0" max="{{anios.length - 1}}" ng-model="e.anioIndex" list="anioslist">
-          <datalist id="anioslist">
-            <option ng-repeat="a in anios" value="{{$index}}"></option>
-          </datalist>
-          <h3 class="text-muted">
-            <span>{{anio}}</span>
-          </h3>
-        </div>
+          <div class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+              <!-- Brand and toggle get grouped for better mobile display -->
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand">Elecciones Generales {{getLugar()}}</a>
+              </div>
 
+              <!-- Collect the nav links, forms, and other content for toggling -->
+              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav nav-pills pull-right">
+                  <li ng-class="{active: isSelected(1)}">
+                    <a href ng-click="selectTab(1)">Mapa</a>
+                  </li>
+                  <li ng-class="{active: isSelected(2)}">
+                    <a href ng-click="selectTab(2)">Barras</a>
+                  </li>
+                  <li ng-class="{active: isSelected(3)}">
+                    <a href ng-click="selectTab(3)">Torta</a>
+                  </li>
+                </ul>
+                <div class="slider">
+                  <!-- <div class="btn-group">
+                    <button type="button" class="btn btn-default active">Departamento</button>
+                    <button type="button" class="btn btn-default">Provincia</button>
+                    <button type="button" class="btn btn-default">Municipio</button>
+                    <button type="button" class="btn btn-default">Circunscripción</button>
+                  </div> -->
+                  <input type="range" min="0" max="{{anios.length - 1}}" ng-model="e.anioIndex" list="anioslist">
+                  <datalist id="anioslist">
+                    <option ng-repeat="a in anios" value="{{$index}}"></option>
+                  </datalist>
+                  <h3 class="text-muted">
+                    <span>{{anio}}</span>
+                  </h3>
+                </div>
+              </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+          </div><!-- /.navbar -->
+        </div><!-- /.header -->
         <div ng-view></div>
       </section>
 
@@ -80,6 +105,10 @@
         <script src="scripts/directives/barrasbolivia.js"></script>
         <script src="scripts/controllers/panel.js"></script>
         <script src="scripts/directives/tortabolivia.js"></script>
+        <script src="scripts/services/grupofactory.js"></script>
+        <script src="scripts/services/dpa.js"></script>
+        <script src="scripts/services/breadcrumbfactory.js"></script>
+        <script src="scripts/directives/breadcrumbs.js"></script>
         <!-- endbuild -->
 </body>
 </html>
