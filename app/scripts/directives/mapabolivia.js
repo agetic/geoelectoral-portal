@@ -192,34 +192,37 @@ angular.module('geoelectoralFrontendApp')
             .attr('class', 'etiquetas')
             .attr('transform', 'translate(' + mapaCentroide + ')');
 
-        textoLayer.selectAll('text')
-            .data(geojson.features)
-          .enter().append('text')
-            .attr('transform', function(d) { return 'translate(' + d.centroid + ')'; })
-            .attr('dy', '.35em')
-            .text(function(d) { return d.partido.sigla; })
-            .on('mouseover', mouseover)
-            .on('mousemove', mousemove)
-            .on('mouseout', mouseout)
-            .on('click', click)
-            .each(function(d) {
-              d.texto_height = this.getBBox().height + 2;
-              d.texto_width = this.getBBox().width + 4;
-            });
+        // Etiqueta del partido sobre el mapa
+        if (scope.partido === undefined || scope.partido === null) {
+          textoLayer.selectAll('text')
+              .data(geojson.features)
+            .enter().append('text')
+              .attr('transform', function(d) { return 'translate(' + d.centroid + ')'; })
+              .attr('dy', '.35em')
+              .text(function(d) { return d.partido.sigla; })
+              .on('mouseover', mouseover)
+              .on('mousemove', mousemove)
+              .on('mouseout', mouseout)
+              .on('click', click)
+              .each(function(d) {
+                d.texto_height = this.getBBox().height + 2;
+                d.texto_width = this.getBBox().width + 4;
+              });
 
-        fondoLayer.selectAll('rect')
-            .data(geojson.features)
-          .enter().append('rect')
-            .attr('height', function(d) { return d.texto_height; })
-            .attr('width', function(d) { return d.texto_width; })
-            .attr('rx', '3')
-            .attr('transform', function(d) {
-              return 'translate(' + (d.centroid[0] - d.texto_width/2) + ', ' +
-                (d.centroid[1] - d.texto_height/2) + ')';
-            })
-            .on('mouseover', mouseover)
-            .on('mousemove', mousemove)
-            .on('mouseout', mouseout);
+          fondoLayer.selectAll('rect')
+              .data(geojson.features)
+            .enter().append('rect')
+              .attr('height', function(d) { return d.texto_height; })
+              .attr('width', function(d) { return d.texto_width; })
+              .attr('rx', '3')
+              .attr('transform', function(d) {
+                return 'translate(' + (d.centroid[0] - d.texto_width/2) + ', ' +
+                  (d.centroid[1] - d.texto_height/2) + ')';
+              })
+              .on('mouseover', mouseover)
+              .on('mousemove', mousemove)
+              .on('mouseout', mouseout);
+        }
 
       };
 
