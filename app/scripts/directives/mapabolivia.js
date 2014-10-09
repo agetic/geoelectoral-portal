@@ -56,6 +56,7 @@ angular.module('geoelectoralFrontendApp')
             '<strong>{sigla}</strong>',
             '<div>Porcentaje: {porcentaje}%</div>',
             '<div>Votos: {votos}</div>',
+            '<div>{lugar}</div>',
           ].join('');
 
         var svg = d3.select(element[0]).append('svg')
@@ -100,7 +101,8 @@ angular.module('geoelectoralFrontendApp')
             .style('top', d3.event.pageY + 'px');
           div.html(tooltipTpl.replace(/{sigla}/g, d.partido.sigla)
                              .replace(/{porcentaje}/g, d.partido.porcentaje)
-                             .replace(/{votos}/g, d3.format(',d')(d.partido.resultado)));
+                             .replace(/{votos}/g, d3.format(',d')(d.partido.resultado))
+                             .replace(/{lugar}/g, d.properties.nombre));
         };
         var mouseout = function() {
           div.transition()
