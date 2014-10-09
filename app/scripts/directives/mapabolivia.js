@@ -7,7 +7,7 @@
  * # mapaBolivia
  */
 angular.module('geoelectoralFrontendApp')
-  .directive('mapaBolivia', function () {
+  .directive('mapaBolivia', function (ENV) {
     function link(scope, element, attr) {
       var graficarMapa = function() {
         if (!scope.data.data) { return; }
@@ -160,9 +160,9 @@ angular.module('geoelectoralFrontendApp')
             colorEscala = d3.scale.linear().domain([0, maximoPorcentaje(d, votos, partido, scope.currentDpa)]);
           } else {
             d.partido = partidoGanador(d, votos);
-            colorEscala = d3.scale.linear().domain([0, 100]);          }
-
-          return colorEscala.range(['white', '#' + d.partido.color])(d.partido.porcentaje);
+            colorEscala = d3.scale.linear().domain([0, 100]);
+          }
+          return colorEscala.range(['white', '#' + (d.partido.color || ENV.color)])(d.partido.porcentaje);
         };
 
         var geojson = scope.data.data,

@@ -29,7 +29,7 @@ angular.module('geoelectoralFrontendApp')
     $scope.partidos = [];
     $scope.partidosDepartamento = [];
     $scope.dpaGeoJSON = [];
-    $scope.gris = 'bbb';
+    $scope.gris = ENV.color;
     $scope.porcetajeGroup = 3; // 3% Porcentaje de agrupación
     $scope.currentDpa = {
                           idDpa: 1,             // Dpa que se está mostrando actualmente
