@@ -177,6 +177,9 @@ body {
   width: 20px;
   height: 20px;
 }
+.statistics table .seleccionado {
+  border-radius: 0px !important;
+}
 
 
 /* Tooltip */

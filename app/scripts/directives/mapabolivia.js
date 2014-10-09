@@ -7,7 +7,7 @@
  * # mapaBolivia
  */
 angular.module('geoelectoralFrontendApp')
-  .directive('mapaBolivia', function () {
+  .directive('mapaBolivia', function (ENV) {
     function link(scope, element, attr) {
       var graficarMapa = function() {
         if (!scope.data.data) { return; }
@@ -108,29 +108,66 @@ angular.module('geoelectoralFrontendApp')
              .style('opacity', 1e-6);
         };
 
-        var partidoGanador = function(d, votos) {
+        var maximoPorcentaje = function(d, votos, partido, currentDpa) {
+          var max = { porcentaje: 0 };
+          votos.forEach(function(v) {
+            if (v.id_dpa_superior === currentDpa.idDpa) {
+              v.partidos.forEach(function(p) {
+                if (partido.id_partido === p.id_partido && max.porcentaje < p.porcentaje) {
+                  max = p;
+                }
+              });
+            }
+          });
+          if (max.porcentaje == 0 || max.porcentaje === undefined) {
+            max = d.partido;
+          }
+          return max.porcentaje;
+        };
+
+        var partidoSeleccionado = function(d, votos, partido) {
           var max = { porcentaje: 0 };
           votos.forEach(function(v) {
             if(d.properties.codigo === v.dpa_codigo) {
               v.partidos.forEach(function(p) {
-                 if (max.porcentaje < p.porcentaje) {
+                if (partido.id_partido === p.id_partido) {
                   max = p;
-                 }
+                }
               });
             }
           });
           return max;
         };
 
-        var setColorPartido = function(d, votos) {
-          var colorEscala;
-          d.partido = partidoGanador(d, votos);
-          colorEscala = d3.scale.linear().domain([0, 100]);
-          return colorEscala.range(['white', '#' + d.partido.color])(d.partido.porcentaje);
+        var partidoGanador = function(d, votos) {
+          var max = { porcentaje: 0 };
+          votos.forEach(function(v) {
+            if(d.properties.codigo === v.dpa_codigo) {
+              v.partidos.forEach(function(p) {
+                if (max.porcentaje < p.porcentaje) {
+                  max = p;
+                }
+              });
+            }
+          });
+          return max;
+        };
+
+        var setColorPartido = function(d, votos, partido) {
+          var colorEscala, color;
+          if (partido) {
+            d.partido = partidoSeleccionado(d, votos, partido);
+            colorEscala = d3.scale.linear().domain([0, maximoPorcentaje(d, votos, partido, scope.currentDpa)]);
+          } else {
+            d.partido = partidoGanador(d, votos);
+            colorEscala = d3.scale.linear().domain([0, 100]);
+          }
+          return colorEscala.range(['white', '#' + (d.partido.color || ENV.color)])(d.partido.porcentaje);
         };
 
         var geojson = scope.data.data,
-          votos = scope.votos;
+          votos = scope.votos,
+          partido = scope.partido;
 
         svg.append('g')
             .attr('class', 'departamentos')
@@ -139,7 +176,7 @@ angular.module('geoelectoralFrontendApp')
             .data(geojson.features)
           .enter().append('path')
             .attr('class', 'departamento hover')
-            .attr('fill', function(d) { return setColorPartido(d, votos); })
+            .attr('fill', function(d) { return setColorPartido(d, votos, partido); })
             .attr('d', path)
             .on('mouseover', mouseover)
             .on('mousemove', mousemove)
@@ -155,42 +192,52 @@ angular.module('geoelectoralFrontendApp')
             .attr('class', 'etiquetas')
             .attr('transform', 'translate(' + mapaCentroide + ')');
 
-        textoLayer.selectAll('text')
-            .data(geojson.features)
-          .enter().append('text')
-            .attr('transform', function(d) { return 'translate(' + d.centroid + ')'; })
-            .attr('dy', '.35em')
-            .text(function(d) { return d.partido.sigla; })
-            .on('mouseover', mouseover)
-            .on('mousemove', mousemove)
-            .on('mouseout', mouseout)
-            .on('click', click)
-            .each(function(d) {
-              d.texto_height = this.getBBox().height + 2;
-              d.texto_width = this.getBBox().width + 4;
-            });
+        // Etiqueta del partido sobre el mapa
+        if (scope.partido === undefined || scope.partido === null) {
+          textoLayer.selectAll('text')
+              .data(geojson.features)
+            .enter().append('text')
+              .attr('transform', function(d) { return 'translate(' + d.centroid + ')'; })
+              .attr('dy', '.35em')
+              .text(function(d) { return d.partido.sigla; })
+              .on('mouseover', mouseover)
+              .on('mousemove', mousemove)
+              .on('mouseout', mouseout)
+              .on('click', click)
+              .each(function(d) {
+                d.texto_height = this.getBBox().height + 2;
+                d.texto_width = this.getBBox().width + 4;
+              });
 
-        fondoLayer.selectAll('rect')
-            .data(geojson.features)
-          .enter().append('rect')
-            .attr('height', function(d) { return d.texto_height; })
-            .attr('width', function(d) { return d.texto_width; })
-            .attr('rx', '3')
-            .attr('transform', function(d) {
-              return 'translate(' + (d.centroid[0] - d.texto_width/2) + ', ' +
-                (d.centroid[1] - d.texto_height/2) + ')';
-            })
-            .on('mouseover', mouseover)
-            .on('mousemove', mousemove)
-            .on('mouseout', mouseout);
+          fondoLayer.selectAll('rect')
+              .data(geojson.features)
+            .enter().append('rect')
+              .attr('height', function(d) { return d.texto_height; })
+              .attr('width', function(d) { return d.texto_width; })
+              .attr('rx', '3')
+              .attr('transform', function(d) {
+                return 'translate(' + (d.centroid[0] - d.texto_width/2) + ', ' +
+                  (d.centroid[1] - d.texto_height/2) + ')';
+              })
+              .on('mouseover', mouseover)
+              .on('mousemove', mousemove)
+              .on('mouseout', mouseout);
+        }
 
       };
 
       scope.$watch('data', graficarMapa);
+      scope.$watch('partido', graficarMapa);
     }
     return {
       restrict: 'E',
       link: link,
-      scope: { data: '=', votos: '=', currentDpa: '=', tiposDpa: '=' }
+      scope: {
+        data: '=',
+        votos: '=',
+        currentDpa: '=',
+        tiposDpa: '=',
+        partido: '='
+      }
     };
   });

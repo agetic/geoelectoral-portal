@@ -23,12 +23,13 @@ angular.module('geoelectoralFrontendApp')
       { idTipoDpa: 4, nombre: 'municipio', idTipoDpaSuperior: 3 },
       { idTipoDpa: 5, nombre: 'circunscripción', idTipoDpaSuperior: 2 }
     ];
+    $scope.partidoSeleccionado = null;
     $scope.e = { anioIndex: $scope.anios.length - 1 };
     $scope.anio = $scope.anios[$scope.e.anioIndex];
     $scope.partidos = [];
     $scope.partidosDepartamento = [];
     $scope.dpaGeoJSON = [];
-    $scope.gris = 'bbb';
+    $scope.gris = ENV.color;
     $scope.porcetajeGroup = 3; // 3% Porcentaje de agrupación
     $scope.currentDpa = {
                           idDpa: 1,             // Dpa que se está mostrando actualmente
@@ -44,6 +45,7 @@ angular.module('geoelectoralFrontendApp')
     // Se ejecuta cuando cambia el año en el slider
     $scope.$watch('e.anioIndex', function(newVal, oldVal) {
       if (newVal != oldVal) {
+        $scope.partidoSeleccionado = null;
         $scope.anio = $scope.anios[$scope.e.anioIndex];
         $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
       }
@@ -98,6 +100,27 @@ angular.module('geoelectoralFrontendApp')
         });
       }
       return titulo;
+    };
+
+    // Establecer clases para la bandera
+    $scope.establecerClases = function(partido) {
+      var clases = [];
+      if (partido.color == undefined) {
+        clases.push('sinbandera');
+      }
+      if ($scope.partidoSeleccionado && partido.id_partido === $scope.partidoSeleccionado.id_partido) {
+        clases.push('seleccionado');
+      }
+      return clases.join(' ');
+    };
+
+    // Seleccionar un partido en la tabla de votos
+    $scope.seleccionarPartido = function(index) {
+      if ($scope.partidoSeleccionado && $scope.partidoSeleccionado === $scope.partidos[index]) {
+        $scope.partidoSeleccionado = null;
+      } else {
+        $scope.partidoSeleccionado = $scope.partidos[index];
+      }
     };
 
     // Funciones
