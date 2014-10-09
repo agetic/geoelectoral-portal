@@ -193,7 +193,7 @@ angular.module('geoelectoralFrontendApp')
             .attr('transform', 'translate(' + mapaCentroide + ')');
 
         // Etiqueta del partido sobre el mapa
-        if (scope.partido === undefined || scope.partido === null) {
+        if (scope.partido === null) {
           textoLayer.selectAll('text')
               .data(geojson.features)
             .enter().append('text')
