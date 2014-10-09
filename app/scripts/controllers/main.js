@@ -45,6 +45,7 @@ angular.module('geoelectoralFrontendApp')
     // Se ejecuta cuando cambia el año en el slider
     $scope.$watch('e.anioIndex', function(newVal, oldVal) {
       if (newVal != oldVal) {
+        $scope.partidoSeleccionado = null;
         $scope.anio = $scope.anios[$scope.e.anioIndex];
         $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
       }
@@ -107,7 +108,7 @@ angular.module('geoelectoralFrontendApp')
       if (partido.color == undefined) {
         clases.push('sinbandera');
       }
-      if (partido === $scope.partidoSeleccionado) {
+      if ($scope.partidoSeleccionado && partido.id_partido === $scope.partidoSeleccionado.id_partido) {
         clases.push('seleccionado');
       }
       return clases.join(' ');
