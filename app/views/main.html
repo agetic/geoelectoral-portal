@@ -6,6 +6,16 @@
     </h3>
   </div>
 </div> -->
+
+<div class="titulo">
+    <div class="btn-group">
+      <button type="button" ng-click="setTipoDpa(2)" class="btn btn-default" ng-class="{active: getTipoDpa()===2}">Departamento</button>
+      <button type="button" ng-click="setTipoDpa(3)" class="btn btn-default" ng-class="{active: getTipoDpa()===3}">Provincia</button>
+      <button type="button" ng-click="setTipoDpa(4)" class="btn btn-default" ng-class="{active: getTipoDpa()===4}">Municipio</button>
+      <button type="button" ng-click="setTipoDpa(5)" class="btn btn-default" ng-class="{active: getTipoDpa()===5}">Circunscripción</button>
+    </div>
+</div>
+
 <div class="row">
 
   <!-- Mapa -->
