@@ -113,13 +113,13 @@ angular.module('geoelectoralFrontendApp')
         var maximoPorcentaje = function(d, votos, partido, currentDpa) {
           var max = { porcentaje: 0 };
           votos.forEach(function(v) {
-            if (v.id_dpa_superior === currentDpa.idDpa) {
+            //if (v.id_dpa_superior === currentDpa.idDpa) { // TODO: verificar que funcione sin problemas.
               v.partidos.forEach(function(p) {
                 if (partido.id_partido === p.id_partido && max.porcentaje < p.porcentaje) {
                   max = p;
                 }
               });
-            }
+            //}
           });
           if (max.porcentaje == 0 || max.porcentaje === undefined) {
             max = d.partido;
