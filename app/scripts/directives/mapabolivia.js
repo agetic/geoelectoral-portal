@@ -21,7 +21,7 @@ angular.module('geoelectoralFrontendApp')
         // Mapa
         var mapaCentroide = d3.geo.centroid(scope.data.data); //[2250, -550];
         var escala = 1;
-        var offset = [width/2 - margin.left - margin.right,
+        var offset = [width/2 - margin.left - margin.right - 50,
                       height/2 - margin.top - margin.bottom];
         var projection = d3.geo.mercator()
                            .translate(offset)
