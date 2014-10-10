@@ -6,15 +6,26 @@
     </h3>
   </div>
 </div> -->
-<div class="titulo">
-    <div class="btn-group">
-      <button type="button" class="btn btn-default active">Departamento</button>
-      <button type="button" class="btn btn-default">Provincia</button>
-      <button type="button" class="btn btn-default">Municipio</button>
-      <button type="button" class="btn btn-default">Circunscripción</button>
-    </div>
-</div>
 <div class="row">
+
+  <!-- Mapa -->
+  <div class="col-sm-8">
+    <ol id="mapa-breadcrumb" ng-show="isSelected(1)" bread-crumbs></ol>
+
+    <mapa-bolivia class="grafico" data="dpaGeoJSON" votos="partidosDepartamento" current-dpa="currentDpa" tipos-dpa="tiposDpa" partido="partidoSeleccionado" ng-show="isSelected(1)">
+    </mapa-bolivia>
+
+  </div>
+
+  <!-- Barras -->
+  <barras-bolivia class="col-sm-8 grafico" data="partidos" tab="{{tab}}" ng-show="isSelected(2)">
+  </barras-bolivia>
+
+  <!-- Torta -->
+  <torta-bolivia id="torta" class="col-sm-8 grafico" data="partidos" tab="{{tab}}" ng-show="isSelected(3)">
+  </torta-bolivia>
+
+  <!-- EstadisticS -->
   <div class="col-sm-4 statistics">
     <table class="table table-condensed table-hover">
       <thead>
@@ -38,20 +49,5 @@
     </table>
   </div>
 
-  <!-- Mapa -->
-  <div class="col-sm-8">
-    <mapa-bolivia class="grafico" data="dpaGeoJSON" votos="partidosDepartamento" current-dpa="currentDpa" tipos-dpa="tiposDpa" partido="partidoSeleccionado" ng-show="isSelected(1)">
-    </mapa-bolivia>
-
-    <ol id="mapa-breadcrumb" ng-show="isSelected(1)" bread-crumbs></ol>
-  </div>
-
-  <!-- Barras -->
-  <barras-bolivia class="col-sm-8 grafico" data="partidos" tab="{{tab}}" ng-show="isSelected(2)">
-  </barras-bolivia>
-
-  <!-- Torta -->
-  <torta-bolivia id="torta" class="col-sm-8 grafico" data="partidos" tab="{{tab}}" ng-show="isSelected(3)">
-  </torta-bolivia>
 </div>
 <div id="tooltip-mapa"></div>
