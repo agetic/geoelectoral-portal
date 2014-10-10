@@ -48,17 +48,6 @@ $ git clone http://gitlab.geo.gob.bo/adsib/geoelectoral-frontend.git
 $ cd geoelectoral-frontend
 ```
 
-Para instalar el Frontend ejecutar los siguientes comandos:
-
-```
-$ npm install
-$ bower install
-$ grunt build --force
-```
-
-El último comando creará una carpeta dentro del proyecto llamado `dist`. Ésta carpeta contiene
-los archivos optimizados para web, hojas de estilo y JavaScript comprimidos y minificados.
-
 ## Configuración
 
 Existe un archivo de configuración llamado `config.json` en la raíz del proyecto con el siguiente contenido:
@@ -83,6 +72,19 @@ Existe un archivo de configuración llamado `config.json` en la raíz del proyec
 ```
 
 Se debe configurar la parte de `"production"`, establecer la URL de GeoElectoral API en la entrada `"geoelectoralApi"` si se encuentra en una ubicación diferente a `//test.geo.gob.bo/geoelectoral-api`.
+
+## Instalación
+
+Para instalar el Frontend ejecutar los siguientes comandos:
+
+```
+$ npm install
+$ bower install
+$ grunt build --force
+```
+
+El último comando creará una carpeta dentro del proyecto llamado `dist`. Ésta carpeta contiene
+los archivos optimizados para web, hojas de estilo y JavaScript comprimidos y minificados.
 
 ## Apache
 
