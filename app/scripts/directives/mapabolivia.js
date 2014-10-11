@@ -59,6 +59,11 @@ angular.module('geoelectoralFrontendApp')
             '<div>{lugar}</div>',
           ].join('');
 
+        var tooltipTplBlank = [
+            '<strong>{sigla}</strong>',
+            '<div>{lugar}</div>',
+          ].join('');
+
         var svg = d3.select(element[0]).append('svg')
             //.attr('width', width + margin.left + margin.right)
             //.attr('height', height + margin.top + margin.bottom);
@@ -96,13 +101,18 @@ angular.module('geoelectoralFrontendApp')
              .style('opacity', 1);
         };
         var mousemove = function(d) {
+          var toolt = tooltipTpl.replace(/{sigla}/g, d.partido.sigla)
+                             .replace(/{porcentaje}/g, d.partido.porcentaje)
+                             .replace(/{votos}/g, d3.format(',d')(d.partido.resultado))
+                             .replace(/{lugar}/g, d.properties.nombre);
           div
             .style('left', (d3.event.pageX + 5) + 'px')
             .style('top', d3.event.pageY + 'px');
-          div.html(tooltipTpl.replace(/{sigla}/g, d.partido.sigla)
-                             .replace(/{porcentaje}/g, d.partido.porcentaje)
-                             .replace(/{votos}/g, d3.format(',d')(d.partido.resultado))
-                             .replace(/{lugar}/g, d.properties.nombre));
+          if (d.partido.sigla === undefined) {
+            toolt = tooltipTplBlank.replace(/{sigla}/g, 'Sin datos')
+                             .replace(/{lugar}/g, d.properties.nombre);
+          };
+          div.html(toolt);
         };
         var mouseout = function() {
           div.transition()
@@ -164,7 +174,7 @@ angular.module('geoelectoralFrontendApp')
             d.partido = partidoGanador(d, votos);
             colorEscala = d3.scale.linear().domain([0, 100]);
           }
-          return colorEscala.range(['white', '#' + (d.partido.color || ENV.color)])(d.partido.porcentaje);
+          return colorEscala.range(['white', '#' + (d.partido.color || ENV.color)])(d.partido.porcentaje || 100);
         };
 
         var geojson = scope.data.data,
