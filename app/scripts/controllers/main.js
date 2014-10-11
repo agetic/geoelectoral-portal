@@ -190,8 +190,8 @@ angular.module('geoelectoralFrontendApp')
     };
     var redireccionLugarSuperior = function () {
       var breadcrumbs = BreadcrumbFactory.get('mapa-breadcrumb');
+      growl.info("No hay datos de elecciones disponibles", {});
       if (breadcrumbs.length > 1) {
-        growl.info("No hay datos de elecciones disponibles", {});
         $location.path(breadcrumbs[breadcrumbs.length - 2].href.replace(/^#/g, ''));
       }
     };
