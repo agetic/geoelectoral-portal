@@ -51,6 +51,7 @@ $ cd geoelectoral-frontend
 Para instalar el Frontend ejecutar los siguientes comandos:
 
 ```
+$ npm install grunt-contrib-imagemin
 $ npm install
 $ bower install
 $ grunt build --force
