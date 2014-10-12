@@ -222,14 +222,14 @@ angular.module('geoelectoralFrontendApp')
           fechaCreacion = Date.parse(p.fecha_creacion_corte);
           fechaSupresion = Date.parse(p.fecha_supresion_corte);
           if (!isNaN(fechaCreacion) && !isNaN(fechaSupresion)) {
-            anioCreacion = new Date(fechaCreacion).getFullYear();
-            anioSupresion = new Date(fechaSupresion).getFullYear();
+            anioCreacion = new Date(fechaCreacion).getUTCFullYear();
+            anioSupresion = new Date(fechaSupresion).getUTCFullYear();
             if (!(anioCreacion <= $scope.anio && $scope.anio <= anioSupresion)) {
               features.splice(i, 1);
               eliminados += 1;
             }
           } else if (!isNaN(fechaCreacion)) {
-            anioCreacion = new Date(fechaCreacion).getFullYear();
+            anioCreacion = new Date(fechaCreacion).getUTCFullYear();
             if (!(anioCreacion <= $scope.anio)) {
               features.splice(i, 1);
               eliminados += 1;
@@ -251,7 +251,7 @@ angular.module('geoelectoralFrontendApp')
         if (response[1].data.dpas) {
           $scope.dpaGeoJSON = reducePorAnio(response[0]);
           $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
-          $scope.partidosDepartamento = reducirDpasVista($scope.partidosDepartamento);          
+          $scope.partidosDepartamento = reducirDpasVista($scope.partidosDepartamento);
           $scope.partidos = agruparPartidos($scope.partidosDepartamento, $scope.currentDpa.idDpa);
           $scope.partidos = $scope.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
         } else {
@@ -273,7 +273,7 @@ angular.module('geoelectoralFrontendApp')
         if (response[1].data.dpas) {
           $scope.dpaGeoJSON = reducePorAnio(response[0]);
           $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
-          $scope.partidosDepartamento = reducirDpasVista($scope.partidosDepartamento);                    
+          $scope.partidosDepartamento = reducirDpasVista($scope.partidosDepartamento);
         } else {
           redireccionLugarSuperior();
         }
