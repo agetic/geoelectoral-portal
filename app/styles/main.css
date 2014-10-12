@@ -224,7 +224,8 @@ svg .fondos rect {
 }
 
 svg .hover:hover {
-  fill: orange;
+  fill: #bbb;
+  opacity: 0.3;
 }
 
 /* Barras */
