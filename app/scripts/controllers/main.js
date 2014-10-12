@@ -195,6 +195,22 @@ angular.module('geoelectoralFrontendApp')
         $location.path(breadcrumbs[breadcrumbs.length - 2].href.replace(/^#/g, ''));
       }
     };
+    var reducirDpasVista = function (votos) {
+      var votosDpa = [];
+      angular.copy(votos).forEach(function (v, i) {
+        if (v.id_dpa_superior === $scope.currentDpa.idDpa) {
+          votosDpa.push(v);
+        }
+      });
+      if (votosDpa.length === 0) {
+        angular.copy(votos).forEach(function (v, i) {
+          if (v.id_dpa === $scope.currentDpa.idDpa) {
+            votosDpa.push(v);
+          }
+        });
+      };
+      return votosDpa;
+    };
     var reducePorAnio = function (dpas) {
       var p, fechaCreacion, fechaSupresion, features, anioCreacion, anioSupresion, eliminados = 1;
       features = dpas.data.features;
@@ -235,6 +251,7 @@ angular.module('geoelectoralFrontendApp')
         if (response[1].data.dpas) {
           $scope.dpaGeoJSON = reducePorAnio(response[0]);
           $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
+          $scope.partidosDepartamento = reducirDpasVista($scope.partidosDepartamento);          
           $scope.partidos = agruparPartidos($scope.partidosDepartamento, $scope.currentDpa.idDpa);
           $scope.partidos = $scope.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
         } else {
@@ -256,6 +273,7 @@ angular.module('geoelectoralFrontendApp')
         if (response[1].data.dpas) {
           $scope.dpaGeoJSON = reducePorAnio(response[0]);
           $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
+          $scope.partidosDepartamento = reducirDpasVista($scope.partidosDepartamento);                    
         } else {
           redireccionLugarSuperior();
         }
