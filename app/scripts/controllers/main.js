@@ -195,6 +195,34 @@ angular.module('geoelectoralFrontendApp')
         $location.path(breadcrumbs[breadcrumbs.length - 2].href.replace(/^#/g, ''));
       }
     };
+    var reducePorAnio = function (dpas) {
+      var p, fechaCreacion, fechaSupresion, features, anioCreacion, anioSupresion, eliminados = 1;
+      features = dpas.data.features;
+      // TODO mejorar el algoritmo de eliminación de dpas que no corresponde a ese año
+      while (eliminados !== 0) {
+        eliminados = 0;
+        features.forEach(function (d, i) {
+          p = d.properties;
+          fechaCreacion = Date.parse(p.fecha_creacion_corte);
+          fechaSupresion = Date.parse(p.fecha_supresion_corte);
+          if (!isNaN(fechaCreacion) && !isNaN(fechaSupresion)) {
+            anioCreacion = new Date(fechaCreacion).getFullYear();
+            anioSupresion = new Date(fechaSupresion).getFullYear();
+            if (!(anioCreacion <= $scope.anio && $scope.anio <= anioSupresion)) {
+              features.splice(i, 1);
+              eliminados += 1;
+            }
+          } else if (!isNaN(fechaCreacion)) {
+            anioCreacion = new Date(fechaCreacion).getFullYear();
+            if (!(anioCreacion <= $scope.anio)) {
+              features.splice(i, 1);
+              eliminados += 1;
+            }
+          }
+        });
+      }
+      return dpas;
+    };
     var loadServices = function() {
       var promises = [];
       // GeoJSON político administrativo de Bolivia
@@ -205,7 +233,7 @@ angular.module('geoelectoralFrontendApp')
 
       $q.all(promises).then(function(response) {
         if (response[1].data.dpas) {
-          $scope.dpaGeoJSON = response[0];
+          $scope.dpaGeoJSON = reducePorAnio(response[0]);
           $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
           $scope.partidos = agruparPartidos($scope.partidosDepartamento, $scope.currentDpa.idDpa);
           $scope.partidos = $scope.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
@@ -226,7 +254,7 @@ angular.module('geoelectoralFrontendApp')
 
       $q.all(promises).then(function(response) {
         if (response[1].data.dpas) {
-          $scope.dpaGeoJSON = response[0];
+          $scope.dpaGeoJSON = reducePorAnio(response[0]);
           $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
         } else {
           redireccionLugarSuperior();
