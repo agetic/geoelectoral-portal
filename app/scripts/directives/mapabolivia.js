@@ -14,9 +14,9 @@ angular.module('geoelectoralFrontendApp')
 
         d3.select(element[0]).selectAll('*').remove();
         // Margins
-        var margin = {top: 0, right: 0, bottom: 0, left: 0},
+        var margin = {top: 40, right: 0, bottom: 0, left: 0},
           width = 630 - margin.left - margin.right,
-          height = 500 - margin.top - margin.bottom;
+          height = 600 - margin.top - margin.bottom;
 
         // Mapa
         var mapaCentroide = d3.geo.centroid(scope.data.data); //[2250, -550];
