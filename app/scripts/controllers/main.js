@@ -198,7 +198,7 @@ angular.module('geoelectoralFrontendApp')
     var reducirDpasVista = function (votos) {
       var votosDpa = [];
       angular.copy(votos).forEach(function (v, i) {
-        if (v.id_dpa_superior === $scope.currentDpa.idDpa) {
+        if (Dpa.verificarSuperior($scope.currentDpa.idDpa, v.id_dpa)) {
           votosDpa.push(v);
         }
       });
