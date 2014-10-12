@@ -16,35 +16,41 @@ body {
 .header {
   border-bottom: 1px solid #e5e5e5;
 }
-.navbar-brand{
-  color: #000 !important;
-  margin-left: 0px !important;
-}
 /* Make the masthead heading the same height as the navigation */
 .header h3 {
   margin-top: 0;
   margin-bottom: 0;
-  line-height: 40px;
-  width:60px;
   color: #000;
 }
 
 .header input[type=range] {
-  float: right;
-  width: 75%;
+  width: 100%;
   margin-top: 10px;
-}
-.slider {
-  clear: both;
 }
 .navbar{
   background-color: #fff;
   margin-bottom: 0px;
   border: none;
 }
-.titulo{
-  float: right;
-  text-align: right;
+.navbar-brand{
+  color: #000 !important;
+  margin-left: 0px !important;
+  word-wrap: break-word;
+}
+
+.slider-buttons{
+  clear: both;
+  width: 100%;
+}
+.slider-buttons .td-anio{
+  width: 60px;
+}
+.slider-buttons .td-slider{
+  vertical-align: top;
+  padding-right: 10px;
+}
+.slider-buttons .td-btn-group{
+  width: 410px;
 }
 
 /* Custom page footer */
@@ -102,9 +108,21 @@ body {
   .header {
     margin-bottom: 0px;
   }
-  .titulo{
-    float: none;
-    text-align: center;
+  .slider-buttons .td-anio{
+    display: inline-block;
+    vertical-align: top;
+    padding-top: 8px;
+  }
+  .slider-buttons .td-slider{
+    display: inline-block;
+    margin-bottom: 8px;
+    width: 100%;
+  }
+  .slider-buttons .td-btn-group{
+    display: block;
+    clear: both;
+    width: auto;
+    padding-top: 0px;
   }
 
   /* Remove the bottom border on the jumbotron for visual effect */
@@ -112,13 +130,13 @@ body {
     border-bottom: 0;
   }
 }
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 475px) {
   .btn{
     font-size: 12px;
     padding: 6px 4px;
   }
 }
-@media screen and (max-width: 370px) {
+@media screen and (max-width: 380px) {
   .navbar-brand{
     color: #000;
     font-size: 11px;
@@ -147,19 +165,6 @@ body {
   .btn{
     font-size: 8px;
     padding: 6px 4px;
-  }
-}
-/* Responsive: Portrait tablets and up 558 */
-@media screen and (min-width: 550px) {
-  .header input[type=range] {
-    float: right;
-    width: 88%;
-  }
-}
-@media screen and (min-width: 1024px) {
-  .header input[type=range] {
-    float: right;
-    width: 90%;
   }
 }
 
@@ -275,6 +280,3 @@ svg .hover:hover {
   background-color: none;
 }
 
-.titulo h3 {
-  margin-top: 0;
-}

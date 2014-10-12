@@ -2,6 +2,7 @@
 <html class="no-js">
   <head>
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.ico" />
     <title>GeoElectoral</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
@@ -9,6 +10,7 @@
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/angular-growl-v2/build/angular-growl.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -50,25 +52,34 @@
                     <a href ng-click="selectTab(3)">Torta</a>
                   </li>
                 </ul>
-                <div class="slider">
-                  <!-- <div class="btn-group">
-                    <button type="button" class="btn btn-default active">Departamento</button>
-                    <button type="button" class="btn btn-default">Provincia</button>
-                    <button type="button" class="btn btn-default">Municipio</button>
-                    <button type="button" class="btn btn-default">Circunscripción</button>
-                  </div> -->
-                  <input type="range" min="0" max="{{anios.length - 1}}" ng-model="e.anioIndex" list="anioslist">
-                  <datalist id="anioslist">
-                    <option ng-repeat="a in anios" value="{{$index}}"></option>
-                  </datalist>
-                  <h3 class="text-muted">
-                    <span>{{anio}}</span>
-                  </h3>
-                </div>
+                <table class="slider-buttons">
+                  <tr>
+                    <td class="td-anio">
+                      <h3 class="text-muted">
+                        <span>{{anio}}</span>
+                      </h3>
+                    </td>
+                    <td class="td-slider">
+                      <input type="range" min="0" max="{{anios.length - 1}}" ng-model="e.anioIndex" list="anioslist">
+                      <datalist id="anioslist">
+                        <option ng-repeat="a in anios" value="{{$index}}"></option>
+                      </datalist>
+                    </td>
+                    <td class="td-btn-group">
+                      <div class="btn-group">
+                        <button type="button" ng-click="setTipoDpa(2)" class="btn btn-default" ng-class="{active: getTipoDpa()===2}">Departamento</button>
+                        <button type="button" ng-click="setTipoDpa(3)" class="btn btn-default" ng-class="{active: getTipoDpa()===3}">Provincia</button>
+                        <button type="button" ng-click="setTipoDpa(4)" class="btn btn-default" ng-class="{active: getTipoDpa()===4}">Municipio</button>
+                        <button type="button" ng-click="setTipoDpa(5)" class="btn btn-default" ng-class="{active: getTipoDpa()===5}">Circunscripción</button>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
               </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
           </div><!-- /.navbar -->
         </div><!-- /.header -->
+        <div growl inline="true"></div>
         <div ng-view></div>
       </section>
 
@@ -94,6 +105,7 @@
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/d3/d3.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-growl-v2/build/angular-growl.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

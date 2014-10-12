@@ -12,6 +12,15 @@ angular.module('geoelectoralFrontendApp')
       var graficarBarras = function() {
         if (!scope.data) { return; }
 
+        var partidos = GrupoFactory.agruparPartidos(scope.data);
+
+        var calcularHeight = function (partidos, rangeBand, padding) {
+          return partidos.length * (padding + rangeBand);
+        };
+
+        var padding = 0.2,
+            rangeBand = 45; // 35 -> 27
+
         d3.select(element[0]).selectAll('*').remove();
 
         var colorBarra = 'steelblue',
@@ -19,13 +28,16 @@ angular.module('geoelectoralFrontendApp')
 
         var margin = {top: 20, right: 20, bottom: 20, left: 95},
             width = 630 - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom;
+            height = calcularHeight(partidos, rangeBand, padding);
 
         var x = d3.scale.linear()
             .range([0, width]);
 
         var y = d3.scale.ordinal()
-            .rangeRoundBands([0, height], 0.2);
+            .rangeRoundBands([0, height], padding);
+
+        x.domain([0, 100]);
+        y.domain(partidos.map(function(d) { return d.sigla; }));
 
         var xAxis = d3.svg.axis()
             .scale(x)
@@ -56,11 +68,6 @@ angular.module('geoelectoralFrontendApp')
         var setFillColor = function(texto, data) {
           return esTextoMayor(texto, data) ? 'white' : colorBarra;
         };
-
-        var partidos = GrupoFactory.agruparPartidos(scope.data);
-
-        x.domain([0, 100]);
-        y.domain(partidos.map(function(d) { return d.sigla; }));
 
         svg.append('g')
             .attr('class', 'x axis')

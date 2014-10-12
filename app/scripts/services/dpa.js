@@ -54,6 +54,18 @@ angular.module('geoelectoralFrontendApp')
       currentDpa.idTipoDpaActual = d.properties.id_tipo_dpa;*/
     };
 
+    var getIdDpaSuperior = function (idDpa, bc) {
+      var id_dpa_superior;
+      _dpa.some(function(d) {
+        if (d.id_dpa === idDpa) {
+          id_dpa_superior = d.id_dpa_superior;
+          bc.push(d.id_dpa);
+          return true;
+        }
+      });
+      return id_dpa_superior;
+    };
+
     var buscarIdDpaSuperior = function (idDpa, bc) {
       var id_dpa_superior;
       _dpa.some(function(d) {
@@ -103,7 +115,28 @@ angular.module('geoelectoralFrontendApp')
           id_dpa_superior = buscarIdDpaSuperior(id_dpa_superior, bc);
         }
         return bc.reverse();
-      }
+      },
 
+      // Verificar si es idDpaHijo del idDpa
+      verificarSuperior: function (idDpa, idDpaHijo) {
+        var sw = false;
+        this.idDpasPadre(idDpaHijo).some(function (id) {
+          if (id === idDpa) {
+            sw = true;
+            return true;
+          }
+        });
+        return sw;
+      },
+
+      // Obtener idDpas padres de un idDpa
+      idDpasPadre: function (idDpa) {
+        var id_dpa_superior, bc = [];
+        id_dpa_superior = getIdDpaSuperior(idDpa, bc);
+        while (id_dpa_superior !== null) {
+          id_dpa_superior = getIdDpaSuperior(id_dpa_superior, bc);
+        }
+        return bc.slice(1, bc.length);
+      }
     };
   });

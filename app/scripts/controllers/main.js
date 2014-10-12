@@ -8,7 +8,7 @@
  * Controller of the geoelectoralFrontendApp
  */
 angular.module('geoelectoralFrontendApp')
-  .controller('MainCtrl', function ($scope, $http, $q, $routeParams, $location, ENV, Dpa, BreadcrumbFactory) {
+  .controller('MainCtrl', function ($scope, $http, $q, $routeParams, $location, ENV, Dpa, BreadcrumbFactory, growl) {
     // Elecciones generales a nivel Bolivia
     var host = ENV.geoelectoralApi;
     var api = ENV.geoelectoralApiVersion;
@@ -102,6 +102,19 @@ angular.module('geoelectoralFrontendApp')
       return titulo;
     };
 
+    // Establecer el tipo de dpa para mostrar en el mapa
+    $scope.setTipoDpa = function (idTipoDpa) {
+      if (idTipoDpa >= $scope.currentDpa.idTipoDpaActual) {
+        $scope.currentDpa.idTipoDpa = idTipoDpa;
+        recargarMapa();
+      } else {
+        growl.info("No se puede mostrar el mapa", {});
+      }
+    };
+    $scope.getTipoDpa = function () {
+      return $scope.currentDpa.idTipoDpa;
+    };
+
     // Establecer clases para la bandera
     $scope.establecerClases = function(partido) {
       var clases = [];
@@ -175,6 +188,57 @@ angular.module('geoelectoralFrontendApp')
         return d;
       });
     };
+    var redireccionLugarSuperior = function () {
+      var breadcrumbs = BreadcrumbFactory.get('mapa-breadcrumb');
+      growl.info("No hay datos de elecciones disponibles", {});
+      if (breadcrumbs.length > 1) {
+        $location.path(breadcrumbs[breadcrumbs.length - 2].href.replace(/^#/g, ''));
+      }
+    };
+    var reducirDpasVista = function (votos) {
+      var votosDpa = [];
+      angular.copy(votos).forEach(function (v, i) {
+        if (Dpa.verificarSuperior($scope.currentDpa.idDpa, v.id_dpa)) {
+          votosDpa.push(v);
+        }
+      });
+      if (votosDpa.length === 0) {
+        angular.copy(votos).forEach(function (v, i) {
+          if (v.id_dpa === $scope.currentDpa.idDpa) {
+            votosDpa.push(v);
+          }
+        });
+      };
+      return votosDpa;
+    };
+    var reducePorAnio = function (dpas) {
+      var p, fechaCreacion, fechaSupresion, features, anioCreacion, anioSupresion, eliminados = 1;
+      features = dpas.data.features;
+      // TODO mejorar el algoritmo de eliminación de dpas que no corresponde a ese año
+      while (eliminados !== 0) {
+        eliminados = 0;
+        features.forEach(function (d, i) {
+          p = d.properties;
+          fechaCreacion = Date.parse(p.fecha_creacion_corte);
+          fechaSupresion = Date.parse(p.fecha_supresion_corte);
+          if (!isNaN(fechaCreacion) && !isNaN(fechaSupresion)) {
+            anioCreacion = new Date(fechaCreacion).getUTCFullYear();
+            anioSupresion = new Date(fechaSupresion).getUTCFullYear();
+            if (!(anioCreacion <= $scope.anio && $scope.anio <= anioSupresion)) {
+              features.splice(i, 1);
+              eliminados += 1;
+            }
+          } else if (!isNaN(fechaCreacion)) {
+            anioCreacion = new Date(fechaCreacion).getUTCFullYear();
+            if (!(anioCreacion <= $scope.anio)) {
+              features.splice(i, 1);
+              eliminados += 1;
+            }
+          }
+        });
+      }
+      return dpas;
+    };
     var loadServices = function() {
       var promises = [];
       // GeoJSON político administrativo de Bolivia
@@ -184,10 +248,35 @@ angular.module('geoelectoralFrontendApp')
                                                 .replace(/{idTipoDpa}/g, $scope.currentDpa.idTipoDpa)));
 
       $q.all(promises).then(function(response) {
-        $scope.dpaGeoJSON = response[0];
-        $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
-        $scope.partidos = agruparPartidos($scope.partidosDepartamento, $scope.currentDpa.idDpa);
-        $scope.partidos = $scope.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
+        if (response[1].data.dpas) {
+          $scope.dpaGeoJSON = reducePorAnio(response[0]);
+          $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
+          $scope.partidosDepartamento = reducirDpasVista($scope.partidosDepartamento);
+          $scope.partidos = agruparPartidos($scope.partidosDepartamento, $scope.currentDpa.idDpa);
+          $scope.partidos = $scope.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
+        } else {
+          redireccionLugarSuperior();
+        }
+      }, function(error) {
+        console.warn("Error en la conexión a GeoElectoral API");
+      });
+    };
+    var recargarMapa = function() {
+      var promises = [];
+      // GeoJSON político administrativo de Bolivia
+      promises.push($http.get(dpaGeoJSONUrl, { params: $scope.currentDpa }));
+      // Elecciones a nivel departamento
+      promises.push($http.get(eleccionesDeptoUrl.replace(/{anio}/g, $scope.anio)
+                                                .replace(/{idTipoDpa}/g, $scope.currentDpa.idTipoDpa)));
+
+      $q.all(promises).then(function(response) {
+        if (response[1].data.dpas) {
+          $scope.dpaGeoJSON = reducePorAnio(response[0]);
+          $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
+          $scope.partidosDepartamento = reducirDpasVista($scope.partidosDepartamento);
+        } else {
+          redireccionLugarSuperior();
+        }
       }, function(error) {
         console.warn("Error en la conexión a GeoElectoral API");
       });

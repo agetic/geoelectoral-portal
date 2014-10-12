@@ -14,14 +14,14 @@ angular.module('geoelectoralFrontendApp')
 
         d3.select(element[0]).selectAll('*').remove();
         // Margins
-        var margin = {top: 20, right: 10, bottom: 50, left: 55},
+        var margin = {top: 40, right: 0, bottom: 0, left: 0},
           width = 630 - margin.left - margin.right,
-          height = 500 - margin.top - margin.bottom;
+          height = 600 - margin.top - margin.bottom;
 
         // Mapa
         var mapaCentroide = d3.geo.centroid(scope.data.data); //[2250, -550];
         var escala = 1;
-        var offset = [width/2 - margin.left - margin.right,
+        var offset = [width/2 - margin.left - margin.right - 50,
                       height/2 - margin.top - margin.bottom];
         var projection = d3.geo.mercator()
                            .translate(offset)
@@ -56,6 +56,12 @@ angular.module('geoelectoralFrontendApp')
             '<strong>{sigla}</strong>',
             '<div>Porcentaje: {porcentaje}%</div>',
             '<div>Votos: {votos}</div>',
+            '<div>{lugar}</div>',
+          ].join('');
+
+        var tooltipTplBlank = [
+            '<strong>{sigla}</strong>',
+            '<div>{lugar}</div>',
           ].join('');
 
         var svg = d3.select(element[0]).append('svg')
@@ -95,12 +101,18 @@ angular.module('geoelectoralFrontendApp')
              .style('opacity', 1);
         };
         var mousemove = function(d) {
+          var toolt = tooltipTpl.replace(/{sigla}/g, d.partido.sigla)
+                             .replace(/{porcentaje}/g, d.partido.porcentaje)
+                             .replace(/{votos}/g, d3.format(',d')(d.partido.resultado))
+                             .replace(/{lugar}/g, d.properties.nombre);
           div
             .style('left', (d3.event.pageX + 5) + 'px')
             .style('top', d3.event.pageY + 'px');
-          div.html(tooltipTpl.replace(/{sigla}/g, d.partido.sigla)
-                             .replace(/{porcentaje}/g, d.partido.porcentaje)
-                             .replace(/{votos}/g, d3.format(',d')(d.partido.resultado)));
+          if (d.partido.sigla === undefined) {
+            toolt = tooltipTplBlank.replace(/{sigla}/g, 'Sin datos')
+                             .replace(/{lugar}/g, d.properties.nombre);
+          };
+          div.html(toolt);
         };
         var mouseout = function() {
           div.transition()
@@ -111,13 +123,13 @@ angular.module('geoelectoralFrontendApp')
         var maximoPorcentaje = function(d, votos, partido, currentDpa) {
           var max = { porcentaje: 0 };
           votos.forEach(function(v) {
-            if (v.id_dpa_superior === currentDpa.idDpa) {
+            //if (v.id_dpa_superior === currentDpa.idDpa) { // TODO: verificar que funcione sin problemas.
               v.partidos.forEach(function(p) {
                 if (partido.id_partido === p.id_partido && max.porcentaje < p.porcentaje) {
                   max = p;
                 }
               });
-            }
+            //}
           });
           if (max.porcentaje == 0 || max.porcentaje === undefined) {
             max = d.partido;
@@ -162,7 +174,7 @@ angular.module('geoelectoralFrontendApp')
             d.partido = partidoGanador(d, votos);
             colorEscala = d3.scale.linear().domain([0, 100]);
           }
-          return colorEscala.range(['white', '#' + (d.partido.color || ENV.color)])(d.partido.porcentaje);
+          return colorEscala.range(['white', '#' + (d.partido.color || ENV.color)])(d.partido.porcentaje || 100);
         };
 
         var geojson = scope.data.data,
@@ -183,46 +195,6 @@ angular.module('geoelectoralFrontendApp')
             .on('mouseout', mouseout)
             .on('click', click)
             .each(function(d) { d.centroid = path.centroid(d); });
-
-        var fondoLayer = svg.append('g')
-            .attr('class', 'fondos')
-            .attr('transform', 'translate(' + mapaCentroide + ')');
-
-        var textoLayer = svg.append('g')
-            .attr('class', 'etiquetas')
-            .attr('transform', 'translate(' + mapaCentroide + ')');
-
-        // Etiqueta del partido sobre el mapa
-        if (scope.partido === undefined || scope.partido === null) {
-          textoLayer.selectAll('text')
-              .data(geojson.features)
-            .enter().append('text')
-              .attr('transform', function(d) { return 'translate(' + d.centroid + ')'; })
-              .attr('dy', '.35em')
-              .text(function(d) { return d.partido.sigla; })
-              .on('mouseover', mouseover)
-              .on('mousemove', mousemove)
-              .on('mouseout', mouseout)
-              .on('click', click)
-              .each(function(d) {
-                d.texto_height = this.getBBox().height + 2;
-                d.texto_width = this.getBBox().width + 4;
-              });
-
-          fondoLayer.selectAll('rect')
-              .data(geojson.features)
-            .enter().append('rect')
-              .attr('height', function(d) { return d.texto_height; })
-              .attr('width', function(d) { return d.texto_width; })
-              .attr('rx', '3')
-              .attr('transform', function(d) {
-                return 'translate(' + (d.centroid[0] - d.texto_width/2) + ', ' +
-                  (d.centroid[1] - d.texto_height/2) + ')';
-              })
-              .on('mouseover', mouseover)
-              .on('mousemove', mousemove)
-              .on('mouseout', mouseout);
-        }
 
       };
 
