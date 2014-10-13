@@ -15,7 +15,7 @@ angular.module('geoelectoralFrontendApp')
     var eleccionesDeptoUrl = host + api + '/elecciones?anio={anio}&id_tipo_dpa={idTipoDpa}&formato=json';
     var dpaGeoJSONUrl = host + api + '/proxy';
 
-    $scope.anios = [1979, 1980, 1985, 1989, 1993, 1997, 2002, 2005, 2009];
+    $scope.anios = [1979, 1980, 1985, 1989, 1993, 1997, 2002, 2005, 2009, 2014];
     $scope.tiposDpa = [
       { idTipoDpa: 1, nombre: 'país', idTipoDpaSuperior: null },
       { idTipoDpa: 2, nombre: 'departamento', idTipoDpaSuperior: 1 },
