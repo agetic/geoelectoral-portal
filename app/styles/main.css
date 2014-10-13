@@ -4,17 +4,9 @@ body {
   padding-bottom: 20px;
 }
 
-/* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing,
-.footer {
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
 /* Custom page header */
 .header {
-  border-bottom: 1px solid #e5e5e5;
+  margin-bottom: 10px;
 }
 /* Make the masthead heading the same height as the navigation */
 .header h3 {
@@ -281,3 +273,18 @@ svg .hover:hover {
   background-color: none;
 }
 
+/* Título Elecciones */
+.titulo {
+  margin-top: 0px;
+}
+
+/* logo de ADSIB */
+.logo-adsib {
+  height: 50px;
+  width: 100px;
+  background-image: url('/images/logo-adsib.png');
+  background-repeat: no-repeat;
+  background-size: auto 50px;
+  float: left;
+  margin-top: -16px;
+}
