@@ -44,8 +44,8 @@ Clonar el repositorio:
 ```
 $ sudo su - geoelectoral
 $ cd ~
-$ git clone http://gitlab.geo.gob.bo/adsib/geoelectoral-frontend.git
-$ cd geoelectoral-frontend
+$ git clone https://gitlab.geo.gob.bo/adsib/geoelectoral-portal.git
+$ cd geoelectoral-portal
 ```
 
 ## Configuración
@@ -63,7 +63,7 @@ Existe un archivo de configuración llamado `config.json` en la raíz del proyec
   },
   "production": {
     "name": "production",
-    "geoelectoralApi": "//test.geo.gob.bo/geoelectoral-api",
+    "geoelectoralApi": "//sitio-de-prueba.com.bo/geoelectoral-api",
     "geoelectoralApiVersion": "/api/v1",
     "porcentajeMin": 3,
     "color": "bbb"
@@ -71,7 +71,7 @@ Existe un archivo de configuración llamado `config.json` en la raíz del proyec
 }
 ```
 
-Se debe configurar la parte de `"production"`, establecer la URL de GeoElectoral API en la entrada `"geoelectoralApi"` si se encuentra en una ubicación diferente a `//test.geo.gob.bo/geoelectoral-api`.
+Se debe configurar la parte de `"production"`, establecer la URL de GeoElectoral API en la entrada `"geoelectoralApi"` si se encuentra en una ubicación diferente a `//sitio-de-prueba.com.bo/geoelectoral-api`.
 
 ## Instalación
 
@@ -86,13 +86,41 @@ $ grunt build --force
 El último comando creará una carpeta dentro del proyecto llamado `dist`. Ésta carpeta contiene
 los archivos optimizados para web, hojas de estilo y JavaScript comprimidos y minificados.
 
+**Problemas relacionados con `wiredep`**
+
+```
+Running "wiredep:app" (wiredep) task
+Warning: ENOENT, no such file or directory 'geoelectoral-portal/app/bower.json' Use --force to continue.
+```
+La librería `grunt-wiredep` actualmente se instala con la versión `1.9.0`, probar con el comando `npm list | grep wiredep`:
+
+```
+├─┬ grunt-wiredep@1.9.0
+│ └─┬ wiredep@1.8.5
+```
+
+La versión que se necesita es la `1.8.0` para evitar el Warning, para ello se ejecuta:
+
+```
+$ npm uninstall grunt-wiredep@1.9.0
+$ npm install grunt-wiredep@1.8.0
+```
+
+```
+$ npm list | grep wiredep
+├─┬ grunt-wiredep@1.8.0
+│ └─┬ wiredep@1.8.5
+```
+
+Con esto ya debería funcionar normalmente el comando `grunt build` sin la opción `--force`.
+
 ## Apache
 
 Mover la aplicación al directorio `/var/www`:
 
 ```
 $ cd ~
-$ sudo mv geoelectoral-frontend /var/www
+$ sudo mv geoelectoral-portal /var/www
 ```
 
 Configuración del Frontend con Apache2 en una Virtual Host:
@@ -119,9 +147,9 @@ Adicionamos el siguiente contenido en el archivo:
     RewriteCond %{REQUEST_URI} ^/geoelectoral/
     RewriteRule ^/(.*) http://%{SERVER_NAME}/$1 [L,R,NE]
   </IfModule>
-  DocumentRoot /var/www/geoelectoral-frontend/dist
-  Alias /geoelectoral /var/www/geoelectoral-frontend/dist
-  <Directory /var/www/geoelectoral-frontend/dist>
+  DocumentRoot /var/www/geoelectoral-portal/dist
+  Alias /geoelectoral /var/www/geoelectoral-portal/dist
+  <Directory /var/www/geoelectoral-portal/dist>
     # enable the .htaccess rewrites
     AllowOverride All
     Order allow,deny
