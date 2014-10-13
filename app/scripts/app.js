@@ -27,6 +27,6 @@ angular
           templateUrl: 'views/main.html'
         }).
         otherwise({
-          redirectTo: '/elecciones/2009'
+          redirectTo: '/elecciones/2014'
         });
   });
