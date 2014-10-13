@@ -122,17 +122,20 @@ angular.module('geoelectoralFrontendApp')
 
         var maximoPorcentaje = function(d, votos, partido, currentDpa) {
           var max = { porcentaje: 0 };
-          votos.forEach(function(v) {
-            //if (v.id_dpa_superior === currentDpa.idDpa) { // TODO: verificar que funcione sin problemas.
+          if (d.partido.sigla === undefined) {
+            max = d.partido;
+            d.partido.porcentaje = 100; // 100% para el color gris
+          } else {
+            votos.forEach(function(v) {
               v.partidos.forEach(function(p) {
                 if (partido.id_partido === p.id_partido && max.porcentaje < p.porcentaje) {
                   max = p;
                 }
               });
-            //}
-          });
-          if (max.porcentaje == 0 || max.porcentaje === undefined) {
-            max = d.partido;
+            });
+            if (max.porcentaje === 0) {
+              max = d.partido;
+            }
           }
           return max.porcentaje;
         };
