@@ -180,7 +180,12 @@ angular.module('geoelectoralFrontendApp')
       return string.charAt(0).toUpperCase() + string.substr(1).toLowerCase();
     };
     var eliminarValidos = function(partidos) {
-      return partidos.slice(0, partidos.length-1);
+      partidos.forEach(function (p, i) {
+        if (p.sigla === 'VALIDOS') {
+          partidos.splice(i, 1);
+        }
+      });
+      return partidos;
     };
     var establecerColorValidos = function(dpas) {
       return dpas.map(function(d) {
