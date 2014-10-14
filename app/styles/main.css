@@ -275,16 +275,21 @@ svg .hover:hover {
 
 /* Título Elecciones */
 .titulo {
+  clear: left;
   margin-top: 0px;
 }
 
 /* logo de ADSIB */
 .logo-adsib {
-  height: 50px;
-  width: 100px;
-  background-image: url('/images/logo-adsib.png');
-  background-repeat: no-repeat;
-  background-size: auto 50px;
   float: left;
   margin-top: -16px;
+  margin-right: 15px;
+}
+.logo-adsib img {
+  height: 50px;
+}
+.geoelectoral-titulo {
+  float: left;
+  margin-top: 5px;
+  margin-bottom: 0;
 }
