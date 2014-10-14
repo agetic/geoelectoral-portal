@@ -193,13 +193,6 @@ angular.module('geoelectoralFrontendApp')
         return d;
       });
     };
-    var redireccionLugarSuperior = function () {
-      var breadcrumbs = BreadcrumbFactory.get('mapa-breadcrumb');
-      growl.info("No hay datos de elecciones disponibles", {});
-      if (breadcrumbs.length > 1) {
-        $location.path(breadcrumbs[breadcrumbs.length - 2].href.replace(/^#/g, ''));
-      }
-    };
     var reducirDpasVista = function (votos) {
       var votosDpa = [];
       angular.copy(votos).forEach(function (v, i) {
@@ -260,12 +253,8 @@ angular.module('geoelectoralFrontendApp')
           $scope.partidos = agruparPartidos($scope.partidosDepartamento, $scope.currentDpa.idDpa);
           $scope.partidos = $scope.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
         } else {
-          if (Dpa.verificarIdTipoDpaSuperior($scope.currentDpa.idTipoDpaActual, $scope.currentDpa.idTipoDpa)) {
-            $scope.currentDpa.idTipoDpa = Dpa.getIdTipoDpaSuperior($scope.currentDpa.idTipoDpa);
-            loadServices();
-          } else {
-            redireccionLugarSuperior();
-          }
+          $scope.currentDpa.idTipoDpa = Dpa.getIdTipoDpaSuperior($scope.currentDpa.idTipoDpa);
+          loadServices();
         }
       }, function(error) {
         console.warn("Error en la conexión a GeoElectoral API");
@@ -286,12 +275,7 @@ angular.module('geoelectoralFrontendApp')
           $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
           $scope.partidosDepartamento = reducirDpasVista($scope.partidosDepartamento);
         } else {
-          if (Dpa.verificarIdTipoDpaSuperior($scope.currentDpa.idTipoDpaActual, $scope.currentDpa.idTipoDpa)) {
-            $scope.currentDpa.idTipoDpa = Dpa.getIdTipoDpaSuperior($scope.currentDpa.idTipoDpa);
-            loadServices();
-          } else {
-            redireccionLugarSuperior();
-          }
+          growl.info("No hay datos de elecciones disponibles", {});
         }
       }, function(error) {
         console.warn("Error en la conexión a GeoElectoral API");
