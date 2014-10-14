@@ -12,6 +12,7 @@ angular.module('geoelectoralFrontendApp')
     // Elecciones generales a nivel Bolivia
     var host = ENV.geoelectoralApi;
     var api = ENV.geoelectoralApiVersion;
+    var eleccionesUrl = host + api + '/elecciones?anio={anio}&id_tipo_dpa={idTipoDpa}&id_dpa={idDpa}&formato=json';
     var eleccionesDeptoUrl = host + api + '/elecciones?anio={anio}&id_tipo_dpa={idTipoDpa}&formato=json';
     var dpaGeoJSONUrl = host + api + '/proxy';
 
@@ -137,35 +138,6 @@ angular.module('geoelectoralFrontendApp')
     };
 
     // Funciones
-    var agruparPartidos = function (dpas, idDpa) {
-      var partidos = [], r = null;
-      dpas.forEach(function (d) {
-        if (idDpa === d.id_dpa_superior) {
-          angular.copy(d.partidos).forEach(function (p) {
-            r = null;
-            partidos.some(function (q) {
-              if (q.id_partido === p.id_partido) {
-                r = q;
-                return true;
-              }
-            });
-            if (r) {
-              r.resultado = r.resultado + p.resultado;
-            } else {
-              partidos.push(p);
-            }
-          });
-        }
-      });
-      if (partidos.length === 0) {
-        dpas.forEach(function (d) {
-          if (idDpa === d.id_dpa) {
-            partidos = angular.copy(d.partidos);
-          }
-        });
-      }
-      return calcularPorcentaje(partidos);
-    };
     var calcularPorcentaje = function (partidos) {
       var total = 0;
       partidos.forEach(function (p) {
@@ -192,13 +164,6 @@ angular.module('geoelectoralFrontendApp')
         d.partidos = eliminarValidos(d.partidos);
         return d;
       });
-    };
-    var redireccionLugarSuperior = function () {
-      var breadcrumbs = BreadcrumbFactory.get('mapa-breadcrumb');
-      growl.info("No hay datos de elecciones disponibles", {});
-      if (breadcrumbs.length > 1) {
-        $location.path(breadcrumbs[breadcrumbs.length - 2].href.replace(/^#/g, ''));
-      }
     };
     var reducirDpasVista = function (votos) {
       var votosDpa = [];
@@ -251,21 +216,26 @@ angular.module('geoelectoralFrontendApp')
       // Elecciones a nivel departamento
       promises.push($http.get(eleccionesDeptoUrl.replace(/{anio}/g, $scope.anio)
                                                 .replace(/{idTipoDpa}/g, $scope.currentDpa.idTipoDpa)));
+      promises.push($http.get(eleccionesUrl.replace(/{anio}/g, $scope.anio)
+                                           .replace(/{idTipoDpa}/g, $scope.currentDpa.idTipoDpaActual)
+                                           .replace(/{idDpa}/g, $scope.currentDpa.idDpa)));
 
       $q.all(promises).then(function(response) {
         if (response[1].data.dpas) {
           $scope.dpaGeoJSON = reducePorAnio(response[0]);
           $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
           $scope.partidosDepartamento = reducirDpasVista($scope.partidosDepartamento);
-          $scope.partidos = agruparPartidos($scope.partidosDepartamento, $scope.currentDpa.idDpa);
+          $scope.partidos = eliminarValidos(response[2].data.dpas[0].partidos);
           $scope.partidos = $scope.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
         } else {
-          redireccionLugarSuperior();
+          $scope.currentDpa.idTipoDpa = Dpa.getIdTipoDpaSuperior($scope.currentDpa.idTipoDpa);
+          loadServices();
         }
       }, function(error) {
         console.warn("Error en la conexión a GeoElectoral API");
       });
     };
+    // Cuando se cambia el tipo de dpa: Departamento, provincia, municipio, y circunscripción
     var recargarMapa = function() {
       var promises = [];
       // GeoJSON político administrativo de Bolivia
@@ -280,7 +250,7 @@ angular.module('geoelectoralFrontendApp')
           $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
           $scope.partidosDepartamento = reducirDpasVista($scope.partidosDepartamento);
         } else {
-          redireccionLugarSuperior();
+          growl.info("No hay datos de elecciones disponibles", {});
         }
       }, function(error) {
         console.warn("Error en la conexión a GeoElectoral API");

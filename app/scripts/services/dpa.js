@@ -137,6 +137,24 @@ angular.module('geoelectoralFrontendApp')
           id_dpa_superior = getIdDpaSuperior(id_dpa_superior, bc);
         }
         return bc.slice(1, bc.length);
+      },
+
+      // Obtener el Dpa Superior de un idTipoDpa
+      getIdTipoDpaSuperior: function (idTipoDpa) {
+        var idTipoDpaSuperior = null;
+        tiposDpa.some(function (t) {
+          if (t.idTipoDpa === idTipoDpa) {
+            idTipoDpaSuperior = t.idTipoDpaSuperior;
+            return true;
+          }
+        });
+        return idTipoDpaSuperior;
+      },
+
+      // Verificar si es posible
+      verificarIdTipoDpaSuperior: function (idTipoDpaActual, idTipoDpa) {
+        var idTipoDpaSuperior = this.getIdTipoDpaSuperior(idTipoDpa);
+        return idTipoDpaActual <= idTipoDpaSuperior;
       }
     };
   });
