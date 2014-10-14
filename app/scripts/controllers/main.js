@@ -260,12 +260,18 @@ angular.module('geoelectoralFrontendApp')
           $scope.partidos = agruparPartidos($scope.partidosDepartamento, $scope.currentDpa.idDpa);
           $scope.partidos = $scope.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
         } else {
-          redireccionLugarSuperior();
+          if (Dpa.verificarIdTipoDpaSuperior($scope.currentDpa.idTipoDpaActual, $scope.currentDpa.idTipoDpa)) {
+            $scope.currentDpa.idTipoDpa = Dpa.getIdTipoDpaSuperior($scope.currentDpa.idTipoDpa);
+            loadServices();
+          } else {
+            redireccionLugarSuperior();
+          }
         }
       }, function(error) {
         console.warn("Error en la conexión a GeoElectoral API");
       });
     };
+    // Cuando se cambia el tipo de dpa: Departamento, provincia, municipio, y circunscripción
     var recargarMapa = function() {
       var promises = [];
       // GeoJSON político administrativo de Bolivia
@@ -280,7 +286,12 @@ angular.module('geoelectoralFrontendApp')
           $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
           $scope.partidosDepartamento = reducirDpasVista($scope.partidosDepartamento);
         } else {
-          redireccionLugarSuperior();
+          if (Dpa.verificarIdTipoDpaSuperior($scope.currentDpa.idTipoDpaActual, $scope.currentDpa.idTipoDpa)) {
+            $scope.currentDpa.idTipoDpa = Dpa.getIdTipoDpaSuperior($scope.currentDpa.idTipoDpa);
+            loadServices();
+          } else {
+            redireccionLugarSuperior();
+          }
         }
       }, function(error) {
         console.warn("Error en la conexión a GeoElectoral API");
