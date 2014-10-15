@@ -1,33 +1,33 @@
-<!-- <div class="row">
-  <div class="col-sm-12 titulo">
-    <h3>
-      Elecciones Generales<br/>
-      {{getLugar()}}
-    </h3>
-  </div>
-</div> -->
-
 <div class="row">
 
   <!-- Mapa -->
-  <div class="col-sm-8">
-    <ol id="mapa-breadcrumb" ng-show="isSelected(1)" bread-crumbs></ol>
+  <div class="col-md-8 col-sm-12 graficos">
+    <ol id="mapa-breadcrumb" bread-crumbs></ol>
+    <div class="row">
+      <div class="col-sm-2 col-xs-3">
+        <ul class="nav affix-anios">
+          <li ng-repeat="a in anios" ng-class="{active: a === anio}">
+            <a ng-click="setAnioIndex($index)">{{a}}</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-sm-10 col-xs-9">
+        <mapa-bolivia class="grafico" data="dpaGeoJSON" votos="partidosDepartamento" current-dpa="currentDpa" tipos-dpa="tiposDpa" partido="partidoSeleccionado" ng-if="isSelected(1)">
+        </mapa-bolivia>
 
-    <mapa-bolivia class="grafico" data="dpaGeoJSON" votos="partidosDepartamento" current-dpa="currentDpa" tipos-dpa="tiposDpa" partido="partidoSeleccionado" ng-show="isSelected(1)">
-    </mapa-bolivia>
+        <!-- Barras -->
+        <barras-bolivia class="grafico" data="partidos" tab="{{tab}}" ng-if="isSelected(2)">
+        </barras-bolivia>
 
+        <!-- Torta -->
+        <torta-bolivia id="torta" class="grafico" data="partidos" tab="{{tab}}" ng-if="isSelected(3)">
+        </torta-bolivia>
+      </div>
+    </div>
   </div>
 
-  <!-- Barras -->
-  <barras-bolivia class="col-sm-8 grafico" data="partidos" tab="{{tab}}" ng-show="isSelected(2)">
-  </barras-bolivia>
-
-  <!-- Torta -->
-  <torta-bolivia id="torta" class="col-sm-8 grafico" data="partidos" tab="{{tab}}" ng-show="isSelected(3)">
-  </torta-bolivia>
-
   <!-- EstadisticS -->
-  <div class="col-sm-4 statistics">
+  <div class="col-md-4 col-sm-12 colstatistics">
     <table class="table table-condensed table-hover">
       <thead>
         <tr>

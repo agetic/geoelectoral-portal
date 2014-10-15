@@ -220,6 +220,12 @@ svg .hover:hover {
   opacity: 0.3;
 }
 
+/* Affix años */
+.affix-anios .active {
+  font-size: 1.5em;
+  font-weight: bolder;
+}
+
 /* Barras */
 .bar {
   fill: steelblue;
@@ -292,4 +298,16 @@ svg .hover:hover {
   float: left;
   margin-top: 5px;
   margin-bottom: 0;
+}
+
+/* breadcrumb separator */
+.breadcrumb > li + li:before {
+  content: "\003E";
+  color: #aaa;
+}
+
+/* dpas */
+.dpas {
+  clear: right;
+  margin-top: 10px;
 }

@@ -26,7 +26,7 @@ angular.module('geoelectoralFrontendApp')
         var colorBarra = 'steelblue',
             marginTexto = 5;
 
-        var margin = {top: 20, right: 20, bottom: 20, left: 95},
+        var margin = {top: 20, right: 20, bottom: 20, left: 150},
             width = 630 - margin.left - margin.right,
             height = calcularHeight(partidos, rangeBand, padding);
 

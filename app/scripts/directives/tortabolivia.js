@@ -15,8 +15,8 @@ angular.module('geoelectoralFrontendApp')
         d3.select(element[0]).selectAll('*').remove();
 
         var width = 630,
-            height = 450,
-            radius = Math.min(width, height) / 2.2,
+            height = 400,
+            radius = Math.min(width, height) / 2.3,
             labelr = radius;
 
         var color = d3.scale.ordinal();

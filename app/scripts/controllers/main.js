@@ -16,7 +16,7 @@ angular.module('geoelectoralFrontendApp')
     var eleccionesDeptoUrl = host + api + '/elecciones?anio={anio}&id_tipo_dpa={idTipoDpa}&formato=json';
     var dpaGeoJSONUrl = host + api + '/proxy';
 
-    $scope.anios = [1979, 1980, 1985, 1989, 1993, 1997, 2002, 2005, 2009, 2014];
+    $scope.anios = [1979, 1980, 1985, 1989, 1993, 1997, 2002, 2005, 2009, 2014].reverse();
     $scope.tiposDpa = [
       { idTipoDpa: 1, nombre: 'país', idTipoDpaSuperior: null },
       { idTipoDpa: 2, nombre: 'departamento', idTipoDpaSuperior: 1 },
@@ -42,15 +42,6 @@ angular.module('geoelectoralFrontendApp')
     var breadcrumbFactory = function() {
       BreadcrumbFactory.fromDpa('mapa-breadcrumb', Dpa.breadcrumb($scope.currentDpa.idDpa), $scope.anio);
     };
-
-    // Se ejecuta cuando cambia el año en el slider
-    $scope.$watch('e.anioIndex', function(newVal, oldVal) {
-      if (newVal != oldVal) {
-        $scope.partidoSeleccionado = null;
-        $scope.anio = $scope.anios[$scope.e.anioIndex];
-        $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
-      }
-    });
 
     // Se ejecuta cuando se hace clic a un departamento, provincia, ...
     $scope.$watch('currentDpa.idDpa', function(newVal, oldVal) {
@@ -101,6 +92,14 @@ angular.module('geoelectoralFrontendApp')
         });
       }
       return titulo;
+    };
+
+    // Establecer el año
+    $scope.setAnioIndex = function (index) {
+      $scope.partidoSeleccionado = null;
+      $scope.e.anioIndex = index;
+      $scope.anio = $scope.anios[$scope.e.anioIndex];
+      $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
     };
 
     // Establecer el tipo de dpa para mostrar en el mapa
