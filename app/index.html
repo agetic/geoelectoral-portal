@@ -47,6 +47,7 @@
 
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <div class="td-linea1"></div>
                 <ul class="nav nav-pills pull-right">
                   <li ng-class="{active: isSelected(1)}">
                     <a href ng-click="selectTab(1)">Mapa</a>
@@ -58,29 +59,27 @@
                     <a href ng-click="selectTab(3)">Torta</a>
                   </li>
                 </ul>
-                <table class="slider-buttons">
-                  <tr>
-                    <td class="td-anio">
-                      <h3 class="text-muted">
-                        <span>{{anio}}</span>
-                      </h3>
-                    </td>
-                    <td class="td-slider">
+                <div class="td-linea2"></div>
+                <div class="td-anio">
+                  <h3 class="text-muted">
+                    <span>{{anio}}</span>
+                  </h3>
+                </div>
+                    <div class="td-slider">
                       <input type="range" min="0" max="{{anios.length - 1}}" ng-model="e.anioIndex" list="anioslist">
                       <datalist id="anioslist">
                         <option ng-repeat="a in anios" value="{{$index}}"></option>
                       </datalist>
-                    </td>
-                    <td class="td-btn-group">
+                    </div>
+                <div class="td-linea1"></div>
+                    <div class="td-btn-group">
                       <div class="btn-group">
                         <button type="button" ng-click="setTipoDpa(2)" class="btn btn-default" ng-class="{active: getTipoDpa()===2}">Departamento</button>
                         <button type="button" ng-click="setTipoDpa(3)" class="btn btn-default" ng-class="{active: getTipoDpa()===3}">Provincia</button>
                         <button type="button" ng-click="setTipoDpa(4)" class="btn btn-default" ng-class="{active: getTipoDpa()===4}">Municipio</button>
                         <button type="button" ng-click="setTipoDpa(5)" class="btn btn-default" ng-class="{active: getTipoDpa()===5}">Circunscripción</button>
                       </div>
-                    </td>
-                  </tr>
-                </table>
+                    </div>
               </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
           </div><!-- /.navbar -->

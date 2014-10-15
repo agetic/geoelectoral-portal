@@ -15,34 +15,41 @@ body {
   color: #000;
 }
 
-.header input[type=range] {
-  width: 100%;
-  margin-top: 10px;
-}
+/* Custom navbar */
 .navbar{
   background-color: #fff;
   margin-bottom: 0px;
   border: none;
 }
+.geoelectoral-titulo{
+  font-size: 20px;
+  padding-top: 8px;
+}
 .navbar-brand{
   color: #000 !important;
   margin-left: 0px !important;
   word-wrap: break-word;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 5px;
 }
-
-.slider-buttons{
+.td-linea1{
+  display: none;
+}
+.td-linea2{
   clear: both;
-  width: 100%;
 }
-.slider-buttons .td-anio{
+.td-anio{
   width: 60px;
+  float: left;
+  margin-top: 6px;
 }
-.slider-buttons .td-slider{
-  vertical-align: top;
-  padding-right: 10px;
-}
-.slider-buttons .td-btn-group{
-  width: 410px;
+.header input[type=range] {
+  width: 570px;
+  margin-top: 10px;
+  margin-right: 10px;
+  float: left;
+  cursor: pointer;
 }
 
 /* Custom page footer */
@@ -86,7 +93,34 @@ body {
 .marketing p + h4 {
   margin-top: 28px;
 }
-
+/* Responsive: Portrait tablets and down 1200 */
+@media screen and (max-width: 1200px) {
+  .navbar-brand{
+    width:650px;
+  }
+  .header input[type=range] {
+    width: 370px;
+  }
+}
+/* Responsive: Portrait tablets and down 991*/
+@media screen and (max-width: 991px) {
+  .navbar-brand{
+    width:auto;
+  }
+  .td-linea1{
+    display: block;
+    clear: both;
+  }
+  .td-linea2{
+    display: none;
+  }
+  .header input[type=range] {
+    width: 350px;
+  }
+  .td-btn-group{
+    float: right;
+  }
+}
 /* Responsive: Portrait tablets and down 768 */
 @media screen and (max-width: 767px) {
   /* Remove the padding we set earlier */
@@ -100,21 +134,11 @@ body {
   .header {
     margin-bottom: 0px;
   }
-  .slider-buttons .td-anio{
-    display: inline-block;
-    vertical-align: top;
-    padding-top: 8px;
+  .header input[type=range] {
+    width: 45%;
   }
-  .slider-buttons .td-slider{
-    display: inline-block;
-    margin-bottom: 8px;
-    width: 100%;
-  }
-  .slider-buttons .td-btn-group{
-    display: block;
-    clear: both;
-    width: auto;
-    padding-top: 0px;
+  .navbar-brand{
+    width:85%;
   }
 
   /* Remove the bottom border on the jumbotron for visual effect */
@@ -122,17 +146,43 @@ body {
     border-bottom: 0;
   }
 }
-@media screen and (max-width: 475px) {
+@media screen and (max-width: 579px) {
+  .logo-adsib{
+    margin-left: 15px;
+  }
+  .navbar-brand{
+    font-size: 14px;
+    width:80%;
+    line-height: 15px;
+  }
+  .td-linea2{
+    display: block;
+  }
+  .header input[type=range] {
+    float: right;
+    width: 74%;
+  }
   .btn{
     font-size: 12px;
     padding: 6px 4px;
   }
+  .container{
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
-@media screen and (max-width: 380px) {
+@media screen and (max-width: 329px) {
+  .geoelectoral-titulo{
+    margin-left: 15px;
+    padding-top: 0;
+    width: 150px;
+  }
   .navbar-brand{
-    color: #000;
     font-size: 11px;
-    font-weight: bold;
+    width:95%;
+  }
+  .header input[type=range] {
+    width: 60%;
   }
   .btn{
     font-size: 9px;
@@ -145,14 +195,6 @@ body {
 @media screen and (max-width: 280px) {
   .nav{
     font-size: 10px;
-  }
-  .header h3{
-    font-size: 16px;
-  }
-  .navbar-brand{
-    color: #000;
-    font-size: 8px;
-    font-weight: bold;
   }
   .btn{
     font-size: 8px;
@@ -197,6 +239,11 @@ div.tooltip-mapa {
   border-radius: 8px;
   padding: 8px;
   pointer-events: none;
+}
+
+.tooltip-tabla,
+svg g {
+  cursor: pointer;
 }
 
 /* Mapa */
