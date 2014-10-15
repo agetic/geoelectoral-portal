@@ -37,7 +37,10 @@
                   <span class="icon-bar"></span>
                 </button>
 
-                <div class="logo-adsib"></div>
+                <div class="logo-adsib">
+                  <a href="/"><img src="/images/logo-adsib.png"></a>
+                </div>
+                <h2 class="geoelectoral-titulo">GeoElectoral</h2>
                 <h2 class="navbar-brand titulo" ng-hide="anio===2014">Elecciones Generales {{getLugar()}}</h2>
                 <h2 class="navbar-brand titulo" ng-show="anio===2014">Elecciones Generales {{getLugar()}} (Resultados parciales <a href="http://computo2014.oep.org.bo/">Tribunal Supremo Electoral</a>)</h2>
               </div>
@@ -55,29 +58,14 @@
                     <a href ng-click="selectTab(3)">Torta</a>
                   </li>
                 </ul>
-                <table class="slider-buttons">
-                  <tr>
-                    <td class="td-anio">
-                      <h3 class="text-muted">
-                        <span>{{anio}}</span>
-                      </h3>
-                    </td>
-                    <td class="td-slider">
-                      <input type="range" min="0" max="{{anios.length - 1}}" ng-model="e.anioIndex" list="anioslist">
-                      <datalist id="anioslist">
-                        <option ng-repeat="a in anios" value="{{$index}}"></option>
-                      </datalist>
-                    </td>
-                    <td class="td-btn-group">
-                      <div class="btn-group">
-                        <button type="button" ng-click="setTipoDpa(2)" class="btn btn-default" ng-class="{active: getTipoDpa()===2}">Departamento</button>
-                        <button type="button" ng-click="setTipoDpa(3)" class="btn btn-default" ng-class="{active: getTipoDpa()===3}">Provincia</button>
-                        <button type="button" ng-click="setTipoDpa(4)" class="btn btn-default" ng-class="{active: getTipoDpa()===4}">Municipio</button>
-                        <button type="button" ng-click="setTipoDpa(5)" class="btn btn-default" ng-class="{active: getTipoDpa()===5}">Circunscripción</button>
-                      </div>
-                    </td>
-                  </tr>
-                </table>
+
+                <div class="btn-group pull-right dpas">
+                  <button type="button" ng-click="setTipoDpa(2)" class="btn btn-default" ng-class="{active: getTipoDpa()===2}">Departamento</button>
+                  <button type="button" ng-click="setTipoDpa(3)" class="btn btn-default" ng-class="{active: getTipoDpa()===3}">Provincia</button>
+                  <button type="button" ng-click="setTipoDpa(4)" class="btn btn-default" ng-class="{active: getTipoDpa()===4}">Municipio</button>
+                  <button type="button" ng-click="setTipoDpa(5)" class="btn btn-default" ng-class="{active: getTipoDpa()===5}">Circunscripción</button>
+                </div>
+
               </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
           </div><!-- /.navbar -->
@@ -87,7 +75,12 @@
       </section>
 
       <div class="footer">
-        <center><div class='copyleft'>&copy;</div> 2014 - GeoBolivia</center>
+        <center>
+          <div class='copyleft'>&copy;</div>
+            2014 -
+            <a href="http://adsib.gob.bo">Agencia para el Desarrollo de la Sociedad de la Información en Bolivia</a> -
+            <a href="http://www.vicepresidencia.gob.bo/">Vicepresidencia del Estado</a>
+          </center>
       </div>
     </div>
 
