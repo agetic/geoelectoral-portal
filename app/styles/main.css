@@ -199,6 +199,11 @@ div.tooltip-mapa {
   pointer-events: none;
 }
 
+/* Gráficos */
+svg g, .affix-anios {
+  cursor: pointer;
+}
+
 /* Mapa */
 svg .departamentos path {
   stroke: white;
