@@ -48,6 +48,11 @@
         </tr>
       </tbody>
     </table>
+
+    <div class="btn-group pull-right uninominales">
+      <button type="button" ng-click="setTipoEleccion(1)" class="btn btn-default" ng-class="{active: getTipoEleccion()===1}">Plurinominales</button>
+      <button type="button" ng-click="setTipoEleccion(2)" class="btn btn-default" ng-class="{active: getTipoEleccion()===2}">Uninominales</button>
+    </div>
   </div>
 
 </div>

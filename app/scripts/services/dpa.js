@@ -30,6 +30,7 @@ angular.module('geoelectoralFrontendApp')
         currentDpa = {
           'idDpa': cDpa.id_dpa,
           'idTipoDpaActual': cDpa.id_tipo_dpa,
+          'idTipoEleccion': cDpa.id_tipo_eleccion || 1,
           'dpaNombre': cDpa.nombre,
           'idTipoDpa': cDpa.id_tipo_dpa
         }
