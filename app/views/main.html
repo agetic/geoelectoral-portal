@@ -50,9 +50,17 @@
     </table>
 
     <div class="btn-group pull-right uninominales">
-      <button type="button" ng-click="setTipoEleccion(1)" class="btn btn-default" ng-class="{active: getTipoEleccion()===1}">Plurinominales</button>
-      <button type="button" ng-click="setTipoEleccion(2)" class="btn btn-default" ng-class="{active: getTipoEleccion()===2}">Uninominales</button>
+      <button type="button" ng-click="setTipoEleccion(1)" class="btn btn-default btn-sm" ng-class="{active: getTipoEleccion()===1}">Plurinominales</button>
+      <button type="button" ng-click="setTipoEleccion(2)" class="btn btn-default btn-sm" ng-class="{active: getTipoEleccion()===2}">Uninominales</button>
     </div>
+
+    <div class="btn-group pull-right dpas">
+      <button type="button" ng-click="setTipoDpa(2)" class="btn btn-default btn-sm" ng-class="{active: getTipoDpa()===2}">Departamento</button>
+      <button type="button" ng-click="setTipoDpa(3)" class="btn btn-default btn-sm" ng-class="{active: getTipoDpa()===3}">Provincia</button>
+      <button type="button" ng-click="setTipoDpa(4)" class="btn btn-default btn-sm" ng-class="{active: getTipoDpa()===4}">Municipio</button>
+      <button type="button" ng-click="setTipoDpa(5)" class="btn btn-default btn-sm" ng-class="{active: getTipoDpa()===5}">Circunscripción</button>
+    </div>
+
   </div>
 
 </div>
