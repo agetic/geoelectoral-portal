@@ -316,3 +316,13 @@ svg .hover:hover {
   clear: right;
   margin-top: 10px;
 }
+
+/* Growl Notifications */
+div[growl] {
+  position: relative;
+}
+.growl-container {
+  right: 0;
+  position: absolute;
+  z-index: 100;
+}
