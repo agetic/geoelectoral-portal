@@ -89,7 +89,7 @@ body {
 /* Responsive: Portrait tablets and down 992 */
 @media screen and (max-width: 991px) {
   .navbar-brand{
-    width: 263px;
+    width: 460px;
     padding-top: 10px;
   }
   .geoelectoral-titulo{
