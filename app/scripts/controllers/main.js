@@ -12,8 +12,8 @@ angular.module('geoelectoralFrontendApp')
     // Elecciones generales a nivel Bolivia
     var host = ENV.geoelectoralApi;
     var api = ENV.geoelectoralApiVersion;
-    var eleccionesUrl = host + api + '/elecciones?anio={anio}&id_tipo_dpa={idTipoDpa}&id_dpa={idDpa}&formato=json';
-    var eleccionesDeptoUrl = host + api + '/elecciones?anio={anio}&id_tipo_dpa={idTipoDpa}&formato=json';
+    var eleccionesUrl = host + api + '/elecciones?anio={anio}&id_tipo_dpa={idTipoDpa}&id_dpa={idDpa}&id_tipo_eleccion={idTipoEleccion}&formato=json';
+    var eleccionesDeptoUrl = host + api + '/elecciones?anio={anio}&id_tipo_dpa={idTipoDpa}&id_tipo_eleccion={idTipoEleccion}&formato=json';
     var dpaGeoJSONUrl = host + api + '/proxy';
 
     $scope.anios = [1979, 1980, 1985, 1989, 1993, 1997, 2002, 2005, 2009, 2014].reverse();
@@ -35,6 +35,7 @@ angular.module('geoelectoralFrontendApp')
     $scope.currentDpa = {
                           idDpa: 1,             // Dpa que se está mostrando actualmente
                           idTipoDpaActual: 1,   // Tipo de Dpa del dpa actual
+                          idTipoEleccion: 1,    // Tipo de la Elección: plurinominal, uninominal
                           dpaNombre: 'Bolivia', // Nombre del dpa actual
                           idTipoDpa: 2          // Tipo de Dpa hijos que se va mostrar
                         };
@@ -113,6 +114,15 @@ angular.module('geoelectoralFrontendApp')
     };
     $scope.getTipoDpa = function () {
       return $scope.currentDpa.idTipoDpa;
+    };
+
+    // Establecer el tipo de elección: plurinominal, uninominal
+    $scope.setTipoEleccion = function (idTipoEleccion) {
+      $scope.currentDpa.idTipoEleccion = idTipoEleccion;
+      recargarMapa();
+    };
+    $scope.getTipoEleccion = function () {
+      return $scope.currentDpa.idTipoEleccion;
     };
 
     // Establecer clases para la bandera
@@ -214,8 +224,10 @@ angular.module('geoelectoralFrontendApp')
       promises.push($http.get(dpaGeoJSONUrl, { params: $scope.currentDpa }));
       // Elecciones a nivel departamento
       promises.push($http.get(eleccionesDeptoUrl.replace(/{anio}/g, $scope.anio)
+                                                .replace(/{idTipoEleccion}/g, $scope.currentDpa.idTipoEleccion)
                                                 .replace(/{idTipoDpa}/g, $scope.currentDpa.idTipoDpa)));
       promises.push($http.get(eleccionesUrl.replace(/{anio}/g, $scope.anio)
+                                           .replace(/{idTipoEleccion}/g, $scope.currentDpa.idTipoEleccion)
                                            .replace(/{idTipoDpa}/g, $scope.currentDpa.idTipoDpaActual)
                                            .replace(/{idDpa}/g, $scope.currentDpa.idDpa)));
 
@@ -241,6 +253,7 @@ angular.module('geoelectoralFrontendApp')
       promises.push($http.get(dpaGeoJSONUrl, { params: $scope.currentDpa }));
       // Elecciones a nivel departamento
       promises.push($http.get(eleccionesDeptoUrl.replace(/{anio}/g, $scope.anio)
+                                                .replace(/{idTipoEleccion}/g, $scope.currentDpa.idTipoEleccion)
                                                 .replace(/{idTipoDpa}/g, $scope.currentDpa.idTipoDpa)));
 
       $q.all(promises).then(function(response) {

@@ -27,22 +27,14 @@ body {
 .navbar-brand{
   color: #000 !important;
   margin-left: 0px !important;
-  word-wrap: break-word;
+  height: auto;
+  width: 680px;
+  padding-top: 10px;
+  padding-bottom: 4px;
+  margin-bottom: 0;
 }
-
-.slider-buttons{
-  clear: both;
-  width: 100%;
-}
-.slider-buttons .td-anio{
-  width: 60px;
-}
-.slider-buttons .td-slider{
-  vertical-align: top;
-  padding-right: 10px;
-}
-.slider-buttons .td-btn-group{
-  width: 410px;
+.breadcrumb {
+  margin-bottom: 0px;
 }
 
 /* Custom page footer */
@@ -87,6 +79,23 @@ body {
   margin-top: 28px;
 }
 
+/* Responsive: Portrait tablets and down 1200 */
+@media screen and (max-width: 1199px) {
+  .navbar-brand{
+    width: 485px;
+    padding-top: 10px;
+  }
+}
+/* Responsive: Portrait tablets and down 992 */
+@media screen and (max-width: 991px) {
+  .navbar-brand{
+    width: 460px;
+    padding-top: 10px;
+  }
+  .geoelectoral-titulo{
+    width: 140px;
+  }
+}
 /* Responsive: Portrait tablets and down 768 */
 @media screen and (max-width: 767px) {
   /* Remove the padding we set earlier */
@@ -98,25 +107,12 @@ body {
   }
   /* Space out the masthead */
   .header {
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
-  .slider-buttons .td-anio{
-    display: inline-block;
-    vertical-align: top;
-    padding-top: 8px;
-  }
-  .slider-buttons .td-slider{
-    display: inline-block;
-    margin-bottom: 8px;
-    width: 100%;
-  }
-  .slider-buttons .td-btn-group{
-    display: block;
-    clear: both;
+  .navbar-brand{
     width: auto;
-    padding-top: 0px;
+    padding-top: 0;
   }
-
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
     border-bottom: 0;
@@ -129,10 +125,15 @@ body {
   }
 }
 @media screen and (max-width: 380px) {
+  .geoelectoral-titulo{
+    padding-left: 15px;
+    font-size: 20px;
+    width: 180px;
+  }
   .navbar-brand{
-    color: #000;
     font-size: 11px;
     font-weight: bold;
+    line-height: 15px;
   }
   .btn{
     font-size: 9px;
@@ -200,7 +201,7 @@ div.tooltip-mapa {
 }
 
 /* Gráficos */
-svg g, .affix-anios {
+svg g, .affix-anios, .tooltip-tabla {
   cursor: pointer;
 }
 
@@ -315,4 +316,14 @@ svg .hover:hover {
 .dpas {
   clear: right;
   margin-top: 10px;
+}
+
+/* Growl Notifications */
+div[growl] {
+  position: relative;
+}
+.growl-container {
+  right: 0;
+  position: absolute;
+  z-index: 100;
 }
