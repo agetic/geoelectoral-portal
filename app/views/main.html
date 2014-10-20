@@ -4,14 +4,17 @@
   <div class="col-md-8 col-sm-12 graficos">
     <ol id="mapa-breadcrumb" bread-crumbs></ol>
     <div class="row">
-      <div class="col-sm-2 col-xs-3">
-        <ul class="nav affix-anios">
+      <div resize class="col-sm-2" ng-class="anios_columna()">
+          <button class="btn btn-anios"  data-toggle="dropdown">{{anio}}
+            <span class="caret"></span>
+          </button>
+        <ul ng-class="anios_tipo()" class="affix-anios nav-anios">
           <li ng-repeat="a in anios" ng-class="{active: a === anio}">
             <a ng-click="setAnioIndex($index)">{{a}}</a>
           </li>
         </ul>
       </div>
-      <div class="col-sm-10 col-xs-9">
+      <div class="col-sm-10" ng-class="mapa_columna()">
         <mapa-bolivia class="grafico" data="dpaGeoJSON" votos="partidosDepartamento" current-dpa="currentDpa" tipos-dpa="tiposDpa" partido="partidoSeleccionado" ng-if="isSelected(1)">
         </mapa-bolivia>
 
