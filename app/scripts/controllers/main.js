@@ -29,6 +29,7 @@ angular.module('geoelectoralFrontendApp')
     $scope.anio = $scope.anios[$scope.e.anioIndex];
     $scope.partidos = [];
     $scope.partidosDepartamento = [];
+    $scope.eleccion = {};
     $scope.dpaGeoJSON = [];
     $scope.gris = ENV.color;
     $scope.porcetajeGroup = 3; // 3% Porcentaje de agrupación
@@ -190,32 +191,28 @@ angular.module('geoelectoralFrontendApp')
       };
       return votosDpa;
     };
+    // TODO: Esta función debería trasladarse al GeoElectoral API
     var reducePorAnio = function (dpas) {
-      var p, fechaCreacion, fechaSupresion, features, anioCreacion, anioSupresion, eliminados = 1;
-      features = dpas.data.features;
-      // TODO mejorar el algoritmo de eliminación de dpas que no corresponde a ese año
-      while (eliminados !== 0) {
-        eliminados = 0;
-        features.forEach(function (d, i) {
-          p = d.properties;
-          fechaCreacion = Date.parse(p.fecha_creacion_corte);
-          fechaSupresion = Date.parse(p.fecha_supresion_corte);
-          if (!isNaN(fechaCreacion) && !isNaN(fechaSupresion)) {
-            anioCreacion = new Date(fechaCreacion).getUTCFullYear();
-            anioSupresion = new Date(fechaSupresion).getUTCFullYear();
-            if (!(anioCreacion <= $scope.anio && $scope.anio <= anioSupresion)) {
-              features.splice(i, 1);
-              eliminados += 1;
-            }
-          } else if (!isNaN(fechaCreacion)) {
-            anioCreacion = new Date(fechaCreacion).getUTCFullYear();
-            if (!(anioCreacion <= $scope.anio)) {
-              features.splice(i, 1);
-              eliminados += 1;
-            }
-          }
-        });
-      }
+      var p, fecha, fechaCreacion, fechaSupresion, features, anioCreacion, anioSupresion;
+      features = [];
+      fecha = new Date($scope.eleccion.fecha.replace(/T.+$/, ''));
+      dpas.data.features.forEach(function (d, i) {
+        p = d.properties;
+        fechaCreacion = Date.parse(p.fecha_creacion_corte);
+        fechaSupresion = Date.parse(p.fecha_supresion_corte);
+        anioCreacion =  Number.NEGATIVE_INFINITY;
+        anioSupresion =  Number.POSITIVE_INFINITY;
+        if (isFinite(fechaCreacion)) {
+          anioCreacion = new Date(fechaCreacion);
+        }
+        if (isFinite(fechaSupresion)) {
+          anioSupresion = new Date(fechaSupresion);
+        }
+        if (anioCreacion <= fecha && fecha <= anioSupresion) {
+          features.push(d);
+        }
+      });
+      dpas.data.features = features;
       return dpas;
     };
     var loadServices = function() {
@@ -233,6 +230,7 @@ angular.module('geoelectoralFrontendApp')
 
       $q.all(promises).then(function(response) {
         if (response[1].data.dpas) {
+          $scope.eleccion = response[2].data.eleccion;
           $scope.dpaGeoJSON = reducePorAnio(response[0]);
           $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
           $scope.partidosDepartamento = reducirDpasVista($scope.partidosDepartamento);
