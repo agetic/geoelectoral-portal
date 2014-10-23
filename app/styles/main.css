@@ -33,6 +33,13 @@ body {
   padding-bottom: 4px;
   margin-bottom: 0;
 }
+/*-- change anios dropdown color --*/
+  .dropdown-menu>li>a, .dropdown-menu {
+    background-color: #ffffff;
+    color: #428bca;
+  }
+
+
 .breadcrumb {
   margin-bottom: 0px;
 }
@@ -117,7 +124,9 @@ body {
     padding-top: 0;
   }
   .btn-anios{
+    color: #428bca;
     display: block;
+    font-size: 1.5em;
   }
   .btn-anios, .nav-anios{
 
