@@ -4,7 +4,7 @@
   <div class="col-md-8 col-sm-12 graficos">
     <ol id="mapa-breadcrumb" bread-crumbs></ol>
     <div class="row">
-      <div resize class="col-sm-2" ng-class="anios_columna()">
+      <!-- <div resize class="col-sm-2" ng-class="anios_columna()">
           <button class="btn btn-anios"  data-toggle="dropdown">{{anio}}
             <span class="caret"></span>
           </button>
@@ -13,7 +13,36 @@
             <a ng-click="setAnioIndex($index)">{{a}}</a>
           </li>
         </ul>
+      </div> -->
+      <div resize class="col-sm-2" ng-class="anios_columna()">
+        <button class="btn btn-default btn-anios" type="button" data-toggle="dropdown">{{anio}}
+          <span class="caret"></span>
+        </button>
+        <ul ng-class="anios_tipo()" class="nav-anios affix-anios">
+          <li class="dropdown-submenu" ng-repeat="a in anios" ng-class="{active: a === anio}">
+            <a tabindex="0" data-toggle="dropdown">{{a}}</a>
+              <ul class="dropdown-menu nav-anios">
+                <li class="nav-anios">
+                  <div class="dropdown-header">Elecciones</div>
+                  <div class="nav-anios">
+                    <button type="button" ng-click="setAnioIndex($index);setTipoEleccion(1)" class="btn btn-default btn-sm nav-justified" ng-class="{active: getTipoEleccion()===1 && a===anio}">Plurinominales</button>
+                    <button type="button" ng-click="setAnioIndex($index);setTipoEleccion(2)" class="btn btn-default btn-sm nav-justified" ng-class="{active: getTipoEleccion()===2 && a===anio}">Uninominales</button>
+                  </div>
+                  <div class="divider"></div>
+                  <div class="dropdown-header">Delimitación</div>
+                  <div class="btn-group">
+                    <button type="button" ng-click="setAnioIndex($index);setTipoDpa(2)" class="btn btn-default btn-sm nav-justified" ng-class="{active: getTipoDpa()===2 && a===anio}">Departamento</button>
+                    <button type="button" ng-click="setAnioIndex($index);setTipoDpa(3)" class="btn btn-default btn-sm nav-justified" ng-class="{active: getTipoDpa()===3 && a===anio}">Provincia</button>
+                    <button type="button" ng-click="setAnioIndex($index);setTipoDpa(4)" class="btn btn-default btn-sm nav-justified" ng-class="{active: getTipoDpa()===4 && a===anio}">Municipio</button>
+                    <button type="button" ng-click="setAnioIndex($index);setTipoDpa(5)" class="btn btn-default btn-sm nav-justified" ng-class="{active: getTipoDpa()===5 && a===anio}">Circunscripción</button>
+                  </div>
+                  <div class="divider"></div>
+                </li>
+              </ul>
+          </li>
+        </ul>
       </div>
+      
       <div class="col-sm-10" ng-class="mapa_columna()">
         <mapa-bolivia class="grafico" data="dpaGeoJSON" votos="partidosDepartamento" current-dpa="currentDpa" tipos-dpa="tiposDpa" partido="partidoSeleccionado" ng-if="isSelected(1)">
         </mapa-bolivia>

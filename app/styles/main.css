@@ -38,7 +38,9 @@ body {
     background-color: #ffffff;
     color: #428bca;
   }
-
+  .nav > li > a {
+    padding: 4px 15px;
+  }
 
 .breadcrumb {
   margin-bottom: 0px;
@@ -132,6 +134,7 @@ body {
 
     left: auto;
     min-width: 90px;
+    max-width: 110px;
   }
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
@@ -229,7 +232,7 @@ svg .hover:hover {
 }
 
 /* Affix años */
-.affix-anios .active {
+.affix-anios .active a{
   font-size: 1.5em;
   font-weight: bolder;
 }

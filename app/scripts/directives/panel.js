@@ -25,6 +25,8 @@ angular.module('geoelectoralFrontendApp')
             scope.mapa_columna = function(){
                 return (newValue.w<768)?"":"col-xs-9";
             };
+            $('.dropdown-submenu > a').submenupicker();
+            console.log("2-dropdown-submenu");
         }, true);
 
         w.bind('resize', function () {
