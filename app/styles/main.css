@@ -321,8 +321,24 @@ svg .hover:hover {
 
 /* breadcrumb separator */
 .breadcrumb > li + li:before {
-  content: "\003E";
-  color: #aaa;
+  /*content: "\003E";*/
+ content: "";
+ padding: 0;
+ margin-left: -15px;
+}
+.breadcrumb li:after{
+  position: relative;
+  /*content: url('../images/breadcrumb-right.png');*/
+  content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAgCAYAAAD0S5PyAAAABmJLR0QAQgCLAMpNoW+ZAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3gocEBEDYmn2owAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAD7SURBVEjHpda9bcMwEIbh9z4nRoIghWfwBC48QVbKGF4pE6TIBJkhReDGhnIuTAWyTIp/V4kk8OhEHg8yd3euYTSEmaG3w+c4dhpDAL2QxoceSNNBK6T5RAuk2GQtpNRCDaSlxVJIubeUQCr55hyk0hNYglRTDylItdUZg9RyV+aQWm9ugL7c3ZuRELuuTD7e92NTMvUAYzdUJ1CPzDOoPp0IALAtRhLACvguQhIAwAC8ZpEFgAD8LiIZ4DEA6ySSAQScA3CKIhnAgL8J8HCHZIBVqIspMNwgBXswxIB/JAM8hT14jgAOYJNfC0X65wtwBDbAT8jkfAOYcQEBJ17vSIZXYwAAAABJRU5ErkJggg==);
+  z-index: 1;
+}
+.breadcrumb li a{
+  line-height: 32px;
+  vertical-align: top;
+  color: #fff;
+  background: #428bca;
+  display: inline-block;
+  padding-left: 20px;
 }
 
 /* dpas */
