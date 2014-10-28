@@ -130,11 +130,17 @@ body {
     display: block;
     font-size: 1.5em;
   }
-  .btn-anios, .nav-anios{
+  .dropdown-submenu {
+    position: relative;
+  }
+  .dropdown-submenu .dropdown-menu {
+    position: absolute !important;
+  }
+  .nav-anios{
 
     left: auto;
-    min-width: 90px;
-    max-width: 110px;
+    min-width: 100px;
+   /* max-width: 100px;*/
   }
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
@@ -232,9 +238,11 @@ svg .hover:hover {
 }
 
 /* Affix años */
-.affix-anios .active a{
+.affix-anios li.active{
   font-size: 1.5em;
-  font-weight: bolder;
+}
+.affix-anios li a{
+  line-height: 20px;
 }
 
 /* Barras */

@@ -10,6 +10,7 @@ angular.module('geoelectoralFrontendApp')
         return function (scope, element) {
         var w = angular.element($window);
         scope.getWindowDimensions = function () {
+            $('.dropdown-submenu > a').submenupicker();
             return {'h': w.height(),'w': w.width()};
         };
         scope.$watch(scope.getWindowDimensions, function (newValue, oldValue) {
@@ -25,8 +26,6 @@ angular.module('geoelectoralFrontendApp')
             scope.mapa_columna = function(){
                 return (newValue.w<768)?"":"col-xs-9";
             };
-            $('.dropdown-submenu > a').submenupicker();
-            console.log("2-dropdown-submenu");
         }, true);
 
         w.bind('resize', function () {
@@ -34,3 +33,7 @@ angular.module('geoelectoralFrontendApp')
         });
     }
 });
+
+//   angular.element(document).ready(function() {
+//     window.scrollTo(0,90);
+// });
