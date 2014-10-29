@@ -9,35 +9,20 @@
           <span class="caret"></span>
         </button>
         <ul ng-class="anios_tipo()" class="nav-anios affix-anios">
-          <li class="" ng-repeat="a in anios" ng-class="{'dropdown-submenu active': a === anio}">
-            <a tabindex="0" data-toggle="dropdown" ng-click="setAnioIndex($index)" ng-hide="a===anio">{{a}}</a>
-            <a tabindex="0" data-toggle="dropdown" ng-show="a===anio">{{a}}</a>
-            <ul class="dropdown-menu nav-anios" ng-show="a===anio">
-              <li class="dropdown-submenu">
-                <a data-toggle="dropdown">Plurinominales</a>
-                <ul class="dropdown-menu nav-anios">
-                  <li>
-                    <div class="btn-group" ng-click="setTipoEleccion(1)">
-                      <button type="button" ng-click="setTipoDpa(2)" class="btn btn-default btn-sm nav-justified" ng-class="{active: a===anio && getTipoDpa()===2 && getTipoEleccion()===1}">Departamento</button>
-                      <button type="button" ng-click="setTipoDpa(3)" class="btn btn-default btn-sm nav-justified" ng-class="{active: a===anio && getTipoDpa()===3 && getTipoEleccion()===1}">Provincia</button>
-                      <button type="button" ng-click="setTipoDpa(4)" class="btn btn-default btn-sm nav-justified" ng-class="{active: a===anio && getTipoDpa()===4 && getTipoEleccion()===1}">Municipio</button>
-                      <button type="button" ng-click="setTipoDpa(5)" class="btn btn-default btn-sm nav-justified" ng-class="{active: a===anio && getTipoDpa()===5 && getTipoEleccion()===1}">Circunscripción</button>
-                    </div>
-                  </li>
-                </ul>
+          <li class="" ng-repeat="a in anios" ng-class="{'active': a === anio}">
+            <a tabindex="0" ng-click="setAnioIndex($index)">{{a}}</a>
+            <ul ng-show="a===anio">
+              <li class="dropdown-header"></li>
+              <li class="li-btn-group">
+                <button type="button" ng-click="setTipoEleccion(1)" class="btn btn-default btn-sm nav-justified" ng-class="{active: getTipoEleccion()===1}">Plurinominales</button>
+                <button type="button" ng-click="setTipoEleccion(2)" class="btn btn-default btn-sm nav-justified" ng-class="{active: getTipoEleccion()===2}">Uninominales</button>
               </li>
-              <li class="dropdown-submenu">
-                <a data-toggle="dropdown">Uninominales</a>
-                <ul class="dropdown-menu nav-anios">
-                  <li>
-                    <div class="btn-group" ng-click="setTipoEleccion(2)">
-                      <button type="button" ng-click="setTipoDpa(2)" class="btn btn-default btn-sm nav-justified" ng-class="{active: a===anio && getTipoDpa()===2 && getTipoEleccion()===2}">Departamento</button>
-                      <button type="button" ng-click="setTipoDpa(3)" class="btn btn-default btn-sm nav-justified" ng-class="{active: a===anio && getTipoDpa()===3 && getTipoEleccion()===2}">Provincia</button>
-                      <button type="button" ng-click="setTipoDpa(4)" class="btn btn-default btn-sm nav-justified" ng-class="{active: a===anio && getTipoDpa()===4 && getTipoEleccion()===2}">Municipio</button>
-                      <button type="button" ng-click="setTipoDpa(5)" class="btn btn-default btn-sm nav-justified" ng-class="{active: a===anio && getTipoDpa()===5 && getTipoEleccion()===2}">Circunscripción</button>
-                    </div>
-                  </li>
-                </ul>
+              <li class="dropdown-header"></li>
+              <li class="li-btn-group">
+                <button type="button" ng-click="setTipoDpa(2)" class="btn btn-default btn-sm nav-justified" ng-class="{active: getTipoDpa()===2}">Departamento</button>
+                <button type="button" ng-click="setTipoDpa(3)" class="btn btn-default btn-sm nav-justified" ng-class="{active: getTipoDpa()===3}">Provincia</button>
+                <button type="button" ng-click="setTipoDpa(4)" class="btn btn-default btn-sm nav-justified" ng-class="{active: getTipoDpa()===4}">Municipio</button>
+                <button type="button" ng-click="setTipoDpa(5)" class="btn btn-default btn-sm nav-justified" ng-class="{active: getTipoDpa()===5}">Circunscripción</button>
               </li>
             </ul>
           </li>

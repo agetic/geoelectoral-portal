@@ -10,7 +10,7 @@ angular.module('geoelectoralFrontendApp')
         return function (scope, element) {
         var w = angular.element($window);
         scope.getWindowDimensions = function () {
-            $('.dropdown-submenu > a').submenupicker();
+            //$('.dropdown-submenu > a').submenupicker();
             return {'h': w.height(),'w': w.width()};
         };
         scope.$watch(scope.getWindowDimensions, function (newValue, oldValue) {
