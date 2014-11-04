@@ -238,7 +238,10 @@ angular.module('geoelectoralFrontendApp')
           $scope.partidos = $scope.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
         } else {
           $scope.currentDpa.idTipoDpa = Dpa.getIdTipoDpaSuperior($scope.currentDpa.idTipoDpa);
-          loadServices();
+          if($scope.currentDpa.idTipoDpa)
+            loadServices();
+          else
+            growl.warning("No hay datos de elecciones disponibles.",{});
         }
       }, function(error) {
         console.warn("Error en la conexión a GeoElectoral API");

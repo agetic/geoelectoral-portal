@@ -1,3 +1,4 @@
+
 <div class="row">
 
   <!-- Mapa -->
@@ -11,16 +12,18 @@
         <ul class="nav-anios affix-anios" ng-class="anios_tipo()">
           <li ng-class="{active: a === anio}" ng-repeat="a in anios" >
             <a tabindex="0" ng-click="setAnioIndex($index)">{{a}}</a>
-            <ul ng-show="a===anio">
-              <li class="li-image li-header">Plurinominales</li>
-              <li class="li-btn-group">
-                <button type="button" ng-click="currentDpa.idTipoEleccion=1;setTipoDpa(2)" class="btn btn-default btn-sm nav-justified" ng-class="{active: getTipoDpa()===2 && getTipoEleccion(1)==1}">Departamento</button>
-                <button type="button" ng-click="currentDpa.idTipoEleccion=1;setTipoDpa(3)" class="btn btn-default btn-sm nav-justified" ng-class="{active: getTipoDpa()===3 && getTipoEleccion(1)==1}">Provincia</button>
-                <button type="button" ng-click="currentDpa.idTipoEleccion=1;setTipoDpa(4)" class="btn btn-default btn-sm nav-justified" ng-class="{active: getTipoDpa()===4 && getTipoEleccion(1)==1}">Municipio</button>
+            <ul class="nav" ng-show="a===anio">
+              <li class="li-header">Plurinominales
+                <ul class="nav">
+                  <li ng-click="currentDpa.idTipoEleccion=1;setTipoDpa(2)" ng-class="{active: getTipoDpa()===2 && getTipoEleccion(1)==1}"><a>Departamento</a></li>
+                  <li ng-click="currentDpa.idTipoEleccion=1;setTipoDpa(3)" ng-class="{active: getTipoDpa()===3 && getTipoEleccion(1)==1}"><a>Provincia</a></li>
+                  <li ng-click="currentDpa.idTipoEleccion=1;setTipoDpa(4)" ng-class="{active: getTipoDpa()===4 && getTipoEleccion(1)==1}"><a>Municipio</a></li>
+                </ul>
               </li>
-              <li class="li-image li-header">Uninominales</li>
-              <li class="li-btn-group">
-                <button type="button" ng-click="currentDpa.idTipoEleccion=2;setTipoDpa(5)" class="btn btn-default btn-sm nav-justified" ng-class="{active: getTipoDpa()===5 && getTipoEleccion(1)==2}">Circunscripción</button>
+              <li class="li-header">Uninominales
+                <ul class="nav">
+                  <li ng-click="currentDpa.idTipoEleccion=2;setTipoDpa(5)" ng-class="{active: getTipoDpa()===5 && getTipoEleccion(1)==2}"><a>Circunscripción</a></li>
+                </ul>
               </li>
             </ul>
           </li>

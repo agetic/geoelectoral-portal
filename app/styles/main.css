@@ -42,28 +42,32 @@ body {
     font-size: 12px;
     color: #428bca;
   }
-  .li-image{
-    list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3goeEBcVau4s/wAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAABASURBVBjTY/j//z+DU/ep/////2fAhpkYCACsCpx7Tv/Hq2BviSkjTBHj////UXRgAFyOgzkcr+T///8hVuADABrHVbjroO5SAAAAAElFTkSuQmCC);
-  }
-  .li-btn-group {
-    text-align: left;
-    width: 100px;
-    list-style-type: none;
+  .col-sm-2.col-xs-3 a:hover{
+    z-index: 1;
   }
   .nav-anios{
     left: auto;
     min-width: 90px;
     max-width: 90px;
   }
-  .nav-anios  li  ul{
+  .nav-anios li  ul{
     background-color: #fff;
-    width: 137px;
-    padding-left: 36px;
+    width: 140px;
+    padding-left: 16px;
+  }
+  .nav-anios li ul ul{
+    padding-left: 1px;
+  }
+  .nav-anios li ul ul a{
+    padding-left: 8px;
+  }
+  .nav-anios li a:hover, .nav-anios li a:focus{
+    border-left: 3px solid #428bca;
+  }
+  .nav-anios .active > a{
+    border-left: 1px solid #428bca; 
   }
 
-  #svg_2{
-    fill: #00f;
-  }
   .btn{
     text-align: left;
   }
@@ -264,6 +268,7 @@ svg .hover:hover {
   opacity: 0.3;
 }
 
+
 /* Affix años */
 .affix-anios li.active{
   font-size: 1.5em;
@@ -366,7 +371,9 @@ svg .hover:hover {
   background: #428bca;
   display: inline-block;
   padding-left: 20px;
+  text-decoration: none;
 }
+
 
 /* dpas */
 .dpas {
