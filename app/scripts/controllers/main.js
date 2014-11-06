@@ -105,7 +105,8 @@ angular.module('geoelectoralFrontendApp')
     };
 
     // Establecer el tipo de dpa para mostrar en el mapa
-    $scope.setTipoDpa = function (idTipoDpa) {
+    $scope.setTipoDpa = function (idTipoDpa,idTipoEleccion) {
+      if(idTipoEleccion) $scope.currentDpa.idTipoEleccion = idTipoEleccion;
       if (idTipoDpa >= $scope.currentDpa.idTipoDpaActual) {
         $scope.currentDpa.idTipoDpa = idTipoDpa;
         recargarMapa();

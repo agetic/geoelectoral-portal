@@ -4,8 +4,8 @@
   <!-- Mapa -->
   <div class="col-md-8 col-sm-12 graficos">
     <ol id="mapa-breadcrumb" bread-crumbs></ol>
-    <div class="row">
-      <div resize class="col-sm-2" ng-class="anios_columna()">
+    <div class="row" resize>
+      <div class="col-sm-2" ng-class="anios_columna()">
         <button class="btn btn-default btn-anios" type="button" data-toggle="dropdown">{{anio}}
           <span class="caret"></span>
         </button>
@@ -13,16 +13,16 @@
           <li ng-class="{active: a === anio}" ng-repeat="a in anios" >
             <a tabindex="0" ng-click="setAnioIndex($index)">{{a}}</a>
             <ul class="nav" ng-show="a===anio">
-              <li class="li-header">Plurinominales
+              <li><span class="li-header" ng-class="{active: getTipoEleccion(1)==1}">Plurinominales</span>
                 <ul class="nav">
-                  <li ng-click="currentDpa.idTipoEleccion=1;setTipoDpa(2)" ng-class="{active: getTipoDpa()===2 && getTipoEleccion(1)==1}"><a>Departamento</a></li>
-                  <li ng-click="currentDpa.idTipoEleccion=1;setTipoDpa(3)" ng-class="{active: getTipoDpa()===3 && getTipoEleccion(1)==1}"><a>Provincia</a></li>
-                  <li ng-click="currentDpa.idTipoEleccion=1;setTipoDpa(4)" ng-class="{active: getTipoDpa()===4 && getTipoEleccion(1)==1}"><a>Municipio</a></li>
+                  <li ng-click="setTipoDpa(2,1)" ng-class="{active: getTipoDpa()===2 && getTipoEleccion(1)==1}"><a>Departamento</a></li>
+                  <li ng-click="setTipoDpa(3,1)" ng-class="{active: getTipoDpa()===3 && getTipoEleccion(1)==1}"><a>Provincia</a></li>
+                  <li ng-click="setTipoDpa(4,1)" ng-class="{active: getTipoDpa()===4 && getTipoEleccion(1)==1}"><a>Municipio</a></li>
                 </ul>
               </li>
-              <li class="li-header">Uninominales
+              <li><span class="li-header" ng-class="{active: getTipoEleccion(1)==2}">Uninominales</span>
                 <ul class="nav">
-                  <li ng-click="currentDpa.idTipoEleccion=2;setTipoDpa(5)" ng-class="{active: getTipoDpa()===5 && getTipoEleccion(1)==2}"><a>Circunscripción</a></li>
+                  <li ng-click="setTipoDpa(5,2)" ng-class="{active: getTipoDpa()===5 && getTipoEleccion(1)==2}"><a>Circunscripción</a></li>
                 </ul>
               </li>
             </ul>
