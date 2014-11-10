@@ -5,7 +5,7 @@
   <div class="col-md-8 col-sm-12 graficos">
     <ol id="mapa-breadcrumb" bread-crumbs></ol>
     <div class="row" resize>
-      <div class="col-sm-2" ng-class="anios_columna()">
+      <div class="col-sm-3" ng-class="anios_columna()">
         <button class="btn btn-default btn-anios" type="button" data-toggle="dropdown">{{anio}}
           <span class="caret"></span>
         </button>
@@ -30,7 +30,7 @@
         </ul>
       </div>
       
-      <div class="col-sm-10" ng-class="mapa_columna()">
+      <div class="col-sm-9" ng-class="mapa_columna()">
         <mapa-bolivia class="grafico" data="dpaGeoJSON" votos="partidosDepartamento" current-dpa="currentDpa" tipos-dpa="tiposDpa" partido="partidoSeleccionado" ng-if="isSelected(1)">
         </mapa-bolivia>
 
