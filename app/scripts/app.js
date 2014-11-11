@@ -10,8 +10,7 @@
  */
 angular
   .module('geoelectoralFrontendApp', [
-    'ngRoute', 'config', 'angular-growl'
-  ])
+    'ngRoute', 'config', 'angular-growl','angular-loading-bar', 'ngAnimate'])
   .config(function($routeProvider, growlProvider) {
       // Growl configuraciones
       growlProvider.globalTimeToLive(3000);
