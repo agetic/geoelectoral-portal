@@ -184,6 +184,7 @@ angular.module('geoelectoralFrontendApp')
           votos = scope.votos,
           partido = scope.partido;
 
+        svg.call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoom));
         svg.append('g')
             .attr('class', 'departamentos')
             .attr('transform', 'translate(' + mapaCentroide + ')')
@@ -198,6 +199,21 @@ angular.module('geoelectoralFrontendApp')
             .on('mouseout', mouseout)
             .on('click', click)
             .each(function(d) { d.centroid = path.centroid(d); });
+        /*svg.append('g')
+            .attr('class', 'departamentos')
+            .attr('transform', 'translate(' + mapaCentroide + ')scale(1)')
+            .append('path')
+              .attr('class', 'departamento')
+              .attr('fill','#000000')
+              .attr('d','M100,50l10,0l0,-10l5,0l0,10l10,0l0,5l-10,0l0,10l-5,0l0,-10l-10,0l0,-5')
+              .on('click',function(d){
+                console.log("zoom +");
+              });*/
+        function zoom() {
+          d3.event.translate[0]+=mapaCentroide[0];
+          d3.event.translate[1]+=mapaCentroide[1];
+          svg.select('g').attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+        }
 
       };
 
