@@ -31,7 +31,16 @@
       </div>
       
       <div class="col-sm-9" ng-class="mapa_columna()">
-        <mapa-bolivia class="grafico" data="dpaGeoJSON" votos="partidosDepartamento" current-dpa="currentDpa" tipos-dpa="tiposDpa" partido="partidoSeleccionado" ng-if="isSelected(1)">
+        <div id="map-control">
+          <a ng-if="isSelected(1)" ng-click="svgControl.zoomIn()">+</a>
+          <a ng-if="isSelected(1)" ng-click="svgControl.zoomOut()">&#8211;</a>
+          <a ng-if="isSelected(1)" ng-click="svgControl.moveLeft()">&#9668;</a>
+          <a ng-if="isSelected(1)" ng-click="svgControl.moveRight()">&#9658;</a>
+          <a ng-if="isSelected(1)" ng-click="svgControl.moveUp()">&#9650;</a>
+          <a ng-if="isSelected(1)" ng-click="svgControl.moveDown()">&#9660;</a>
+
+        </div>
+        <mapa-bolivia class="grafico" data="dpaGeoJSON" votos="partidosDepartamento" current-dpa="currentDpa" tipos-dpa="tiposDpa" partido="partidoSeleccionado" ng-if="isSelected(1)" zoom-control="svgControl">
         </mapa-bolivia>
 
         <!-- Barras -->

@@ -288,6 +288,9 @@ div.tooltip-mapa {
 }
 
 /* Gráficos */
+svg:active, svg g:active {
+  cursor: move;
+}
 svg g, .affix-anios, .tooltip-tabla {
   cursor: pointer;
 }
@@ -439,4 +442,37 @@ div[growl] {
   right: 0;
   position: absolute;
   z-index: 100;
+}
+#map-control {
+  position: absolute;
+  left: auto;
+  right: 0px;
+  margin: 0 19px;
+}
+#map-control a {
+  display: block;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  background: #aaa;
+  font-size: 32px;
+  text-align: center;
+  border: 1px solid #fff;
+  line-height: 32px;
+  text-decoration: none;
+  margin-top: 4px;
+  color: #fff;
+  border-radius: 8px;
+  opacity: .3;
+}
+#map-control a:hover{
+  background: #46f;
+  opacity: 1;
+}
+#map-control a{
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -ms-user-select:none;
+  user-select: none; 
 }

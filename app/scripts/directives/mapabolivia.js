@@ -9,14 +9,20 @@
 angular.module('geoelectoralFrontendApp')
   .directive('mapaBolivia', function (ENV) {
     function link(scope, element, attr) {
+
+      var viewZoom;
+      var svgToZoom;
+      var width, height;
+
       var graficarMapa = function() {
         if (!scope.data.data) { return; }
 
         d3.select(element[0]).selectAll('*').remove();
+        var mpos = [0,0];
         // Margins
-        var margin = {top: 40, right: 0, bottom: 0, left: 0},
-          width = 630 - margin.left - margin.right,
-          height = 500 - margin.top - margin.bottom;
+        var margin = {top: 40, right: 0, bottom: 0, left: 0};
+        width = 630 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
 
         // Mapa
         var mapaCentroide = d3.geo.centroid(scope.data.data); //[2250, -550];
@@ -27,6 +33,7 @@ angular.module('geoelectoralFrontendApp')
                            .translate(offset)
                            .scale(escala)
                            .center(mapaCentroide);
+
 
         // Define path generator
         var path = d3.geo.path()
@@ -64,11 +71,14 @@ angular.module('geoelectoralFrontendApp')
             '<div>{lugar}</div>',
           ].join('');
 
+
         var svg = d3.select(element[0]).append('svg')
             //.attr('width', width + margin.left + margin.right)
             //.attr('height', height + margin.top + margin.bottom);
             .attr('version','1.1')
             .attr('viewBox','0 0 ' + (width + margin.left + margin.right) +' '+ (height + margin.top + margin.bottom) );
+
+        svgToZoom = svg;
 
         // Estable el descendiente: departamento => provincia
         var establecerDescendiente = function(d, currentDpa, tiposDpa) {
@@ -87,6 +97,17 @@ angular.module('geoelectoralFrontendApp')
         };
 
         // Evento click departamento
+        var mousedown = function(d){
+          mpos = [d3.event.layerX,d3.event.layerY];
+        }
+        var mouseup = function(d){
+          if(mpos[0]==d3.event.layerX && mpos[1]==d3.event.layerY){
+            scope.currentDpa.idDpa = d.properties.id_dpa;
+            establecerDescendiente(d, scope.currentDpa, scope.tiposDpa);
+            scope.currentDpa.dpaNombre = d.properties.nombre;
+            scope.$apply();
+          }
+        }
         var click = function(d) {
           scope.currentDpa.idDpa = d.properties.id_dpa;
           establecerDescendiente(d, scope.currentDpa, scope.tiposDpa);
@@ -184,7 +205,11 @@ angular.module('geoelectoralFrontendApp')
           votos = scope.votos,
           partido = scope.partido;
 
-        svg.call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoom));
+        d3.behavior.zoom();
+        viewZoom = d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoomed);
+        viewZoom.translate(mapaCentroide);
+
+        svg.call(viewZoom);
         svg.append('g')
             .attr('class', 'departamentos')
             .attr('transform', 'translate(' + mapaCentroide + ')')
@@ -197,25 +222,88 @@ angular.module('geoelectoralFrontendApp')
             .on('mouseover', mouseover)
             .on('mousemove', mousemove)
             .on('mouseout', mouseout)
-            .on('click', click)
+            .on('mousedown', mousedown)
+            .on('mouseup', mouseup)
+            //.on('click', click)
             .each(function(d) { d.centroid = path.centroid(d); });
-        /*svg.append('g')
-            .attr('class', 'departamentos')
-            .attr('transform', 'translate(' + mapaCentroide + ')scale(1)')
-            .append('path')
-              .attr('class', 'departamento')
-              .attr('fill','#000000')
-              .attr('d','M100,50l10,0l0,-10l5,0l0,10l10,0l0,5l-10,0l0,10l-5,0l0,-10l-10,0l0,-5')
-              .on('click',function(d){
-                console.log("zoom +");
-              });*/
-        function zoom() {
-          d3.event.translate[0]+=mapaCentroide[0];
-          d3.event.translate[1]+=mapaCentroide[1];
-          svg.select('g').attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-        }
+        // funcion de zoom
+        bounds = path.bounds(scope.data.data);
+        function zoomed() {
+          var t = d3.event.translate;
+          var s = d3.event.scale;
 
+          if(t[0] > -bounds[0][0]*s) t[0]= -bounds[0][0]*s;
+          if(t[0] < -bounds[1][0]*s+width) t[0] = -bounds[1][0]*s+width;
+
+          if(t[1] > -bounds[0][1]*s) t[1]= -bounds[0][1]*s;
+          if(t[1] < -bounds[1][1]*s+height) t[1]= -bounds[1][1]*s+height;
+          if(s==1) t=mapaCentroide;
+          viewZoom.translate(t);
+          svgToZoom.select('g').attr("transform", "translate(" + t + ")scale(" + s + ")");
+        }
       };
+
+
+      scope.zoomControl.zoomIn = function(){
+        var currentZoom = viewZoom.scale();
+        var t = viewZoom.translate();
+        if(currentZoom < 8){
+          var newScale = Math.floor(currentZoom) + 1;
+          t[0]-=(width/2);
+          t[1]-=(height/2);
+          viewZoom.scale(newScale)
+              .translate(t)
+              .event(svgToZoom);
+        }
+      };
+      scope.zoomControl.zoomOut = function(){
+        var currentZoom = viewZoom.scale();
+        var t = viewZoom.translate();
+        if(currentZoom > 1){
+          var newScale = Math.floor(currentZoom) - 1;
+          if(newScale<1) newScale=1;
+          t[0]+=(width/2);
+          t[1]+=(height/2);
+          viewZoom.scale(newScale)
+            .translate(t)
+            .event(svgToZoom);
+        }
+      }
+
+      scope.zoomControl.moveLeft = function(){
+        var currentZoom = viewZoom.scale();
+        var t = viewZoom.translate();
+        if(t[0]> 200-width*currentZoom){
+          t[0]-=100;
+          viewZoom.scale(currentZoom)
+              .translate(t)
+              .event(svgToZoom);
+        }
+      }
+      scope.zoomControl.moveRight = function(){
+        var currentZoom = viewZoom.scale();
+        var t = viewZoom.translate();
+        t[0]+=100;
+        viewZoom.scale(currentZoom)
+            .translate(t)
+            .event(svgToZoom);
+      }
+      scope.zoomControl.moveUp = function(){
+        var currentZoom = viewZoom.scale();
+        var t = viewZoom.translate();
+        t[1]-=100;
+        viewZoom.scale(currentZoom)
+            .translate(t)
+            .event(svgToZoom);
+      }
+      scope.zoomControl.moveDown = function(){
+        var currentZoom = viewZoom.scale();
+        var t = viewZoom.translate();
+        t[1]+=100;
+        viewZoom.scale(currentZoom)
+            .translate(t)
+            .event(svgToZoom);
+      }
 
       scope.$watch('data', graficarMapa);
       scope.$watch('partido', graficarMapa);
@@ -228,7 +316,8 @@ angular.module('geoelectoralFrontendApp')
         votos: '=',
         currentDpa: '=',
         tiposDpa: '=',
-        partido: '='
+        partido: '=',
+        zoomControl: '='
       }
     };
   });
