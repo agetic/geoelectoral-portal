@@ -10,19 +10,18 @@
           <span class="caret"></span>
         </button>
         <ul class="nav-anios affix-anios" ng-class="anios_tipo()">
-          <li ng-class="{active: a === anio}" ng-repeat="a in anios" >
-            <a tabindex="0" ng-click="setAnioIndex($index)">{{a}}</a>
-            <ul class="nav" ng-show="a===anio">
-              <li><span class="li-header" ng-class="{active: getTipoEleccion(1)==1}">Plurinominales</span>
+          <li ng-class="{active: a.anio === anio}" ng-repeat="a in aniosDetalle" >
+            <a tabindex="0" ng-click="setAnioIndex($index)">{{a.anio}}</a>
+            <ul class="nav" ng-show="a.anio===anio">
+              <li ng-repeat="b in a.tipos_eleccion"><span class="li-header" ng-class="{active: getTipoEleccion()==b.id_tipo_eleccion}">{{b.id_tipo_eleccion==1?'Plurinominales':'Uninominales'}}</span>
                 <ul class="nav">
-                  <li ng-click="setTipoDpa(2,1)" ng-class="{active: getTipoDpa()===2 && getTipoEleccion(1)==1}"><a>Departamento</a></li>
-                  <li ng-click="setTipoDpa(3,1)" ng-class="{active: getTipoDpa()===3 && getTipoEleccion(1)==1}"><a>Provincia</a></li>
-                  <li ng-click="setTipoDpa(4,1)" ng-class="{active: getTipoDpa()===4 && getTipoEleccion(1)==1}"><a>Municipio</a></li>
-                </ul>
-              </li>
-              <li><span class="li-header" ng-class="{active: getTipoEleccion(1)==2}">Uninominales</span>
-                <ul class="nav">
-                  <li ng-click="setTipoDpa(5,2)" ng-class="{active: getTipoDpa()===5 && getTipoEleccion(1)==2}"><a>Circunscripción</a></li>
+                  <li ng-repeat="c in b.id_tipos_dpa" ng-click="setTipoDpa(c,b.id_tipo_eleccion)" ng-class="{active: getTipoDpa()===c && getTipoEleccion()==b.id_tipo_eleccion}" ng-switch="c">
+                    <!-- <a ng-switch-when="1">Bolivia</a> -->
+                    <a ng-switch-when="2">Departamento</a>
+                    <a ng-switch-when="3">Provincia</a>
+                    <a ng-switch-when="4">Municipio</a>
+                    <a ng-switch-when="5">Circunscripcion</a>
+                  </li>
                 </ul>
               </li>
             </ul>
@@ -34,11 +33,6 @@
         <div id="map-control">
           <a ng-if="isSelected(1)" ng-click="svgControl.zoomIn()">+</a>
           <a ng-if="isSelected(1)" ng-click="svgControl.zoomOut()">&#8211;</a>
-          <a ng-if="isSelected(1)" ng-click="svgControl.moveLeft()">&#9668;</a>
-          <a ng-if="isSelected(1)" ng-click="svgControl.moveRight()">&#9658;</a>
-          <a ng-if="isSelected(1)" ng-click="svgControl.moveUp()">&#9650;</a>
-          <a ng-if="isSelected(1)" ng-click="svgControl.moveDown()">&#9660;</a>
-
         </div>
         <mapa-bolivia class="grafico" data="dpaGeoJSON" votos="partidosDepartamento" current-dpa="currentDpa" tipos-dpa="tiposDpa" partido="partidoSeleccionado" ng-if="isSelected(1)" zoom-control="svgControl">
         </mapa-bolivia>

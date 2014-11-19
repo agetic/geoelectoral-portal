@@ -19,6 +19,7 @@ angular.module('geoelectoralFrontendApp')
     $scope.svgControl = {};
 
     $scope.anios = [1979, 1980, 1985, 1989, 1993, 1997, 2002, 2005, 2009, 2014].reverse();
+    $scope.aniosDetalle = [];
     $scope.tiposDpa = [
       { idTipoDpa: 1, nombre: 'país', idTipoDpaSuperior: null },
       { idTipoDpa: 2, nombre: 'departamento', idTipoDpaSuperior: 1 },
@@ -78,6 +79,20 @@ angular.module('geoelectoralFrontendApp')
         return;
       }
     });
+
+    // Obtener anos y sus respectivas elecciones
+    $scope.getAnios = function(){
+      $http.get(host+api+"/anios").then(function(response){
+        $scope.aniosDetalle = response.data.anios.reverse();
+        console.log($scope.aniosDetalle[0].anio);
+        if($scope.aniosDetalle[0].anio){
+          for(var a in $scope.aniosDetalle)
+            $scope.anios[a]=$scope.aniosDetalle[a].anio;
+          $scope.e = { anioIndex: $scope.anios.length - 1 };
+          $scope.anio = $scope.anios[$scope.e.anioIndex];
+        }
+      });
+    }
 
     // Hover sobre las filas de la tabla
     $scope.hoverIn = function() {
