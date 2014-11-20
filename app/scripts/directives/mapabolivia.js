@@ -270,41 +270,6 @@ angular.module('geoelectoralFrontendApp')
         }
       }
 
-      scope.zoomControl.moveLeft = function(){
-        var currentZoom = viewZoom.scale();
-        var t = viewZoom.translate();
-        if(t[0]> 200-width*currentZoom){
-          t[0]-=100;
-          viewZoom.scale(currentZoom)
-              .translate(t)
-              .event(svgToZoom);
-        }
-      }
-      scope.zoomControl.moveRight = function(){
-        var currentZoom = viewZoom.scale();
-        var t = viewZoom.translate();
-        t[0]+=100;
-        viewZoom.scale(currentZoom)
-            .translate(t)
-            .event(svgToZoom);
-      }
-      scope.zoomControl.moveUp = function(){
-        var currentZoom = viewZoom.scale();
-        var t = viewZoom.translate();
-        t[1]-=100;
-        viewZoom.scale(currentZoom)
-            .translate(t)
-            .event(svgToZoom);
-      }
-      scope.zoomControl.moveDown = function(){
-        var currentZoom = viewZoom.scale();
-        var t = viewZoom.translate();
-        t[1]+=100;
-        viewZoom.scale(currentZoom)
-            .translate(t)
-            .event(svgToZoom);
-      }
-
       scope.$watch('data', graficarMapa);
       scope.$watch('partido', graficarMapa);
     }
