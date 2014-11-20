@@ -11,7 +11,7 @@ angular.module('geoelectoralFrontendApp')
 
     return {
       restrict: 'A',
-      template: '<ol class="breadcrumb"><li ng-repeat=\'bc in breadcrumbs\' ng-class="{\'active\': {{$last}} }"><a ng-click="unregisterBreadCrumb( $index )" ng-href="{{bc.href}}">{{bc.label}}</a><span><svg width="18" height="32" xmlns="http://www.w3.org/2000/svg"><g><g><path stroke-width="2" fill="#428bca" stroke="#ffffff" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" d="m0,-2c22,19 22,19 0,36" /></g></g></svg></span></li></ol>',
+      template: '<ol class="breadcrumb"><li ng-repeat=\'bc in breadcrumbs\' ng-class="{\'active\': {{$last}} }"><a ng-click="unregisterBreadCrumb( $index )" ng-href="{{bc.href}}">{{bc.label}}</a><span><svg width="18" height="32" xmlns="http://www.w3.org/2000/svg"><g><g><path stroke-width="2" fill="#428bca" stroke="#ffffff" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" d="m0,-2l20,18l-20,18" /></g></g></svg></span></li></ol>',
       replace: true,
       compile: function(tElement, tAttrs) {
         return function($scope, $elem, $attr) {
