@@ -83,7 +83,6 @@ angular.module('geoelectoralFrontendApp')
             .text(function(d) { return d.porcentaje + '%'; })
             .attr('y', function(d) { return y(d.sigla) + y.rangeBand()/2; })
             .attr('x', function(d) { return x(d.porcentaje); })
-            .style('fill', function(d) { return setFillColor(this, d); })
             .attr('text-anchor', 'start')
             .attr('dy', '.35em')
             .attr('dx', function(d) {
@@ -103,8 +102,10 @@ angular.module('geoelectoralFrontendApp')
             .attr('width', function(d) { return x(d.porcentaje); })
             .attr('y', function(d) { return y(d.sigla); })
             .attr('height', y.rangeBand())
+            .style('fill', function(d) { return "#"+d.color; })
             .on('mouseover', GrupoFactory.barraMouseover)
             .on('mouseout', GrupoFactory.barraMouseout);
+
 
         svg.append('g')
             .attr('class', 'y axis')
