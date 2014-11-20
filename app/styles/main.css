@@ -6,33 +6,33 @@ body {
 
 /* Custom page header */
 .header {
-  margin-bottom: 10px;
+  margin: 0;
+  height: 50px;
+  margin-bottom: 15px;
 }
-/* Make the masthead heading the same height as the navigation */
-.header h3 {
-  margin-top: 0;
-  margin-bottom: 0;
-  color: #000;
+/* logo de ADSIB */
+.logo-adsib {
+  float: left;
+  margin-right: 15px;
+}
+.logo-adsib img {
+  height: 50px;
+}
+.geoelectoral-titulo {
+  float: left;
+  margin-top: 27px;
+  margin-right: 15px;
+}
+/* Título Elecciones */
+.titulo {
+  float: left;
+  margin-top: 32px;
 }
 
-.header input[type=range] {
-  width: 100%;
-  margin-top: 10px;
+.nav-buttons{
+  clear: both;
 }
-.navbar{
-  background-color: #fff;
-  margin-bottom: 0px;
-  border: none;
-}
-.navbar-brand{
-  color: #000 !important;
-  margin-left: 0px !important;
-  height: auto;
-  width: 680px;
-  padding-top: 10px;
-  padding-bottom: 4px;
-  margin-bottom: 0;
-}
+
 /*-- change anios dropdown color --*/
   a:focus{
     outline: none;
@@ -117,8 +117,7 @@ body {
 
 .breadcrumb {
   margin-bottom: 0;
-  padding-top: 0;
-  padding-bottom:0;
+  padding: 0;
   background-color: #fff;
 }
 .btn-anios{
@@ -167,21 +166,14 @@ body {
   margin-top: 28px;
 }
 
-/* Responsive: Portrait tablets and down 1200 */
-@media screen and (max-width: 1199px) {
-  .navbar-brand{
-    width: 485px;
-    padding-top: 10px;
-  }
-}
 /* Responsive: Portrait tablets and down 992 */
 @media screen and (max-width: 991px) {
-  .navbar-brand{
-    width: 460px;
-    padding-top: 10px;
+  .titulo{
+    clear: left;
+    margin-top: -7px;
   }
-  .geoelectoral-titulo{
-    width: 140px;
+  .header {
+    height: 78px;
   }
 }
 /* Responsive: Portrait tablets and down 768 */
@@ -194,13 +186,6 @@ body {
     padding-right: 0;
   }
   /* Space out the masthead */
-  .header {
-    margin-bottom: 0;
-  }
-  .navbar-brand{
-    width: auto;
-    padding-top: 0;
-  }
   .btn-anios{
     color: #428bca;
     display: block;
@@ -219,32 +204,10 @@ body {
   .jumbotron {
     border-bottom: 0;
   }
-  .breadcrumb {
-    padding-left:0;
-  }
 }
 @media screen and (max-width: 380px) {
-  .geoelectoral-titulo{
-    padding-left: 15px;
-    font-size: 20px;
-    width: 180px;
-  }
-  .navbar-brand{
-    font-size: 11px;
-    font-weight: bold;
-    line-height: 15px;
-  }
-  .dpas button{
-    font-size: 9px;
-    padding: 6px 4px;
-  }
   .nav > li > a{
     padding: 4px 15px;
-  }
-}
-@media screen and (max-width: 280px) {
-  .header h3{
-    font-size: 16px;
   }
 }
 
@@ -383,28 +346,7 @@ svg .hover:hover {
   border: 1px dashed #888;
   background-color: none;
 }
-
-/* Título Elecciones */
-.titulo {
-  clear: left;
-  margin-top: 0px;
-}
-
-/* logo de ADSIB */
-.logo-adsib {
-  float: left;
-  margin-top: -16px;
-  margin-right: 15px;
-}
-.logo-adsib img {
-  height: 50px;
-}
-.geoelectoral-titulo {
-  float: left;
-  margin-top: 5px;
-  margin-bottom: 0;
-}
-
+  
 /* breadcrumb separator */
 .breadcrumb > li + li:before {
   /*content: "\003E";*/
@@ -432,12 +374,6 @@ svg .hover:hover {
   text-decoration: none;
 }
 
-
-/* dpas */
-.dpas {
-  clear: right;
-  margin-top: 10px;
-}
 
 /* Growl Notifications */
 div[growl] {
