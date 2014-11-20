@@ -300,6 +300,11 @@ svg .departamentos path {
   stroke: white;
 }
 
+svg.marco-mapa {
+  border: 1px solid #999;
+  border-radius: 10px;
+}
+
 /* Etiquetas de partidos ganadores - mapa */
 svg .etiquetas text {
   fill: rgb(44, 44, 44);
