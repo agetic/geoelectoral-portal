@@ -34,23 +34,29 @@
           <a ng-if="isSelected(1)" ng-click="svgControl.zoomIn()">+</a>
           <a ng-if="isSelected(1)" ng-click="svgControl.zoomOut()">&#8211;</a>
         </div>
-        <mapa-bolivia class="grafico" data="dpaGeoJSON" votos="partidosDepartamento" current-dpa="currentDpa" tipos-dpa="tiposDpa" partido="partidoSeleccionado" ng-if="isSelected(1)" zoom-control="svgControl">
+        <mapa-bolivia class="grafico" data="dpaGeoJSON" votos="partidosDepartamento" current-dpa="currentDpa" tipos-dpa="tiposDpa" partido="partidoSeleccionado" zoom-control="svgControl">
         </mapa-bolivia>
-
-        <!-- Barras -->
-        <barras-bolivia class="grafico" data="partidos" tab="{{tab}}" ng-if="isSelected(2)">
-        </barras-bolivia>
-
-        <!-- Torta -->
-        <torta-bolivia id="torta" class="grafico" data="partidos" tab="{{tab}}" ng-if="isSelected(3)">
-        </torta-bolivia>
       </div>
     </div>
   </div>
 
   <!-- EstadisticS -->
   <div class="col-md-4 col-sm-12 statistics">
-    <table class="table table-condensed table-hover">
+    <div>
+      <ul class="nav nav-pills pull-right">
+        <li ng-class="{active: isSelected(2)}">
+          <a href ng-click="selectTab(2)">Barras</a>
+        </li>
+        <li ng-class="{active: isSelected(3)}">
+          <a href ng-click="selectTab(3)">Torta</a>
+        </li>
+        <li ng-class="{active: isSelected(1)}">
+          <a href ng-click="selectTab(1)">Tabla</a>
+        </li>
+      </ul>
+    </div>
+        <!-- Tabla -->
+    <table class="table table-condensed table-hover" ng-if="isSelected(1)">
       <thead>
         <tr>
           <th></th>
@@ -70,6 +76,13 @@
         </tr>
       </tbody>
     </table>
+        <!-- Barras -->
+    <barras-bolivia class="grafico" data="partidos" tab="{{tab}}" ng-if="isSelected(2)">
+    </barras-bolivia>
+
+    <!-- Torta -->
+    <torta-bolivia id="torta" class="grafico" data="partidos" tab="{{tab}}" ng-if="isSelected(3)">
+    </torta-bolivia>
   </div>
 
 </div>
