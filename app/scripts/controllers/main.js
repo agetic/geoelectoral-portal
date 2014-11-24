@@ -59,7 +59,7 @@ angular.module('geoelectoralFrontendApp')
     $scope.$on('$routeChangeSuccess', function() {
       if ($routeParams.anio && $routeParams.idDpa) {
         Dpa.query().then(function(data) {
-          $scope.currentDpa = Dpa.find(parseInt($routeParams.idDpa));;
+          $scope.currentDpa = Dpa.find(parseInt($routeParams.idDpa),$scope.aniosDetalle[$scope.e.anioIndex],$scope.currentDpa);
           $scope.e = { anioIndex: $scope.anios.indexOf(parseInt($routeParams.anio)) };
           $scope.anio = $scope.anios[$scope.e.anioIndex];
           if ($scope.e.anioIndex >= 0) {

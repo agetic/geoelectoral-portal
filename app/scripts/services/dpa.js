@@ -79,6 +79,27 @@ angular.module('geoelectoralFrontendApp')
       return id_dpa_superior;
     };
 
+    var hayDpa4Eleccion = function (anioDetalle,antDpa){
+      var i=0;
+      var id_tipos_dpa=null;
+      while(i<anioDetalle.tipos_eleccion.length){
+        if(anioDetalle.tipos_eleccion[i].id_tipo_eleccion=antDpa.idTipoEleccion){
+          id_tipos_dpa = anioDetalle.tipos_eleccion[i].id_tipos_dpa;
+          break;
+        }
+        i++;
+      }
+      if(id_tipos_dpa){
+        i=0;
+        while(i<id_tipos_dpa.length){
+          if(id_tipos_dpa[i]==antDpa.idTipoDpa)
+            return true;
+          i++;
+        }
+      }
+      return false;
+    }
+
     // Public API here
     return {
 
@@ -93,7 +114,7 @@ angular.module('geoelectoralFrontendApp')
       },
 
       // Búsqueda de los datos del DPA
-      find: function (idDpa) {
+      find: function (idDpa,anioDetalle,antDpa) {
         var d = null;
         _dpa.some(function (e) {
           if (e.id_dpa === idDpa) {
@@ -104,6 +125,10 @@ angular.module('geoelectoralFrontendApp')
         d = toCurrentDpa(d);
         if (establecerDescendiente(d) !== null) {
           d.idTipoDpa = establecerDescendiente(d);
+        }
+        if(anioDetalle){
+          if(hayDpa4Eleccion(anioDetalle,antDpa))
+            d.idTipoDpa = antDpa.idTipoDpa;
         }
         return d;
       },
