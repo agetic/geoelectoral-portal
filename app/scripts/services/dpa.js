@@ -83,7 +83,7 @@ angular.module('geoelectoralFrontendApp')
       var i=0;
       var id_tipos_dpa=null;
       while(i<anioDetalle.tipos_eleccion.length){
-        if(anioDetalle.tipos_eleccion[i].id_tipo_eleccion=antDpa.idTipoEleccion){
+        if(anioDetalle.tipos_eleccion[i].id_tipo_eleccion==antDpa.idTipoEleccion){
           id_tipos_dpa = anioDetalle.tipos_eleccion[i].id_tipos_dpa;
           break;
         }
@@ -129,6 +129,7 @@ angular.module('geoelectoralFrontendApp')
         if(anioDetalle){
           if(hayDpa4Eleccion(anioDetalle,antDpa))
             d.idTipoDpa = antDpa.idTipoDpa;
+            d.idTipoEleccion = antDpa.idTipoEleccion;
         }
         return d;
       },
