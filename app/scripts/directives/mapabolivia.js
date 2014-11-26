@@ -237,7 +237,8 @@ angular.module('geoelectoralFrontendApp')
 
           if(t[1] > -bounds[0][1]*s) t[1]= -bounds[0][1]*s;
           if(t[1] < -bounds[1][1]*s+height) t[1]= -bounds[1][1]*s+height;
-          if(s==1) {
+          if(s<=1.5) {
+            s=1;
             t=mapaCentroide;
             svgToZoom.classed('marco-mapa',false);
           }else{
