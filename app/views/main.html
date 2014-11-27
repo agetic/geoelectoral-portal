@@ -1,47 +1,20 @@
 
-<div class="row">
-
-  <!-- Mapa -->
-  <div class="col-md-8 col-sm-12 graficos">
-    <ol id="mapa-breadcrumb" bread-crumbs></ol>
-    <div class="row" resize>
-      <div class="col-sm-3" ng-class="anios_columna()">
-        <button class="btn btn-default btn-anios" type="button" data-toggle="dropdown">{{anio}}
-          <span class="caret"></span>
-        </button>
-        <ul class="nav-anios affix-anios" ng-class="anios_tipo()">
-          <li ng-class="{active: a.anio === anio}" ng-repeat="a in aniosDetalle" >
-            <a tabindex="0" ng-click="setAnioIndex($index)">{{a.anio}}</a>
-            <ul class="nav" ng-show="a.anio===anio">
-              <li ng-repeat="b in a.tipos_eleccion"><span class="li-header" ng-class="{active: getTipoEleccion()==b.id_tipo_eleccion}">{{b.id_tipo_eleccion==1?'Plurinominales':'Uninominales'}}</span>
-                <ul class="nav">
-                  <li ng-repeat="c in b.id_tipos_dpa" ng-click="setTipoDpa(c,b.id_tipo_eleccion)" ng-class="{active: getTipoDpa()===c && getTipoEleccion()==b.id_tipo_eleccion}" ng-switch="c">
-                    <!-- <a ng-switch-when="1">Bolivia</a> -->
-                    <a ng-switch-when="2">Departamento</a>
-                    <a ng-switch-when="3">Provincia</a>
-                    <a ng-switch-when="4">Municipio</a>
-                    <a ng-switch-when="5">Circunscripcion</a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-      
-      <div class="col-sm-9" ng-class="mapa_columna()">
-        <div id="map-control">
-          <a ng-click="svgControl.zoomIn()">+</a>
-          <a ng-click="svgControl.zoomOut()">&#8211;</a>
-        </div>
-        <mapa-bolivia class="grafico" data="dpaGeoJSON" votos="partidosDepartamento" current-dpa="currentDpa" tipos-dpa="tiposDpa" partido="partidoSeleccionado" zoom-control="svgControl">
-        </mapa-bolivia>
-      </div>
-    </div>
+<div id="fondo-mapa" resize>
+  <!-- Controles para el mapa -->
+  <div id="map-control">
+    <a ng-click="svgControl.zoomIn()">+</a>
+    <a ng-click="svgControl.zoomOut()">&#8211;</a>
   </div>
+  <!-- Grafico Mapa -->
+  <mapa-bolivia class="grafico" data="dpaGeoJSON" votos="partidosDepartamento" current-dpa="currentDpa" tipos-dpa="tiposDpa" partido="partidoSeleccionado" zoom-control="svgControl">
+  </mapa-bolivia>
+
+</div>
+
+<ol id="mapa-breadcrumb" bread-crumbs></ol>
 
   <!-- EstadisticS -->
-  <div class="col-md-4 col-sm-12 statistics">
+  <div class="statistics">
     <div class="nav-buttons">
       <ul class="nav nav-pills pull-right">
         <li ng-class="{active: isSelected(2)}">
@@ -58,7 +31,7 @@
         </li>
       </ul>
     </div>
-        <!-- Tabla -->
+    <!-- Tabla -->
     <table class="table table-condensed table-hover" ng-if="isSelected(1)">
       <thead>
         <tr>
@@ -79,7 +52,7 @@
         </tr>
       </tbody>
     </table>
-        <!-- Barras -->
+    <!-- Barras -->
     <div>
       <barras-bolivia class="grafico" data="partidos" tab="{{tab}}" ng-if="isSelected(2)">
       </barras-bolivia>
@@ -90,6 +63,30 @@
       </torta-bolivia>
     </div>
   </div>
+  <!-- EstadisticS -->
 
+<div id="menu-anios">
+  <button class="btn btn-default btn-anios" type="button" data-toggle="dropdown">{{anio}}
+    <span class="caret"></span>
+  </button>
+  <ul class="nav-anios affix-anios" ng-class="anios_tipo()">
+    <li ng-class="{active: a.anio === anio}" ng-repeat="a in aniosDetalle" >
+      <a tabindex="0" ng-click="setAnioIndex($index)">{{a.anio}}</a>
+      <ul class="nav" ng-show="a.anio===anio">
+        <li ng-repeat="b in a.tipos_eleccion"><span class="li-header" ng-class="{active: getTipoEleccion()==b.id_tipo_eleccion}">{{b.id_tipo_eleccion==1?'Plurinominales':'Uninominales'}}</span>
+          <ul class="nav">
+            <li ng-repeat="c in b.id_tipos_dpa" ng-click="setTipoDpa(c,b.id_tipo_eleccion)" ng-class="{active: getTipoDpa()===c && getTipoEleccion()==b.id_tipo_eleccion}" ng-switch="c">
+              <!-- <a ng-switch-when="1">Bolivia</a> -->
+              <a ng-switch-when="2">Departamento</a>
+              <a ng-switch-when="3">Provincia</a>
+              <a ng-switch-when="4">Municipio</a>
+              <a ng-switch-when="5">Circunscripcion</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
 </div>
+
 <div id="tooltip-mapa"></div>

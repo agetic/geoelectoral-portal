@@ -71,7 +71,6 @@ angular.module('geoelectoralFrontendApp')
             '<div>{lugar}</div>',
           ].join('');
 
-
         var svg = d3.select(element[0]).append('svg')
             //.attr('width', width + margin.left + margin.right)
             //.attr('height', height + margin.top + margin.bottom);
@@ -127,8 +126,8 @@ angular.module('geoelectoralFrontendApp')
                              .replace(/{votos}/g, d3.format(',d')(d.partido.resultado))
                              .replace(/{lugar}/g, d.properties.nombre);
           div
-            .style('left', (d3.event.pageX + 5) + 'px')
-            .style('top', d3.event.pageY + 'px');
+            .style('left', (d3.event.layerX + 5) + 'px')
+            .style('top', d3.event.layerY + 'px');
           if (d.partido.sigla === undefined) {
             toolt = tooltipTplBlank.replace(/{sigla}/g, 'Sin datos')
                              .replace(/{lugar}/g, d.properties.nombre);

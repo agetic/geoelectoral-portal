@@ -1,14 +1,90 @@
+html, body {
+  height: 100%;
+  width: 100%;
+}
 /* Space out content a bit */
 body {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 5px;
+  padding-bottom: 25px;
 }
+
+.container {
+  height: 100%;
+}
+.container section {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  /*min-height: 585px;*/
+}
+
+#ng-view{
+  height: 100%;
+  box-shadow: 1px 4px 8px;
+}
+#fondo-mapa {
+  height: 100%;
+}
+#fondo-mapa svg {
+  height: 100%;
+  width: 100%;
+  /*border: 1px solid #009;*/
+  border-radius: 5px;
+}
+
+#ng-view{
+  position: relative;
+}
+
+.btn-anios{
+  display: none;
+}
+#menu-anios {
+  border-radius: 4px;
+  position: absolute;
+  width: 140px;
+  top: 64px;
+  background: #fff;
+  opacity: .5;
+  height: 75%;
+  overflow: hidden;
+}
+#menu-anios:hover {
+  opacity: 1;
+  overflow-y: auto;
+}
+#menu-anios .dropdown-menu{
+  position: unset;
+}
+#mapa-breadcrumb{
+  position: absolute;
+  top: auto;
+  left: 5px;
+  bottom: 1px;
+}
+.statistics{
+  border-radius: 10px;
+  background: #fff;
+  left: auto;
+  position: absolute;
+  right: 0;
+  opacity: .3;
+  top: 78px;
+  width: 280px;
+}
+.statistics:hover{
+  opacity: 1;
+}
+
+
 
 /* Custom page header */
 .header {
+  position: absolute;
   margin: 0;
-  height: 50px;
-  margin-bottom: 15px;
+  /*height: 50px;*/
+  width: 100%;
+  z-index: 100;
 }
 /* logo de ADSIB */
 .logo-adsib {
@@ -25,8 +101,10 @@ body {
 }
 /* Título Elecciones */
 .titulo {
-  float: left;
-  margin-top: 32px;
+  float: right;
+  margin-top: 5px;
+  margin-right: 35px;
+  width: 50%;
 }
 
 .nav-buttons{
@@ -118,15 +196,12 @@ body {
 .breadcrumb {
   margin-bottom: 0;
   padding: 0;
-  background-color: #fff;
-}
-.btn-anios{
-  display: none;
+  background-color: transparent;
 }
 
 /* Custom page footer */
 .footer {
-  padding-top: 5px;
+  padding-top: 0;
   color: #777;
   border-top: 1px solid #e5e5e5;
 }
@@ -144,9 +219,6 @@ body {
   margin: 30px 0;
 }
 
-.container section {
-  min-height: 585px;
-}
 
 /* Main marketing message and sign up button */
 .jumbotron {
@@ -166,18 +238,35 @@ body {
   margin-top: 28px;
 }
 
-/* Responsive: Portrait tablets and down 992 */
-@media screen and (max-width: 991px) {
-  .titulo{
-    clear: left;
-    margin-top: -7px;
-  }
-  .header {
-    height: 78px;
-  }
-}
 /* Responsive: Portrait tablets and down 768 */
 @media screen and (max-width: 767px) {
+  .header{
+    position: relative;
+    height: auto;
+  }
+  .header .titulo{
+    clear: left;
+    float: none;
+    width: 100%;
+  }
+  #menu-anios {
+    top: 0;
+    background: none;
+    height: auto;
+  }
+  .statistics{
+    top: 0;
+    width: 100%;
+    position: relative;
+    opacity: 1;
+  }
+  .container section {
+    height: auto;
+  }
+  #mapa-breadcrumb{
+    position: relative;
+  }
+
   /* Remove the padding we set earlier */
   .header,
   .marketing,
@@ -203,11 +292,6 @@ body {
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
     border-bottom: 0;
-  }
-}
-@media screen and (max-width: 380px) {
-  .nav > li > a{
-    padding: 4px 15px;
   }
 }
 
@@ -267,7 +351,6 @@ svg.marco-mapa {
   border: 1px solid #999;
   border-radius: 10px;
 }
-
 /* Etiquetas de partidos ganadores - mapa */
 svg .etiquetas text {
   fill: rgb(44, 44, 44);
@@ -282,16 +365,6 @@ svg .fondos rect {
 svg .hover:hover {
   fill: #bbb;
   opacity: 0.3;
-}
-
-
-/* Affix años */
-.affix-anios > li.active{
-  font-size: 1.5em;
-  margin: 10px 0;
-}
-.affix-anios > li a{
-  line-height: 20px;
 }
 
 /* Barras */
@@ -388,14 +461,14 @@ div[growl] {
 #map-control {
   position: absolute;
   left: auto;
-  right: 0px;
-  margin: 0 19px;
+  right: 0;
+  margin: 5px 5px;
 }
 #map-control a {
   display: block;
   cursor: pointer;
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   background: #aaa;
   font-size: 32px;
   text-align: center;
@@ -407,7 +480,7 @@ div[growl] {
   border-radius: 8px;
   opacity: .3;
 }
-#map-control a:hover{
+#map-control:hover a{
   background: #46f;
   opacity: 1;
 }

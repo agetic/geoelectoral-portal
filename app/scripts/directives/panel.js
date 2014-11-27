@@ -17,14 +17,8 @@ angular.module('geoelectoralFrontendApp')
             scope.windowHeight = newValue.h;
             scope.windowWidth = newValue.w;
 
-            scope.anios_columna = function(){
-                return (newValue.w<768)?"":"col-xs-3";
-            };
             scope.anios_tipo = function () {
                 return (newValue.w<768)?"dropdown-menu":"nav";
-            };
-            scope.mapa_columna = function(){
-                return (newValue.w<768)?"":"col-xs-9";
             };
         }, true);
 
