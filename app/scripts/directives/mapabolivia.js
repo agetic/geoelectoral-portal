@@ -40,8 +40,10 @@ angular.module('geoelectoralFrontendApp')
         d3.select('#fondo-mapa').selectAll('*').remove();
         d3.select('#fondo-mapa').html(elmapa);
         //console.log(d3.select('#fondo-mapa').html() );
+        var mapaCentroide = d3.geo.centroid(scope.data.data).reverse();
+        //console.log(mapaCentroide);
 
-        var map = L.map('mapa',{zoomControl:false}).setView([-16.642589, -64.617366], 6);
+        var map = L.map('mapa',{zoomControl:false}).setView(mapaCentroide, 6);
         //add zoom control with your options
         L.control.zoom({position:'topright'}).addTo(map);
         //.addLayer(new L.TileLayer("https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png"));
@@ -119,8 +121,8 @@ angular.module('geoelectoralFrontendApp')
                              .replace(/{votos}/g, d3.format(',d')(d.partido.resultado))
                              .replace(/{lugar}/g, d.properties.nombre);
           div
-            .style('left', (d3.event.pageX - 100) + 'px')
-            .style('top', d3.event.pageY + 'px');
+            .style('left', (d3.event.pageX - 5) + 'px')
+            .style('top', (d3.event.pageY-90) + 'px');
           if (d.partido.sigla === undefined) {
             toolt = tooltipTplBlank.replace(/{sigla}/g, 'Sin datos')
                              .replace(/{lugar}/g, d.properties.nombre);
