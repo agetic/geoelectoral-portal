@@ -1,15 +1,10 @@
 
 <div id="fondo-mapa" resize>
-  <!-- Controles para el mapa -->
-  <div id="map-control">
-    <a ng-click="svgControl.zoomIn()">+</a>
-    <a ng-click="svgControl.zoomOut()">&#8211;</a>
-  </div>
-  <!-- Grafico Mapa -->
-  <mapa-bolivia class="grafico" data="dpaGeoJSON" votos="partidosDepartamento" current-dpa="currentDpa" tipos-dpa="tiposDpa" partido="partidoSeleccionado" zoom-control="svgControl">
-  </mapa-bolivia>
-
 </div>
+  <!-- Controles para el mapa -->
+  <!-- Grafico Mapa -->
+<mapa-bolivia class="grafico" data="dpaGeoJSON" votos="partidosDepartamento" current-dpa="currentDpa" tipos-dpa="tiposDpa" partido="partidoSeleccionado" zoom-control="svgControl">
+</mapa-bolivia>
 
 <ol id="mapa-breadcrumb" bread-crumbs></ol>
 

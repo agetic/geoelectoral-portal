@@ -9,6 +9,7 @@ body {
 }
 
 .container {
+  width: 100%;
   height: 100%;
 }
 .container section {
@@ -20,17 +21,19 @@ body {
 
 #ng-view{
   height: 100%;
-  box-shadow: 1px 4px 8px;
 }
 #fondo-mapa {
   height: 100%;
 }
-#fondo-mapa svg {
+#mapa{
+  width: 100%;
+  height: 100%;
+}
+/*#fondo-mapa svg {
   height: 100%;
   width: 100%;
-  /*border: 1px solid #009;*/
   border-radius: 5px;
-}
+}*/
 
 #ng-view{
   position: relative;
@@ -262,6 +265,9 @@ body {
   }
   .container section {
     height: auto;
+  }
+  #fondo-mapa{
+    height: 360px;
   }
   #mapa-breadcrumb{
     position: relative;

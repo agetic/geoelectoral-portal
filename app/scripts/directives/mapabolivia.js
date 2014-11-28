@@ -17,48 +17,12 @@ angular.module('geoelectoralFrontendApp')
       var graficarMapa = function() {
         if (!scope.data.data) { return; }
 
-        d3.select(element[0]).selectAll('*').remove();
         var mpos = [0,0];
-        // Margins
-        var margin = {top: 40, right: 0, bottom: 0, left: 0};
-        width = 630 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
-
-        // Mapa
-        var mapaCentroide = d3.geo.centroid(scope.data.data); //[2250, -550];
-        var escala = 1;
-        var offset = [width/2 - margin.left - margin.right - 50,
-                      height/2 - margin.top - margin.bottom];
-        var projection = d3.geo.mercator()
-                           .translate(offset)
-                           .scale(escala)
-                           .center(mapaCentroide);
-
-
-        // Define path generator
-        var path = d3.geo.path()
-                     .projection(projection);
-
-        var bounds = path.bounds(scope.data.data);
-        var hEscala = escala*width / (bounds[1][0] - bounds[0][0]);
-        var vEscala = escala*height / (bounds[1][1] - bounds[0][1]);
-        escala = (hEscala < vEscala) ? hEscala : vEscala;
-        offset = [width - (bounds[0][0] + bounds[1][0])/2,
-                  height - (bounds[0][1] + bounds[1][1])/2];
-
-        // Nueva proyección
-        projection = d3.geo.mercator()
-                       .center(mapaCentroide)
-                       .scale(escala)
-                       .translate(offset);
-
-        path = path.projection(projection);
 
         // Tooltip container
         var div = d3.select('#tooltip-mapa')
             .attr('class', 'tooltip-mapa')
             .style('opacity', 1e-6);
-
         var tooltipTpl = [
             '<strong>{sigla}</strong>',
             '<div>Porcentaje: {porcentaje}%</div>',
@@ -71,13 +35,42 @@ angular.module('geoelectoralFrontendApp')
             '<div>{lugar}</div>',
           ].join('');
 
-        var svg = d3.select(element[0]).append('svg')
-            //.attr('width', width + margin.left + margin.right)
-            //.attr('height', height + margin.top + margin.bottom);
-            .attr('version','1.1')
-            .attr('viewBox','0 0 ' + (width + margin.left + margin.right) +' '+ (height + margin.top + margin.bottom) );
+        // Contenedor del mapa
+        var elmapa = '<div id="mapa"></div>';
+        d3.select('#fondo-mapa').selectAll('*').remove();
+        d3.select('#fondo-mapa').html(elmapa);
+        //console.log(d3.select('#fondo-mapa').html() );
 
-        svgToZoom = svg;
+        var map = L.map('mapa',{zoomControl:false}).setView([-16.642589, -64.617366], 6);
+        //add zoom control with your options
+        L.control.zoom({position:'topright'}).addTo(map);
+        //.addLayer(new L.TileLayer("https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png"));
+        //.addLayer(new L.TileLayer("http://{s}.tiles.mapbox.com/v3/examples.map-vyofok3q/{z}/{x}/{y}.png"));
+        
+        //L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+        L.tileLayer('https://b.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+          maxZoom: 8,
+          minZoom: 4,
+          attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+            '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+            'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+          id: 'examples.map-i875mjb7'
+        }).addTo(map);
+        
+
+
+        var svg = d3.select(map.getPanes().overlayPane).append("svg"),
+            g = svg.append("g").attr("class", "leaflet-zoom-hide departamentos");
+
+        var collection=scope.data.data;
+
+        var transform = d3.geo.transform({point: projectPoint}),
+        path = d3.geo.path().projection(transform);
+
+
+        /* Funciones  y variables necesarias */
+        var votos = scope.votos;
+        var partido = scope.partido;
 
         // Estable el descendiente: departamento => provincia
         var establecerDescendiente = function(d, currentDpa, tiposDpa) {
@@ -126,8 +119,8 @@ angular.module('geoelectoralFrontendApp')
                              .replace(/{votos}/g, d3.format(',d')(d.partido.resultado))
                              .replace(/{lugar}/g, d.properties.nombre);
           div
-            .style('left', (d3.event.layerX + 5) + 'px')
-            .style('top', d3.event.layerY + 'px');
+            .style('left', (d3.event.pageX - 100) + 'px')
+            .style('top', d3.event.pageY + 'px');
           if (d.partido.sigla === undefined) {
             toolt = tooltipTplBlank.replace(/{sigla}/g, 'Sin datos')
                              .replace(/{lugar}/g, d.properties.nombre);
@@ -140,41 +133,8 @@ angular.module('geoelectoralFrontendApp')
              .style('opacity', 1e-6);
         };
 
-        var maximoPorcentaje = function(d, votos, partido, currentDpa) {
-          var max = { porcentaje: 0 };
-          if (d.partido.sigla === undefined) {
-            max = d.partido;
-            d.partido.porcentaje = 100; // 100% para el color gris
-          } else {
-            votos.forEach(function(v) {
-              v.partidos.forEach(function(p) {
-                if (partido.id_partido === p.id_partido && max.porcentaje < p.porcentaje) {
-                  max = p;
-                }
-              });
-            });
-            if (max.porcentaje === 0) {
-              max = d.partido;
-            }
-          }
-          return max.porcentaje;
-        };
 
-        var partidoSeleccionado = function(d, votos, partido) {
-          var max = { porcentaje: 0 };
-          votos.forEach(function(v) {
-            if(d.properties.codigo === v.dpa_codigo) {
-              v.partidos.forEach(function(p) {
-                if (partido.id_partido === p.id_partido) {
-                  max = p;
-                }
-              });
-            }
-          });
-          return max;
-        };
-
-        var partidoGanador = function(d, votos) {
+      var partidoGanador = function(d, votos) {
           var max = { porcentaje: 0 };
           votos.forEach(function(v) {
             if(d.properties.codigo === v.dpa_codigo) {
@@ -188,7 +148,7 @@ angular.module('geoelectoralFrontendApp')
           return max;
         };
 
-        var setColorPartido = function(d, votos, partido) {
+      var setColorPartido = function(d, votos, partido) {
           var colorEscala, color;
           if (partido) {
             d.partido = partidoSeleccionado(d, votos, partido);
@@ -199,82 +159,45 @@ angular.module('geoelectoralFrontendApp')
           }
           return colorEscala.range(['white', '#' + (d.partido.color || ENV.color)])(d.partido.porcentaje || 100);
         };
+      /* Fin funciones necesarias */
 
-        var geojson = scope.data.data,
-          votos = scope.votos,
-          partido = scope.partido;
+      var feature = g.selectAll("path")
+          .data(collection.features)
+        .enter().append("path")
+          .attr('class', 'departamento hover')
+          .attr('fill', function(d) { return setColorPartido(d, votos, partido); })
+          .on('mouseover', mouseover)
+          .on('mousemove', mousemove)
+          .on('mouseout', mouseout)
+          .on('mousedown', mousedown)
+          .on('mouseup', mouseup);
 
-        d3.behavior.zoom();
-        viewZoom = d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoomed);
-        viewZoom.translate(mapaCentroide);
+      map.on("viewreset", reset);
+      reset();
 
-        svg.call(viewZoom);
-        svg.append('g')
-            .attr('class', 'departamentos')
-            .attr('transform', 'translate(' + mapaCentroide + ')')
-          .selectAll('path')
-            .data(geojson.features)
-          .enter().append('path')
-            .attr('class', 'departamento hover')
-            .attr('fill', function(d) { return setColorPartido(d, votos, partido); })
-            .attr('d', path)
-            .on('mouseover', mouseover)
-            .on('mousemove', mousemove)
-            .on('mouseout', mouseout)
-            .on('mousedown', mousedown)
-            .on('mouseup', mouseup)
-            //.on('click', click)
-            .each(function(d) { d.centroid = path.centroid(d); });
-        // funcion de zoom
-        bounds = path.bounds(scope.data.data);
-        function zoomed() {
-          var t = d3.event.translate;
-          var s = d3.event.scale;
+        // Reposition the SVG to cover the features.
+        function reset() {
+          var escala=1;
+          var bounds = path.bounds(scope.data.data),
+              topLeft = bounds[0],
+              bottomRight = bounds[1];
 
-          if(t[0] > -bounds[0][0]*s) t[0]= -bounds[0][0]*s;
-          if(t[0] < -bounds[1][0]*s+width) t[0] = -bounds[1][0]*s+width;
+          svg .attr("width", (bottomRight[0] - topLeft[0])*escala)
+              .attr("height", (bottomRight[1] - topLeft[1])*escala)
+              .style("left", topLeft[0] + "px")
+              .style("top", topLeft[1] + "px");
 
-          if(t[1] > -bounds[0][1]*s) t[1]= -bounds[0][1]*s;
-          if(t[1] < -bounds[1][1]*s+height) t[1]= -bounds[1][1]*s+height;
-          if(s<=1.5) {
-            s=1;
-            t=mapaCentroide;
-            svgToZoom.classed('marco-mapa',false);
-          }else{
-            svgToZoom.classed('marco-mapa',true);
-          }
+          g   .attr("transform", "translate(" + -topLeft[0]*escala + "," + -topLeft[1]*escala + ")scale("+escala+")");
 
-          viewZoom.translate(t);
-          svgToZoom.select('g').attr("transform", "translate(" + t + ")scale(" + s + ")");
+          feature.attr("d", path);
+        }
+        // Use Leaflet to implement a D3 geometric transformation.
+        function projectPoint(x, y) {
+          var point = map.latLngToLayerPoint(new L.LatLng(y, x));
+          this.stream.point(point.x, point.y);
         }
       };
 
-
-      scope.zoomControl.zoomIn = function(){
-        var currentZoom = viewZoom.scale();
-        var t = viewZoom.translate();
-        if(currentZoom < 8){
-          var newScale = Math.floor(currentZoom) + 1;
-          t[0]-=(width/2);
-          t[1]-=(height/2);
-          viewZoom.scale(newScale)
-              .translate(t)
-              .event(svgToZoom);
-        }
-      };
-      scope.zoomControl.zoomOut = function(){
-        var currentZoom = viewZoom.scale();
-        var t = viewZoom.translate();
-        if(currentZoom > 1){
-          var newScale = Math.floor(currentZoom) - 1;
-          if(newScale<1) newScale=1;
-          t[0]+=(width/2);
-          t[1]+=(height/2);
-          viewZoom.scale(newScale)
-            .translate(t)
-            .event(svgToZoom);
-        }
-      }
 
       scope.$watch('data', graficarMapa);
       scope.$watch('partido', graficarMapa);
@@ -287,8 +210,7 @@ angular.module('geoelectoralFrontendApp')
         votos: '=',
         currentDpa: '=',
         tiposDpa: '=',
-        partido: '=',
-        zoomControl: '='
+        partido: '='
       }
     };
   });
