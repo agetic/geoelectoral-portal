@@ -244,16 +244,18 @@ body {
 /* Responsive: Portrait tablets and down 768 */
 @media screen and (max-width: 767px) {
   .header{
-    position: relative;
-    height: auto;
+    /*position: relative;
+    height: auto;*/
   }
   .header .titulo{
     clear: left;
     float: none;
     width: 100%;
+    margin-top: 0;
+    font-size: 14px;
   }
   #menu-anios {
-    top: 0;
+    top: 100px;
     background: none;
     height: auto;
   }
@@ -267,7 +269,7 @@ body {
     height: auto;
   }
   #fondo-mapa{
-    height: 360px;
+    height: 550px;
   }
   #mapa-breadcrumb{
     position: relative;

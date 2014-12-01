@@ -37,28 +37,29 @@ angular.module('geoelectoralFrontendApp')
 
         // Contenedor del mapa
         var elmapa = '<div id="mapa"></div>';
+            //elmapa.id="mapa";
         d3.select('#fondo-mapa').selectAll('*').remove();
         d3.select('#fondo-mapa').html(elmapa);
-        //console.log(d3.select('#fondo-mapa').html() );
         var mapaCentroide = d3.geo.centroid(scope.data.data).reverse();
-        //console.log(mapaCentroide);
 
-        var map = L.map('mapa',{zoomControl:false}).setView(mapaCentroide, 6);
+        var map = L.map('mapa',{zoomControl:false,
+                                maxBounds: [[-30,-80],[-1,-50]]
+                                //maxBounds: [[-54,-169],[83,195]]
+                               }).setView(mapaCentroide, 5);
         //add zoom control with your options
         L.control.zoom({position:'topright'}).addTo(map);
-        //.addLayer(new L.TileLayer("https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png"));
         //.addLayer(new L.TileLayer("http://{s}.tiles.mapbox.com/v3/examples.map-vyofok3q/{z}/{x}/{y}.png"));
         
         //L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-        L.tileLayer('https://b.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-          maxZoom: 8,
-          minZoom: 4,
+        var tLayer = L.tileLayer('https://b.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+          maxZoom: 14,
+          minZoom: 2,
           attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
             '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
             'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-          id: 'examples.map-i875mjb7'
+          id: 'mayakreidieh.map-dfh9esrb'
         }).addTo(map);
-        
+        // id: 'examples.map-i875mjb7'
 
 
         var svg = d3.select(map.getPanes().overlayPane).append("svg"),
@@ -68,7 +69,6 @@ angular.module('geoelectoralFrontendApp')
 
         var transform = d3.geo.transform({point: projectPoint}),
         path = d3.geo.path().projection(transform);
-
 
         /* Funciones  y variables necesarias */
         var votos = scope.votos;
@@ -121,8 +121,8 @@ angular.module('geoelectoralFrontendApp')
                              .replace(/{votos}/g, d3.format(',d')(d.partido.resultado))
                              .replace(/{lugar}/g, d.properties.nombre);
           div
-            .style('left', (d3.event.pageX - 5) + 'px')
-            .style('top', (d3.event.pageY-90) + 'px');
+            .style('left', (d3.event.pageX - 0) + 'px')
+            .style('top', (d3.event.pageY-0) + 'px');
           if (d.partido.sigla === undefined) {
             toolt = tooltipTplBlank.replace(/{sigla}/g, 'Sin datos')
                              .replace(/{lugar}/g, d.properties.nombre);
@@ -136,7 +136,7 @@ angular.module('geoelectoralFrontendApp')
         };
 
 
-      var partidoGanador = function(d, votos) {
+        var partidoGanador = function(d, votos) {
           var max = { porcentaje: 0 };
           votos.forEach(function(v) {
             if(d.properties.codigo === v.dpa_codigo) {
@@ -150,7 +150,7 @@ angular.module('geoelectoralFrontendApp')
           return max;
         };
 
-      var setColorPartido = function(d, votos, partido) {
+        var setColorPartido = function(d, votos, partido) {
           var colorEscala, color;
           if (partido) {
             d.partido = partidoSeleccionado(d, votos, partido);
@@ -161,21 +161,23 @@ angular.module('geoelectoralFrontendApp')
           }
           return colorEscala.range(['white', '#' + (d.partido.color || ENV.color)])(d.partido.porcentaje || 100);
         };
-      /* Fin funciones necesarias */
+        /* Fin funciones necesarias */
 
-      var feature = g.selectAll("path")
-          .data(collection.features)
-        .enter().append("path")
-          .attr('class', 'departamento hover')
-          .attr('fill', function(d) { return setColorPartido(d, votos, partido); })
-          .on('mouseover', mouseover)
-          .on('mousemove', mousemove)
-          .on('mouseout', mouseout)
-          .on('mousedown', mousedown)
-          .on('mouseup', mouseup);
+        var feature = g.selectAll("path")
+            .data(collection.features)
+          .enter().append("path")
+            .attr('class', 'departamento hover')
+            .attr('fill', function(d) { return setColorPartido(d, votos, partido); })
+            .on('mouseover', mouseover)
+            .on('mousemove', mousemove)
+            .on('mouseout', mouseout)
+            .on('mousedown', mousedown)
+            .on('mouseup', mouseup);
 
-      map.on("viewreset", reset);
-      reset();
+
+        map.on("viewreset", reset);
+        reset();
+        map.fitBounds( [d3.geo.bounds(collection)[0].reverse(),d3.geo.bounds(collection)[1].reverse()] );
 
         // Reposition the SVG to cover the features.
         function reset() {
@@ -193,11 +195,13 @@ angular.module('geoelectoralFrontendApp')
 
           feature.attr("d", path);
         }
+
         // Use Leaflet to implement a D3 geometric transformation.
         function projectPoint(x, y) {
           var point = map.latLngToLayerPoint(new L.LatLng(y, x));
           this.stream.point(point.x, point.y);
         }
+
       };
 
 
