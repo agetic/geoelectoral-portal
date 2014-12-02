@@ -37,29 +37,44 @@ angular.module('geoelectoralFrontendApp')
 
         // Contenedor del mapa
         var elmapa = '<div id="mapa"></div>';
-            //elmapa.id="mapa";
         d3.select('#fondo-mapa').selectAll('*').remove();
         d3.select('#fondo-mapa').html(elmapa);
         var mapaCentroide = d3.geo.centroid(scope.data.data).reverse();
 
+
         var map = L.map('mapa',{zoomControl:false,
+                                scrollWheelZoom: false,
+                                maxZoom: 14,
+                                minZoom: 2,
                                 maxBounds: [[-30,-80],[-1,-50]]
                                 //maxBounds: [[-54,-169],[83,195]]
                                }).setView(mapaCentroide, 5);
-        //add zoom control with your options
-        L.control.zoom({position:'topright'}).addTo(map);
-        //.addLayer(new L.TileLayer("http://{s}.tiles.mapbox.com/v3/examples.map-vyofok3q/{z}/{x}/{y}.png"));
         
-        //L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-        var tLayer = L.tileLayer('https://b.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-          maxZoom: 14,
-          minZoom: 2,
+        //add zoom control with your options
+        L.control.zoom({position:'topright',zoomInTitle:'Acercar',zoomOutTitle:'Alejar'}).addTo(map);
+        
+        /*var tLayer = L.tileLayer('https://b.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
           attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
             '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
             'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+          id: 'examples.map-i875mjb7'
+        }).addTo(map);*/
+
+        var tLayer = L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+          attribution: 'The maps were made using <a href="http://www.mapbox.com">Mapbox</a> and <a href="http://www.mapbox.com/tilemill">Tilemill</a>. ' +
+            '',
+            //'http://www.mayakreidieh.com/ ',
           id: 'mayakreidieh.map-dfh9esrb'
+          //id: 'kamicut.hd1mnn1i'
         }).addTo(map);
-        // id: 'examples.map-i875mjb7'
+
+        /*var tLayer = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+          attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+        }).addTo(map);*/
+
+        /*var tLayer = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+          attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+        }).addTo(map);*/
 
 
         var svg = d3.select(map.getPanes().overlayPane).append("svg"),

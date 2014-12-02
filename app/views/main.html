@@ -1,15 +1,13 @@
-
-<div id="fondo-mapa" resize>
-</div>
-  <!-- Controles para el mapa -->
-  <!-- Grafico Mapa -->
-<mapa-bolivia class="grafico" data="dpaGeoJSON" votos="partidosDepartamento" current-dpa="currentDpa" tipos-dpa="tiposDpa" partido="partidoSeleccionado" zoom-control="svgControl">
+<!-- Grafico Mapa -->
+<div id="fondo-mapa" resize></div>
+<mapa-bolivia data="dpaGeoJSON" votos="partidosDepartamento" current-dpa="currentDpa" tipos-dpa="tiposDpa" partido="partidoSeleccionado">
 </mapa-bolivia>
 
 <ol id="mapa-breadcrumb" bread-crumbs></ol>
 
   <!-- EstadisticS -->
-  <div class="statistics">
+<div class="statistics">
+  <div class="description">
     <div class="nav-buttons">
       <ul class="nav nav-pills pull-right">
         <li ng-class="{active: isSelected(2)}">
@@ -58,6 +56,7 @@
       </torta-bolivia>
     </div>
   </div>
+</div>
   <!-- EstadisticS -->
 
 <div id="menu-anios">

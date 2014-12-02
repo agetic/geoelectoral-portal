@@ -49,8 +49,9 @@ body {
   top: 64px;
   background: #fff;
   opacity: .5;
-  height: 75%;
+  bottom: 40px;
   overflow: hidden;
+  z-index: 1001;
 }
 #menu-anios:hover {
   opacity: 1;
@@ -67,16 +68,23 @@ body {
 }
 .statistics{
   border-radius: 10px;
-  background: #fff;
   left: auto;
   position: absolute;
   right: 0;
-  opacity: .3;
-  top: 78px;
+  top: 64px;
   width: 280px;
+  bottom: 40px;
+  overflow: hidden;
+}
+.statistics .description{
+  opacity: .5;
+  background: #fff;
+}
+.statistics .description:hover{
+  opacity: 1;
 }
 .statistics:hover{
-  opacity: 1;
+  overflow-y: auto; 
 }
 
 
@@ -464,38 +472,4 @@ div[growl] {
   right: 0;
   position: absolute;
   z-index: 100;
-}
-/* Zoom */
-#map-control {
-  position: absolute;
-  left: auto;
-  right: 0;
-  margin: 5px 5px;
-}
-#map-control a {
-  display: block;
-  cursor: pointer;
-  width: 32px;
-  height: 32px;
-  background: #aaa;
-  font-size: 32px;
-  text-align: center;
-  border: 1px solid #fff;
-  line-height: 32px;
-  text-decoration: none;
-  margin-top: 4px;
-  color: #fff;
-  border-radius: 8px;
-  opacity: .3;
-}
-#map-control:hover a{
-  background: #46f;
-  opacity: 1;
-}
-#map-control a{
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -khtml-user-select: none;
-  -ms-user-select:none;
-  user-select: none; 
 }
