@@ -52,7 +52,7 @@ angular.module('geoelectoralFrontendApp')
                                }).setView(mapaCentroide, 5);
         
         //add zoom control with your options
-        L.control.zoom({position:'topright',zoomInTitle:'Acercar',zoomOutTitle:'Alejar'}).addTo(map);
+        L.control.zoom({position:'topleft',zoomInTitle:'Acercar',zoomOutTitle:'Alejar'}).addTo(map);
         
         var tLayer = L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
           id: 'mayakreidieh.map-dfh9esrb'
