@@ -41,11 +41,11 @@ angular.module('geoelectoralFrontendApp')
         d3.select('#fondo-mapa').html(elmapa);
         var mapaCentroide = d3.geo.centroid(scope.data.data).reverse();
 
+        if(!mapaCentroide[0]) mapaCentroide = [-16.642589, -64.617366];
 
         var map = L.map('mapa',{zoomControl:false,
-                                scrollWheelZoom: false,
                                 maxZoom: 14,
-                                minZoom: 2,
+                                minZoom: 4,
                                 maxBounds: [[-30,-80],[-1,-50]]
                                 //maxBounds: [[-54,-169],[83,195]]
                                }).setView(mapaCentroide, 5);

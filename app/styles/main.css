@@ -4,13 +4,15 @@ html, body {
 }
 /* Space out content a bit */
 body {
-  padding-top: 5px;
+  padding-top: 0px;
   padding-bottom: 25px;
 }
 
 .container {
   width: 100%;
   height: 100%;
+  margin: 0 !important;
+  padding: 0px !important;
 }
 .container section {
   height: 100%;
@@ -29,11 +31,6 @@ body {
   width: 100%;
   height: 100%;
 }
-/*#fondo-mapa svg {
-  height: 100%;
-  width: 100%;
-  border-radius: 5px;
-}*/
 
 #ng-view{
   position: relative;
@@ -48,7 +45,7 @@ body {
   width: 140px;
   top: 64px;
   background: #fff;
-  opacity: .5;
+  opacity: .7;
   bottom: 40px;
   overflow: hidden;
   z-index: 1001;
@@ -60,34 +57,6 @@ body {
 #menu-anios .dropdown-menu{
   position: unset;
 }
-#mapa-breadcrumb{
-  position: absolute;
-  top: auto;
-  left: 5px;
-  bottom: 1px;
-}
-.statistics{
-  border-radius: 10px;
-  left: auto;
-  position: absolute;
-  right: 0;
-  top: 64px;
-  width: 280px;
-  bottom: 40px;
-  overflow: hidden;
-}
-.statistics .description{
-  opacity: .5;
-  background: #fff;
-}
-.statistics .description:hover{
-  opacity: 1;
-}
-.statistics:hover{
-  overflow-y: auto; 
-}
-
-
 
 /* Custom page header */
 .header {
@@ -106,16 +75,10 @@ body {
   height: 50px;
 }
 .geoelectoral-titulo {
-  float: left;
-  margin-top: 27px;
-  margin-right: 15px;
-}
-/* Título Elecciones */
-.titulo {
-  float: right;
+  margin-bottom: 0px;
   margin-top: 5px;
-  margin-right: 35px;
-  width: 50%;
+  padding-right: 35px;
+  text-align: center;
 }
 
 .nav-buttons{
@@ -248,13 +211,42 @@ body {
 .marketing p + h4 {
   margin-top: 28px;
 }
-
+@media screen and (min-width: 768px) {
+  /* Título Elecciones */
+  .titulo {
+    margin-top: 0px;
+    padding-right: 35px;
+    padding-left: 110px;
+    width: 100%;
+    text-align: center;
+  }
+  #mapa-breadcrumb{
+    position: absolute;
+    top: auto;
+    left: 5px;
+    bottom: 1px;
+  }
+  .statistics{
+    border-radius: 10px;
+    left: auto;
+    position: absolute;
+    right: 0;
+    top: 64px;
+    width: 32%;
+    bottom: 40px;
+    overflow: auto;
+  }
+  .statistics .description{
+    opacity: .3;
+    background: #fff;
+    margin-bottom: 50px;
+  }
+  .statistics .description:hover{
+    opacity: 1;
+  }
+}
 /* Responsive: Portrait tablets and down 768 */
 @media screen and (max-width: 767px) {
-  .header{
-    /*position: relative;
-    height: auto;*/
-  }
   .header .titulo{
     clear: left;
     float: none;
@@ -266,12 +258,7 @@ body {
     top: 100px;
     background: none;
     height: auto;
-  }
-  .statistics{
-    top: 0;
-    width: 100%;
-    position: relative;
-    opacity: 1;
+    bottom: auto;
   }
   .container section {
     height: auto;
@@ -280,7 +267,7 @@ body {
     height: 550px;
   }
   #mapa-breadcrumb{
-    position: relative;
+    overflow: hidden;
   }
 
   /* Remove the padding we set earlier */

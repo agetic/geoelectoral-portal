@@ -84,7 +84,6 @@ angular.module('geoelectoralFrontendApp')
     $scope.getAnios = function(){
       $http.get(host+api+"/anios").then(function(response){
         $scope.aniosDetalle = response.data.anios.reverse();
-        console.log($scope.aniosDetalle[0].anio);
         if($scope.aniosDetalle[0].anio){
           for(var a in $scope.aniosDetalle)
             $scope.anios[a]=$scope.aniosDetalle[a].anio;
@@ -124,6 +123,10 @@ angular.module('geoelectoralFrontendApp')
     // Establecer el tipo de dpa para mostrar en el mapa
     $scope.setTipoDpa = function (idTipoDpa,idTipoEleccion) {
       if(idTipoEleccion) $scope.currentDpa.idTipoEleccion = idTipoEleccion;
+      if((idTipoDpa==5 && $scope.currentDpa.idTipoDpaActual>=3)){
+        growl.info("No se puede mostrar el mapa", {});
+        return;
+      }
       if (idTipoDpa >= $scope.currentDpa.idTipoDpaActual) {
         $scope.currentDpa.idTipoDpa = idTipoDpa;
         recargarMapa();
@@ -243,7 +246,7 @@ angular.module('geoelectoralFrontendApp')
                                                 .replace(/{idTipoDpa}/g, $scope.currentDpa.idTipoDpa)));
       promises.push($http.get(eleccionesUrl.replace(/{anio}/g, $scope.anio)
                                            .replace(/{idTipoEleccion}/g, $scope.currentDpa.idTipoEleccion)
-                                           .replace(/{idTipoDpa}/g, $scope.currentDpa.idTipoDpaActual)
+                                           .replace(/{idTipoDpa}/g, $scope.currentDpa.idTipoDpa)
                                            .replace(/{idDpa}/g, $scope.currentDpa.idDpa)));
 
       $q.all(promises).then(function(response) {
@@ -256,6 +259,8 @@ angular.module('geoelectoralFrontendApp')
           $scope.partidos = $scope.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
         } else {
           $scope.currentDpa.idTipoDpa = Dpa.getIdTipoDpaSuperior($scope.currentDpa.idTipoDpa);
+          $scope.currentDpa.idTipoDpaActual = Dpa.getIdTipoDpaSuperior($scope.currentDpa.idTipoDpaActual);
+          $scope.currentDpa.idDpa = Dpa.idDpasPadre($scope.currentDpa.idDpa)[0];
           if($scope.currentDpa.idTipoDpa)
             loadServices();
           else
