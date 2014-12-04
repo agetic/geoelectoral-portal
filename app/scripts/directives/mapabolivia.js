@@ -151,6 +151,40 @@ angular.module('geoelectoralFrontendApp')
         };
 
 
+        var maximoPorcentaje = function(d, votos, partido, currentDpa) {
+          var max = { porcentaje: 0 };
+          if (d.partido.sigla === undefined) {
+            max = d.partido;
+            d.partido.porcentaje = 100; // 100% para el color gris
+          } else {
+            votos.forEach(function(v) {
+              v.partidos.forEach(function(p) {
+                if (partido.id_partido === p.id_partido && max.porcentaje < p.porcentaje) {
+                  max = p;
+                }
+              });
+            });
+            if (max.porcentaje === 0) {
+              max = d.partido;
+            }
+          }
+          return max.porcentaje;
+        };
+
+        var partidoSeleccionado = function(d, votos, partido) {
+          var max = { porcentaje: 0 };
+          votos.forEach(function(v) {
+            if(d.properties.codigo === v.dpa_codigo) {
+              v.partidos.forEach(function(p) {
+                if (partido.id_partido === p.id_partido) {
+                  max = p;
+                }
+              });
+            }
+          });
+          return max;
+        };
+
         var partidoGanador = function(d, votos) {
           var max = { porcentaje: 0 };
           votos.forEach(function(v) {
