@@ -18,7 +18,6 @@ body {
   height: 100%;
   width: 100%;
   position: relative;
-  /*min-height: 585px;*/
 }
 
 #ng-view{
@@ -43,7 +42,7 @@ body {
   border-radius: 4px;
   position: absolute;
   width: 140px;
-  top: 64px;
+  top: 75px;
   background: #fff;
   opacity: .7;
   bottom: 40px;
@@ -62,9 +61,7 @@ body {
 .header {
   position: absolute;
   margin: 0;
-  /*height: 50px;*/
-  width: 100%;
-  z-index: 100;
+  z-index: 1;
 }
 /* logo de ADSIB */
 .logo-adsib {
@@ -77,8 +74,6 @@ body {
 .geoelectoral-titulo {
   margin-bottom: 0px;
   margin-top: 5px;
-  padding-right: 35px;
-  text-align: center;
 }
 
 .nav-buttons{
@@ -212,13 +207,13 @@ body {
   margin-top: 28px;
 }
 @media screen and (min-width: 768px) {
+  .header {
+    width: 67%;
+  }
   /* Título Elecciones */
   .titulo {
     margin-top: 0px;
-    padding-right: 35px;
-    padding-left: 110px;
-    width: 100%;
-    text-align: center;
+    padding-left: 114px;
   }
   #mapa-breadcrumb{
     position: absolute;
@@ -230,8 +225,8 @@ body {
     border-radius: 10px;
     left: auto;
     position: absolute;
-    right: 0;
-    top: 64px;
+    right: 5px;
+    top: 5px;
     width: 32%;
     bottom: 40px;
     overflow: auto;
@@ -245,7 +240,7 @@ body {
     opacity: 1;
   }
   .leaflet-top {
-  top: 55px !important;
+    top: 65px !important;
   }
   .leaflet-left {
     left: 132px !important;
@@ -253,6 +248,9 @@ body {
 }
 /* Responsive: Portrait tablets and down 768 */
 @media screen and (max-width: 767px) {
+  .geoelectoral-titulo {
+    margin-top: 27px;
+  }
   .header .titulo{
     clear: left;
     float: none;
