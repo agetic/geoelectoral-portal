@@ -123,16 +123,16 @@ angular.module('geoelectoralFrontendApp')
     // Establecer el tipo de dpa para mostrar en el mapa
     $scope.setTipoDpa = function (idTipoDpa,idTipoEleccion) {
       if(idTipoEleccion) $scope.currentDpa.idTipoEleccion = idTipoEleccion;
+
+      var dpaPadres = Dpa.idDpasPadre($scope.currentDpa.idDpa);
       if((idTipoDpa==5 && $scope.currentDpa.idTipoDpaActual>=3)){
-        growl.info("No se puede mostrar el mapa", {});
-        return;
+        $scope.currentDpa.idDpa= dpaPadres[dpaPadres.length-2];
       }
-      if (idTipoDpa >= $scope.currentDpa.idTipoDpaActual) {
-        $scope.currentDpa.idTipoDpa = idTipoDpa;
-        recargarMapa();
-      } else {
-        growl.info("No se puede mostrar el mapa", {});
+      if (idTipoDpa < $scope.currentDpa.idTipoDpaActual) {
+        $scope.currentDpa.idDpa=dpaPadres[0];
       }
+      $scope.currentDpa.idTipoDpa = idTipoDpa;
+      recargarMapa();
     };
     $scope.getTipoDpa = function () {
       return $scope.currentDpa.idTipoDpa;
@@ -250,7 +250,7 @@ angular.module('geoelectoralFrontendApp')
                                            .replace(/{idDpa}/g, $scope.currentDpa.idDpa)));
 
       $q.all(promises).then(function(response) {
-        if (response[1].data.dpas) {
+        if (response[1].data.dpas && response[2].data.eleccion) {
           $scope.eleccion = response[2].data.eleccion;
           $scope.dpaGeoJSON = reducePorAnio(response[0]);
           $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
@@ -258,9 +258,16 @@ angular.module('geoelectoralFrontendApp')
           $scope.partidos = eliminarValidos(response[2].data.dpas[0].partidos);
           $scope.partidos = $scope.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
         } else {
-          $scope.currentDpa.idTipoDpa = Dpa.getIdTipoDpaSuperior($scope.currentDpa.idTipoDpa);
+          if(response[2].data.eleccion)
+            $scope.currentDpa.idTipoDpa = Dpa.getIdTipoDpaSuperior($scope.currentDpa.idTipoDpa);
           $scope.currentDpa.idTipoDpaActual = Dpa.getIdTipoDpaSuperior($scope.currentDpa.idTipoDpaActual);
           $scope.currentDpa.idDpa = Dpa.idDpasPadre($scope.currentDpa.idDpa)[0];
+          // Cuando se cambia el año y el tipo dpa actual no existe
+          // Se coloca al tipo dpa inicial (revisar)
+          if(!$scope.currentDpa.idDpa){
+            $scope.currentDpa.idDpa=1;
+            $scope.currentDpa.idTipoEleccion=1;
+          }
           if($scope.currentDpa.idTipoDpa)
             loadServices();
           else
