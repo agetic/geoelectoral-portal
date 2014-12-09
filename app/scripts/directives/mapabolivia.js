@@ -47,7 +47,7 @@ angular.module('geoelectoralFrontendApp')
                                 attributionControl:false,
                                 maxZoom: 14,
                                 minZoom: 4,
-                                maxBounds: [[-30,-80],[-1,-50]]
+                                maxBounds: [[-24,-75],[-8,-45]]
                                 //maxBounds: [[-54,-169],[83,195]]
                                }).setView(mapaCentroide, 5);
         
@@ -87,6 +87,19 @@ angular.module('geoelectoralFrontendApp')
         };
 
         // Evento click departamento
+        var touchstart = function(d){
+          mpos[0] = d3.event.changedTouches[0].pageX;
+          mpos[1] = d3.event.changedTouches[0].pageY;
+        }
+        var touchend = function(d){
+          if(mpos[0]==d3.event.changedTouches[0].pageX && mpos[1]==d3.event.changedTouches[0].pageY ){
+            console.log("==");
+            scope.currentDpa.idDpa = d.properties.id_dpa;
+            establecerDescendiente(d, scope.currentDpa, scope.tiposDpa);
+            scope.currentDpa.dpaNombre = d.properties.nombre;
+            scope.$apply();
+          }
+        }
         var mousedown = function(d){
           mpos = [d3.event.layerX,d3.event.layerY];
         }
@@ -201,6 +214,8 @@ angular.module('geoelectoralFrontendApp')
             .on('mouseover', mouseover)
             .on('mousemove', mousemove)
             .on('mouseout', mouseout)
+            .on('touchstart',touchstart)
+            .on('touchend',touchend)
             .on('mousedown', mousedown)
             .on('mouseup', mouseup);
 

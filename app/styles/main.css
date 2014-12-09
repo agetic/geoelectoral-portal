@@ -58,14 +58,14 @@ body {
   overflow-y: auto;
 }
 #menu-anios .dropdown-menu{
-  position: unset;
+  position: relative;
 }
 
 /* Custom page header */
 .header {
   position: absolute;
   margin: 0;
-  z-index: 1;
+  z-index: 3;
 }
 /* logo de ADSIB */
 .logo-adsib {
@@ -171,6 +171,14 @@ body {
   padding: 0;
   background-color: transparent;
 }
+#mapa-breadcrumb{
+  position: absolute;
+  top: auto;
+  left: 5px;
+  bottom: 1px;
+  overflow: hidden;
+  z-index: 2;
+}
 
 /* Custom page footer */
 .footer {
@@ -219,12 +227,6 @@ body {
     margin-top: 0px;
     padding-left: 114px;
   }
-  #mapa-breadcrumb{
-    position: absolute;
-    top: auto;
-    left: 5px;
-    bottom: 1px;
-  }
   .statistics{
     border-radius: 10px;
     left: auto;
@@ -255,6 +257,9 @@ body {
   .geoelectoral-titulo {
     margin-top: 25px;
   }
+  .header{
+    width: 100%;
+  }
   .header .titulo{
     clear: left;
     float: none;
@@ -269,21 +274,18 @@ body {
     bottom: auto;
   }
   .container section {
-    height: auto;
+    height: 100%;
   }
   #fondo-mapa{
-    height: 550px;
+    height: 100%;
   }
-  #mapa-breadcrumb{
-    overflow: hidden;
-  }
-
   /* Remove the padding we set earlier */
   .header,
   .marketing,
   .footer {
     padding-left: 0;
     padding-right: 0;
+    font-size: 12px;
   }
   /* Space out the masthead */
   .btn-anios{
@@ -311,8 +313,15 @@ body {
     left: auto !important;
     right: 0px;
   }
+  .statistics{
+    margin-top: 40px;
+  }
 }
-
+@media screen and (max-width: 639px) {
+  body {
+    padding-bottom: 35px;
+  }
+}
 /* Estadísticas */
 .statistics .numero {
   text-align: right;
@@ -362,7 +371,7 @@ svg:active, svg g:active {
 
 /* Mapa */
 svg .departamentos path {
-  stroke: white;
+  stroke: #bbb;
 }
 
 svg.marco-mapa {
@@ -443,10 +452,11 @@ svg .hover:hover {
   /*content: "\003E";*/
  content: "";
  padding: 0;
- margin-left: -15px;
+ margin-left: -16px;
 }
 .breadcrumb li svg {
   position: relative;
+  margin-left: -1px;
 }
 .breadcrumb li:hover a {
   background: #649cca;
