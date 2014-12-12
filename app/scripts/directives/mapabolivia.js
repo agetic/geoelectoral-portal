@@ -24,10 +24,52 @@ angular.module('geoelectoralFrontendApp')
     
     //add zoom control with your options
     L.control.zoom({position:'topleft',zoomInTitle:'Acercar',zoomOutTitle:'Alejar'}).addTo(map);
-    
+
+    //crear el control de circulos
+    var controlCirculo = L.control({position: 'topleft'});
+
+    controlCirculo.onAdd = function (map) {
+      var div = L.DomUtil.create('div', 'leaflet-bar');
+      div.innerHTML = '<a title="Burbujas"><svg width="26" height="26"><g><circle id="ctrl-circulo" stroke="#000" fill="#fff" cx="13" cy="13" r="8"></g></svg></a>'; 
+      return div;
+    };
+    controlCirculo.addTo(map);
+    // add the event handler
+    function controlCirculoClick() {
+      var ctrl = d3.select('#ctrl-circulo');
+      if(ctrl.attr('fill')=='#fff') {
+        d3.selectAll('.circulo').classed('hidden',false);
+        ctrl.attr('fill','#000');
+        d3.selectAll('.departamento').classed('burbuja',true);
+        //d3.selectAll('.departamento').attr('opacity',0.5);
+      } else {
+        d3.selectAll('.circulo').classed('hidden',true);
+        ctrl.attr('fill','#fff');
+        d3.selectAll('.departamento').classed('burbuja',false);
+        //d3.selectAll('.departamento').attr('opacity',1);
+      }
+    }
+    d3.select('#ctrl-circulo').on('click',controlCirculoClick);
+    //document.getElementById ("ctrl-circulo").addEventListener ("click", controlCirculoClick, false);
+
+    function controlCirculoHide() {
+      if(d3.select('#ctrl-circulo').attr('fill')=='#fff')
+        return 'hidden';
+      else
+        return '';
+    }
+    function departamentoBurbuja() {
+      if(d3.select('#ctrl-circulo').attr('fill')=='#fff')
+        return '';
+      else
+        return 'burbuja';
+    }
+    //fin crear el control de circulos
+
     var tLayer = L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
       id: 'mayakreidieh.map-dfh9esrb'
     }).addTo(map);
+
 
     // Estable el descendiente: departamento => provincia
     var establecerDescendiente = function(d, currentDpa, tiposDpa) {
@@ -47,10 +89,6 @@ angular.module('geoelectoralFrontendApp')
 
 
     function link(scope, element, attr) {
-
-      var viewZoom;
-      var svgToZoom;
-      var width, height;
 
       var mapaCentroide = d3.geo.centroid(scope.data.data).reverse();
       if(!mapaCentroide[0]) { mapaCentroide = [-16.642589, -64.617366]; }
@@ -210,7 +248,7 @@ angular.module('geoelectoralFrontendApp')
         var feature = g.selectAll('path')
             .data(collection.features)
           .enter().append('path')
-            .attr('class', 'departamento hover')
+            .attr('class', 'departamento hover '+departamentoBurbuja())
             .attr('fill', function(d) { return setColorPartido(d, votos, partido); })
             .on('mouseover', mouseover)
             .on('mousemove', mousemove)
@@ -234,6 +272,9 @@ angular.module('geoelectoralFrontendApp')
           g   .attr('transform', 'translate(' + -topLeft[0]*escala + ',' + -topLeft[1]*escala + ')scale('+escala+')');
 
           feature.attr('d', path);
+
+          g.selectAll('circle').remove();
+          circulos();
         }
 
         // Use Leaflet to implement a D3 geometric transformation.
@@ -244,6 +285,23 @@ angular.module('geoelectoralFrontendApp')
         map.on('viewreset', reset);
         reset();
         map.fitBounds( [d3.geo.bounds(collection)[0].reverse(),d3.geo.bounds(collection)[1].reverse()] );
+
+        function circulos() {
+          collection.features.forEach(function(p) {
+            var punto = path.centroid(p);
+            if(punto[0] && p.partido.porcentaje>0 && p.partido.porcentaje<100 && p.properties.extent){
+              g.append('circle')
+                      .attr('fill','#'+p.partido.color)
+                      .attr('stroke','#888')
+                      .attr('opacity','.7')
+                      .attr('title',p.partido.sigla+'\n'+p.properties.nombre)
+                      .attr('class','circulo '+controlCirculoHide())
+                      .attr('cx', punto[0])
+                      .attr('cy', punto[1])
+                      .attr('r', ((0.250*Math.pow(2,map.getZoom()))*p.partido.porcentaje/100));
+            }
+          });
+        }
 
       };
 

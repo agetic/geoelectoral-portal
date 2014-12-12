@@ -227,7 +227,7 @@ body {
     right: 5px;
     top: 5px;
     width: 32%;
-    bottom: 40px;
+    max-height: 90%;
     overflow: auto;
   }
   .statistics .description{
@@ -370,6 +370,9 @@ svg .departamentos path {
 svg.marco-mapa {
   border: 1px solid #999;
   border-radius: 10px;
+}
+svg .burbuja{
+  fill: #fff;
 }
 /* Etiquetas de partidos ganadores - mapa */
 svg .etiquetas text {
