@@ -16,9 +16,9 @@ angular.module('geoelectoralFrontendApp')
 
     var map = L.map('mapa',{zoomControl:false,
                             attributionControl:false,
-                            maxZoom: 14,
-                            minZoom: 4,
-                            maxBounds: [[-24,-75],[-8,-45]]
+                            maxZoom: 12,
+                            minZoom: 2,
+                            maxBounds: [[-90,-230],[90,340]]
                             //maxBounds: [[-54,-169],[83,195]]
                            });
     
@@ -92,6 +92,13 @@ angular.module('geoelectoralFrontendApp')
 
       var mapaCentroide = d3.geo.centroid(scope.data.data).reverse();
       if(!mapaCentroide[0]) { mapaCentroide = [-16.642589, -64.617366]; }
+
+
+      scope.centrarMapa = function(){
+        var bounds = d3.geo.bounds(scope.data.data);
+        //map.setView(mapaCentroide, map.getZoom());
+        map.fitBounds( [bounds[0].reverse(),bounds[1].reverse()] );
+      }
       map.setView(mapaCentroide, 5);
 
       var graficarMapa = function() {
@@ -316,7 +323,8 @@ angular.module('geoelectoralFrontendApp')
         votos: '=',
         currentDpa: '=',
         tiposDpa: '=',
-        partido: '='
+        partido: '=',
+        centrarMapa: '='
       }
     };
   });

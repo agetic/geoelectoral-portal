@@ -376,6 +376,7 @@ svg:active, svg g:active {
 /* Mapa */
 svg .departamentos path {
   stroke: #bbb;
+  opacity: 0.5;
 }
 
 svg.marco-mapa {
@@ -397,8 +398,9 @@ svg .fondos rect {
 }
 
 svg .hover:hover {
+  stroke: #222;
   fill: #bbb;
-  opacity: 0.3;
+  opacity: 0.2;
 }
 
 /* Barras */

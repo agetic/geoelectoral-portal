@@ -50,6 +50,9 @@ angular.module('geoelectoralFrontendApp')
         ensureIdIsRegistered(id);
         if ( data[id].length > 1+idx ) {
           data[id].splice( 1+idx, data[id].length - idx );
+          return true;
+        }else{
+          return false;
         }
       }
     };

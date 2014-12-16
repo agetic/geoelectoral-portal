@@ -24,7 +24,9 @@ angular.module('geoelectoralFrontendApp')
           };
           resetCrumbs();
           $scope.unregisterBreadCrumb = function( index ) {
-            BreadcrumbFactory.setLastIndex(bc_id, index);
+            if(!BreadcrumbFactory.setLastIndex(bc_id, index)){
+              $scope.centrarMapa();
+            }
             resetCrumbs();
           };
           $scope.$on( 'breadcrumbsRefresh', function() {
