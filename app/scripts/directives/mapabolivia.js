@@ -86,6 +86,7 @@ angular.module('geoelectoralFrontendApp')
       }
       currentDpa.idTipoDpaActual = d.properties.id_tipo_dpa;
     };
+      var svg,g;
 
 
     function link(scope, element, attr) {
@@ -96,8 +97,8 @@ angular.module('geoelectoralFrontendApp')
 
       scope.centrarMapa = function(){
         var bounds = d3.geo.bounds(scope.data.data);
-        //map.setView(mapaCentroide, map.getZoom());
         map.fitBounds( [bounds[0].reverse(),bounds[1].reverse()] );
+        map.setView(mapaCentroide, map.getZoom());
       }
       map.setView(mapaCentroide, 5);
 
@@ -243,9 +244,12 @@ angular.module('geoelectoralFrontendApp')
         };
         /* Fin funciones necesarias */
 
-        d3.select(map.getPanes().overlayPane).select('svg').remove();
-        var svg = d3.select(map.getPanes().overlayPane).append('svg'),
-            g = svg.append('g').attr('class', 'leaflet-zoom-hide departamentos');
+        map.off('viewreset',reset,svg);
+        d3.select(map.getPanes().overlayPane).selectAll('svg').remove();
+        svg = d3.select(map.getPanes().overlayPane).append('svg');
+        g = svg.append('g').attr('class', 'departamentos');
+
+        svg.attr('class','leaflet-zoom-hide');
 
         var collection=scope.data.data;
 
@@ -289,9 +293,8 @@ angular.module('geoelectoralFrontendApp')
           var point = map.latLngToLayerPoint(new L.LatLng(y, x));
           this.stream.point(point.x, point.y);
         }
-        map.on('viewreset', reset);
+        map.on('viewreset', reset, svg);
         reset();
-        map.fitBounds( [d3.geo.bounds(collection)[0].reverse(),d3.geo.bounds(collection)[1].reverse()] );
 
         function circulos() {
           collection.features.forEach(function(p) {
