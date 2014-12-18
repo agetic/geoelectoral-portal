@@ -1,11 +1,11 @@
 <!-- Grafico Mapa -->
-<ol id="mapa-breadcrumb" bread-crumbs></ol>
+<ol id="mapa-breadcrumb" bread-crumbs ng-show="isSelected(4)"></ol>
 
-  <!-- EstadisticS -->
-<div class="statistics">
-  <div class="description">
-    <div class="nav-buttons">
-      <ul class="nav nav-pills pull-right">
+    <div class="nav-pestana">
+      <ul class="nav nav-tabs pull-right">
+        <li id="tab-map" ng-class="{active: isSelected(4)}">
+          <a href ng-click="selectTab(4)"><img src="images/icon_mundo.svg" width="56" alt="Mapa" title="Mapa"></a>
+        </li>
         <li ng-class="{active: isSelected(2)}">
           <!-- Bar Graph by Simple Icons from The Noun Project -->
           <a href ng-click="selectTab(2)"><img src="images/icon_bar.svg" width="32" alt="Barras" title="Barras"></a>
@@ -20,6 +20,9 @@
         </li>
       </ul>
     </div>
+  <!-- EstadisticS -->
+<div class="statistics" ng-hide="isSelected(4)">
+  <div class="description">
     <!-- Tabla -->
     <table class="table table-condensed table-hover" ng-if="isSelected(1)">
       <thead>
@@ -31,7 +34,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr id="partido_{{partido.id_partido}}" ng-repeat="partido in partidos" title="{{partido.partido_nombre}}<br/>{{partido.observacion}}" data-html="true" data-toggle="tooltip" data-placement="bottom" class="tooltip-tabla" ng-mouseover="hoverIn()" ng-click="seleccionarPartido($index)" >
+        <tr id="partido_{{partido.id_partido}}" ng-repeat="partido in partidos" title="{{partido.partido_nombre}}<br/>{{partido.observacion}}" data-html="true" data-toggle="tooltip" data-placement="{{$first?'bottom':'top'}}" class="tooltip-tabla" ng-mouseover="hoverIn()" ng-click="seleccionarPartido($index)" >
           <td>
             <div class="bandera" style="background-color: #{{partido.color}};" ng-class="establecerClases(partido)"></div>
           </td>
@@ -55,7 +58,7 @@
 </div>
   <!-- EstadisticS -->
 
-<div id="menu-anios">
+<div id="menu-anios" ng-show="isSelected(4)">
   <button class="btn btn-default btn-anios" type="button" data-toggle="dropdown">{{anio}}
     <span class="caret"></span>
   </button>

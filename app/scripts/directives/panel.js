@@ -20,6 +20,12 @@ angular.module('geoelectoralFrontendApp')
             scope.anios_tipo = function () {
                 return (newValue.w<768)?"dropdown-menu":"nav";
             };
+            if(newValue.w<768){
+                if(!scope.isSelected(2) && !scope.isSelected(3))
+                    scope.selectTab(4);
+            }else{
+                scope.selectTab(1);
+            }
         }, true);
 
         w.bind('resize', function () {

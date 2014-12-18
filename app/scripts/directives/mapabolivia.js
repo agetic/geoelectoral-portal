@@ -10,6 +10,9 @@ angular.module('geoelectoralFrontendApp')
   .directive('mapaBolivia', function (ENV) {
     // Contenedor del mapa
     var elmapa = '<div id="mapa"></div>';
+    var svg,g;
+    var reset = function(){};
+    var circulos = function(){};
 
     d3.select('#fondo-mapa').selectAll('*').remove();
     d3.select('#fondo-mapa').html(elmapa);
@@ -41,6 +44,7 @@ angular.module('geoelectoralFrontendApp')
         d3.selectAll('.circulo').classed('hidden',false);
         ctrl.attr('fill','#000');
         d3.selectAll('.departamento').classed('burbuja',true);
+        circulos();
         //d3.selectAll('.departamento').attr('opacity',0.5);
       } else {
         d3.selectAll('.circulo').classed('hidden',true);
@@ -52,17 +56,15 @@ angular.module('geoelectoralFrontendApp')
     d3.select('#ctrl-circulo').on('click',controlCirculoClick);
     //document.getElementById ("ctrl-circulo").addEventListener ("click", controlCirculoClick, false);
 
+    // Llevarlo como factory
+    function isBurbujaEnabled(){
+      return (d3.select('#ctrl-circulo').attr('fill')=='#000');
+    }
     function controlCirculoHide() {
-      if(d3.select('#ctrl-circulo').attr('fill')=='#fff')
-        return 'hidden';
-      else
-        return '';
+      return isBurbujaEnabled()?'':'hidden';
     }
     function departamentoBurbuja() {
-      if(d3.select('#ctrl-circulo').attr('fill')=='#fff')
-        return '';
-      else
-        return 'burbuja';
+      return isBurbujaEnabled()?'burbuja':'';
     }
     //fin crear el control de circulos
 
@@ -86,14 +88,11 @@ angular.module('geoelectoralFrontendApp')
       }
       currentDpa.idTipoDpaActual = d.properties.id_tipo_dpa;
     };
-      var svg,g;
-
-
+    
     function link(scope, element, attr) {
 
       var mapaCentroide = d3.geo.centroid(scope.data.data).reverse();
       if(!mapaCentroide[0]) { mapaCentroide = [-16.642589, -64.617366]; }
-
 
       scope.centrarMapa = function(){
         var bounds = d3.geo.bounds(scope.data.data);
@@ -269,7 +268,7 @@ angular.module('geoelectoralFrontendApp')
             .on('mousedown', mousedown)
             .on('mouseup', mouseup);
         // Reposition the SVG to cover the features.
-        function reset() {
+        reset = function(b) {
           var escala=1;
           var bounds = path.bounds(scope.data.data),
               topLeft = bounds[0],
@@ -284,8 +283,10 @@ angular.module('geoelectoralFrontendApp')
 
           feature.attr('d', path);
 
-          g.selectAll('circle').remove();
-          circulos();
+          if(isBurbujaEnabled()){
+            g.selectAll('circle').remove();
+            circulos();
+          }
         }
 
         // Use Leaflet to implement a D3 geometric transformation.
@@ -293,10 +294,8 @@ angular.module('geoelectoralFrontendApp')
           var point = map.latLngToLayerPoint(new L.LatLng(y, x));
           this.stream.point(point.x, point.y);
         }
-        map.on('viewreset', reset, svg);
-        reset();
 
-        function circulos() {
+        circulos = function() {
           collection.features.forEach(function(p) {
             var punto = path.centroid(p);
             if(punto[0] && p.partido.porcentaje>0 && p.partido.porcentaje<100 && p.properties.extent){
@@ -312,6 +311,8 @@ angular.module('geoelectoralFrontendApp')
             }
           });
         }
+        map.on('viewreset', reset, svg);
+        reset();
 
       };
 

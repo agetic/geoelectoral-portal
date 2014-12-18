@@ -54,7 +54,7 @@ body {
   top: 75px;
   background: #fff;
   opacity: .7;
-  bottom: 40px;
+  max-height: 72%;
   overflow: hidden;
   z-index: 1001;
 }
@@ -83,10 +83,6 @@ body {
 .geoelectoral-titulo {
   margin-bottom: 0px;
   margin-top: 3px;
-}
-
-.nav-buttons{
-  clear: both;
 }
 
 /*-- change anios dropdown color --*/
@@ -225,26 +221,45 @@ body {
 @media screen and (min-width: 768px) {
   .header {
     width: 67%;
+    cursor: default;
+    background: #fff;
+    opacity: .7;
   }
   /* Título Elecciones */
   .titulo {
     margin-top: 0px;
+    margin-bottom: 0px;
     padding-left: 114px;
   }
+  .nav-pestana{
+    position: absolute;
+    top: 10px;
+    right: 3px;
+    clear: both;
+    z-index: 3;
+  }
   .statistics{
-    border-radius: 10px;
     left: auto;
     position: absolute;
     right: 5px;
-    top: 5px;
+    top: 50px;
     width: 32%;
-    max-height: 90%;
-    overflow: auto;
+    max-height: 80%;
+    overflow: hidden;
+    border: 1px solid #bbb;
   }
   .statistics .description{
-    opacity: .3;
+    opacity: .7;
     background: #fff;
-    margin-bottom: 50px;
+    margin-bottom: 0px;
+    height: 90%;
+    width: 100%;
+  }
+  .statistics .description .table{
+    margin-bottom: 0px;
+  }
+  .statistics:hover{
+    overflow: auto;
   }
   .statistics .description:hover{
     opacity: 1;
@@ -255,6 +270,15 @@ body {
   .leaflet-left {
     left: 132px !important;
   }
+  #tab-map{
+    display: none;
+  }
+  #menu-anios,
+  #mapa-breadcrumb,
+  #fondo-mapa{
+    display: block !important;
+  }
+
 }
 /* Responsive: Portrait tablets and down 768 */
 @media screen and (max-width: 767px) {
@@ -269,10 +293,20 @@ body {
     float: none;
     width: 100%;
     margin-top: 0;
-    font-size: 16px;
+    font-size: 14px;
+    margin-bottom: 2px;
+    height: 70px;
   }
+  .nav-pestana{
+    position: absolute;
+    top: 83px;
+    left: 0px;
+    clear: both;
+    z-index: 3;
+  }
+
   #menu-anios {
-    top: 90px;
+    top: 126px;
     background: none;
     height: auto;
     bottom: auto;
@@ -281,15 +315,18 @@ body {
     height: 100%;
   }
   #fondo-mapa{
-    height: 100%;
+    padding-top: 125px;
   }
   /* Remove the padding we set earlier */
   .header,
-  .marketing,
-  .footer {
+  .marketing {
     padding-left: 0;
     padding-right: 0;
     font-size: 12px;
+    background: #fff;
+  }
+  .footer {
+    display: none;
   }
   /* Space out the masthead */
   .btn-anios{
@@ -310,20 +347,19 @@ body {
   .jumbotron {
     border-bottom: 0;
   }
-  .leaflet-top {
-    top: 80px !important;
-  }
   .leaflet-left {
     left: auto !important;
     right: 0px;
   }
   .statistics{
-    margin-top: 40px;
+    position: absolute;
+    background: #fff;
+    width: 100%;
+    bottom: 0px;
+    top: 125px;
   }
-}
-@media screen and (max-width: 639px) {
   body {
-    padding-bottom: 35px;
+    padding-bottom: 0px;
   }
 }
 /* Estadísticas */
@@ -481,6 +517,7 @@ svg .hover:hover {
   background: #428bca;
   display: inline-block;
   padding-left: 20px;
+  padding-right: 2px;
   text-decoration: none;
 }
 

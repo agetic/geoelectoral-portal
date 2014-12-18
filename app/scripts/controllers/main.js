@@ -114,7 +114,7 @@ angular.module('geoelectoralFrontendApp')
 
     // Establecer el año
     $scope.setAnioIndex = function (index) {
-      $scope.partidoSeleccionado = null;
+      //$scope.partidoSeleccionado = null;
       $scope.e.anioIndex = index;
       $scope.anio = $scope.anios[$scope.e.anioIndex];
       $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);

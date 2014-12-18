@@ -37,8 +37,8 @@
 
         </div><!-- /.header -->
         <div growl inline="true"></div>
-        <div id="fondo-mapa" resize></div>
-        <mapa-bolivia data="dpaGeoJSON" votos="partidosDepartamento" current-dpa="currentDpa" tipos-    dpa="tiposDpa" partido="partidoSeleccionado" centrar-mapa="centrarMapa">
+        <div id="fondo-mapa" resize ng-show="isSelected(4)"></div>
+        <mapa-bolivia data="dpaGeoJSON" votos="partidosDepartamento" current-dpa="currentDpa" tipos-dpa="tiposDpa" partido="partidoSeleccionado" centrar-mapa="centrarMapa">
         </mapa-bolivia>
         <div ng-view id="ng-view"></div>
       </section>
