@@ -92,6 +92,26 @@ angular.module('geoelectoralFrontendApp')
         }
       });
     }
+    // Crear tabla partidos 
+    $scope.getPartidosTable = function(){
+      var pdatos = [{ //id:'id',
+                      //color:'color',
+                      sigla:'sigla',
+                      nombre:'partido',
+                      votos:'votos',
+                      porcentaje:'porcentaje'}];
+      $scope.partidos.forEach(function(p){
+        var d = new Object();
+        //d.id = p.id_partido;
+        //d.color = p.color;
+        d.sigla = p.sigla;
+        d.nombre = p.partido_nombre;
+        d.votos = p.resultado;
+        d.porcentaje = p.porcentaje;
+        pdatos.push(d);
+      });
+      return pdatos;
+    }
 
     // Hover sobre las filas de la tabla
     $scope.hoverIn = function() {

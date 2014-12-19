@@ -44,6 +44,7 @@
         </tr>
       </tbody>
     </table>
+    <button type="button" ng-csv="getPartidosTable()" filename="partidos.csv" ng-if="isSelected(1)">Descargar CSV</button>
     <!-- Barras -->
     <div>
       <barras-bolivia class="grafico" data="partidos" tab="{{tab}}" ng-if="isSelected(2)">
