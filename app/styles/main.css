@@ -423,10 +423,10 @@ svg .burbuja{
   fill: #fff;
 }
 /* Etiquetas de partidos ganadores - mapa */
-svg .etiquetas text {
-  fill: rgb(44, 44, 44);
-  text-anchor: middle;
-  font-size: 11px;
+svg .barras-etiquetas text {
+  /*fill: rgb(44, 44, 44);*/
+  text-anchor: left;
+  font-size: 15px;
 }
 svg .fondos rect {
   fill: white;
