@@ -222,7 +222,7 @@ body {
   .header {
     width: 67%;
     cursor: default;
-    background: #fff;
+    /*background: #fff;*/
     opacity: .7;
   }
   /* Título Elecciones */

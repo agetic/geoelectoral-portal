@@ -33,7 +33,7 @@ angular.module('geoelectoralFrontendApp')
 
     controlCirculo.onAdd = function (map) {
       var div = L.DomUtil.create('div', 'leaflet-bar');
-      div.innerHTML = '<a title="Burbujas"><svg width="26" height="26"><g><circle id="ctrl-circulo" stroke="#000" fill="#fff" cx="13" cy="13" r="8"></g></svg></a>'; 
+      div.innerHTML = '<a id="ctrl-burbuja" title="Burbujas"><svg width="26" height="26"><g><circle id="ctrl-circulo" stroke="#000" fill="#fff" cx="13" cy="13" r="8"></g></svg></a>'; 
       return div;
     };
     controlCirculo.addTo(map);
@@ -53,7 +53,7 @@ angular.module('geoelectoralFrontendApp')
         //d3.selectAll('.departamento').attr('opacity',1);
       }
     }
-    d3.select('#ctrl-circulo').on('click',controlCirculoClick);
+    d3.select('#ctrl-burbuja').on('click',controlCirculoClick);
     //document.getElementById ("ctrl-circulo").addEventListener ("click", controlCirculoClick, false);
 
     // Llevarlo como factory
@@ -88,7 +88,21 @@ angular.module('geoelectoralFrontendApp')
       }
       currentDpa.idTipoDpaActual = d.properties.id_tipo_dpa;
     };
-    
+
+    var mouseWheel = function(e){
+      var updown=0;
+      updown -=(e.originalEvent.deltaY)?e.originalEvent.deltaY:0; // otros
+      updown -=(e.originalEvent.detail)?e.originalEvent.detail:0; // firefox
+      updown +=(e.originalEvent.wheelDelta)?e.originalEvent.wheelDelta:0; //chrome
+      if(updown>=0){
+        map.setZoom(map.getZoom()+1);
+      }else{
+        map.setZoom(map.getZoom()-1);
+      }
+      e.preventDefault();
+    }
+    $('.header').bind('mousewheel DOMMouseScroll wheel',mouseWheel);
+
     function link(scope, element, attr) {
 
       var mapaCentroide = d3.geo.centroid(scope.data.data).reverse();
@@ -104,6 +118,7 @@ angular.module('geoelectoralFrontendApp')
       var graficarMapa = function() {
         if (!scope.data.data) { return; }
 
+        $('.nav-pestana').bind('mousewheel DOMMouseScroll wheel',mouseWheel);
         /* Funciones  y variables necesarias */
         var votos = scope.votos;
         var partido = scope.partido;
