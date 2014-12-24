@@ -140,23 +140,59 @@ angular.module('geoelectoralFrontendApp')
 
         // Evento click en el mapa
         var mpos = [0,0];
-        var touchstart = function(d){
+        var isTouch=false;
+        
+        d3.select('body').on('click',function(){
+          if(isTouch &&(d3.event.pageX!=mpos[0] || d3.event.pageY!=mpos[1]) ){
+            div.transition()
+              .duration(500)
+              .style('opacity', 1e-6);
+            isTouch=false;
+          }
+        });
+        var countTouch = function(t,d){
+          isTouch=true;
           mpos[0] = d3.event.changedTouches[0].pageX;
           mpos[1] = d3.event.changedTouches[0].pageY;
-        };
-        var touchend = function(d){
-          if(mpos[0]==d3.event.changedTouches[0].pageX && mpos[1]==d3.event.changedTouches[0].pageY ){
+          var e = d3.event;
+          var t2 = e.timeStamp,
+              t1 = $(t).data('lastTouch') || t2,
+              dt = t2 - t1,
+              fingers = e.touches.length;
+          $(t).data('lastTouch', t2);
+          if (!dt || dt > 500 || fingers > 1){ // not double-touch
+            div.style('z-index',4)
+              .style('opacity', 1)
+              .style('left', (e.touches[0].pageX - 0) + 'px')
+              .style('top', (e.touches[0].pageY-parseInt(div.style('height'))) + 'px');
+            if( e.touches[0].pageX > parseInt(d3.select('#fondo-mapa').style('width'))-parseInt(div.style('width')) ){
+              div.style('left', (e.touches[0].pageX - parseInt(div.style('width'))) + 'px')
+            }
+
+            var toolt = tooltipTpl.replace(/{sigla}/g, d.partido.sigla)
+                             .replace(/{porcentaje}/g, d.partido.porcentaje)
+                             .replace(/{votos}/g, d3.format(',d')(d.partido.resultado))
+                             .replace(/{lugar}/g, d.properties.nombre);
+            if (d.partido.sigla === undefined) {
+              toolt = tooltipTplBlank.replace(/{sigla}/g, 'Sin datos')
+                               .replace(/{lugar}/g, d.properties.nombre);
+            }
+            div.html(toolt);
+            return ; 
+          }
+          // double-touch
             scope.currentDpa.idDpa = d.properties.id_dpa;
             establecerDescendiente(d, scope.currentDpa, scope.tiposDpa);
             scope.currentDpa.dpaNombre = d.properties.nombre;
             scope.$apply();
-          }
-        };
+          e.preventDefault(); // double tap - prevent the zoom
+          return ;
+        }
         var mousedown = function(d){
-          mpos = [d3.event.layerX,d3.event.layerY];
+          mpos = [d3.event.pageX,d3.event.pageY];
         };
         var mouseup = function(d){
-          if(mpos[0]==d3.event.layerX && mpos[1]==d3.event.layerY){
+          if(mpos[0]==d3.event.pageX && mpos[1]==d3.event.pageY && !isTouch){
             scope.currentDpa.idDpa = d.properties.id_dpa;
             establecerDescendiente(d, scope.currentDpa, scope.tiposDpa);
             scope.currentDpa.dpaNombre = d.properties.nombre;
@@ -278,8 +314,7 @@ angular.module('geoelectoralFrontendApp')
             .on('mouseover', mouseover)
             .on('mousemove', mousemove)
             .on('mouseout', mouseout)
-            .on('touchstart',touchstart)
-            .on('touchend',touchend)
+            .on('touchstart',function(d){ countTouch(this,d); })
             .on('mousedown', mousedown)
             .on('mouseup', mouseup);
         // Reposition the SVG to cover the features.
@@ -321,6 +356,7 @@ angular.module('geoelectoralFrontendApp')
                       .on('mouseover', mouseover)
                       .on('mousemove', function(){ mousemove(p); })
                       .on('mouseout', mouseout)
+                      .on('touchstart',function(){ countTouch(this,p); })
                       .attr('class','circulo '+controlCirculoHide())
                       .attr('cx', punto[0])
                       .attr('cy', punto[1])
