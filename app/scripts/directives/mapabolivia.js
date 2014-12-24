@@ -377,7 +377,8 @@ angular.module('geoelectoralFrontendApp')
                       .attr('class','circulo '+controlCirculoHide())
                       .attr('cx', punto[0])
                       .attr('cy', punto[1])
-                      .attr('r', ((0.250*Math.pow(2,map.getZoom()))*p.partido.porcentaje/100));
+                      .attr('r', ((0.250*Math.pow(2,map.getZoom()))* (Math.log(p.partido.resultado/125)/Math.log(1.09))/100  ));
+                      //.attr('r', ((0.250*Math.pow(2,map.getZoom()))* (p.partido.resultado/5000)/100  ));
             }
           });
         }
