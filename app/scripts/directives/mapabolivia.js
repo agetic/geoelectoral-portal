@@ -56,6 +56,15 @@ angular.module('geoelectoralFrontendApp')
     d3.select('#ctrl-burbuja').on('click',controlCirculoClick);
     //document.getElementById ("ctrl-circulo").addEventListener ("click", controlCirculoClick, false);
 
+    var controlCentrar = L.control({position: 'topleft'});
+    controlCentrar.onAdd = function (map) {
+      var div = L.DomUtil.create('div','leaflet-bar');
+      div.innerHTML = '<a id="ctrl-centrar" title="Ajustar Mapa"><img width="20" height="20" src="images/cross_hair.svg"></a>';
+      return div;
+    }
+    controlCentrar.addTo(map);
+    var controlCentrarClick = function(){}
+
     // Llevarlo como factory
     function isBurbujaEnabled(){
       return (d3.select('#ctrl-circulo').attr('fill')=='#000');
@@ -117,6 +126,14 @@ angular.module('geoelectoralFrontendApp')
 
       var graficarMapa = function() {
         if (!scope.data.data) { return; }
+        mapaCentroide = d3.geo.centroid(scope.data.data).reverse();
+
+        controlCentrarClick = function(){
+          var bounds = d3.geo.bounds(scope.data.data);
+          map.fitBounds( [bounds[0].reverse(),bounds[1].reverse()] );
+          map.setView(mapaCentroide, map.getZoom());
+        }
+        d3.select('#ctrl-centrar').on('click',controlCentrarClick);
 
         $('.nav-pestana').bind('mousewheel DOMMouseScroll wheel',mouseWheel);
         /* Funciones  y variables necesarias */
