@@ -543,3 +543,9 @@ div[growl] {
 .leaflet-control a{
   cursor: pointer;
 }
+
+#linkcsv{
+  cursor: pointer;
+  padding-left: 5px;
+  line-height: 30px;
+}
