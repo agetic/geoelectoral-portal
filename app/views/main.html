@@ -1,6 +1,27 @@
 <!-- Grafico Mapa -->
 <ol id="mapa-breadcrumb" bread-crumbs ng-show="isSelected(4)"></ol>
 
+  <!-- EstadisticS -->
+    <div class="nav-pestana768">
+      <ul class="nav nav-tabs pull-right">
+        <li id="tab-map" ng-class="{active: isSelected(4)}">
+          <a href ng-click="selectTab(4)"><img src="images/icon_mundo.svg" width="56" alt="Mapa" title="Mapa"></a>
+        </li>
+        <li ng-class="{active: isSelected(2)}">
+          <!-- Bar Graph by Simple Icons from The Noun Project -->
+          <a href ng-click="selectTab(2)"><img src="images/icon_bar.svg" width="32" alt="Barras" title="Barras"></a>
+        </li>
+        <li ng-class="{active: isSelected(3)}">
+          <!-- pie chart by Pham Thi Dieu Linh from The Noun Project -->
+          <a href ng-click="selectTab(3)"><img src="images/icon_pie.svg" width="32" alt="Torta" title="Torta"></a>
+        </li>
+        <li ng-class="{active: isSelected(1)}">
+          <!-- Spreadsheet by dw from The Noun Project -->
+          <a href ng-click="selectTab(1)"><img src="images/icon_table.svg" width="32" alt="Tabla" title="Tabla"></a>
+        </li>
+      </ul>
+    </div>
+<div class="statistics" ng-hide="isSelected(4)">
     <div class="nav-pestana">
       <ul class="nav nav-tabs pull-right">
         <li id="tab-map" ng-class="{active: isSelected(4)}">
@@ -20,8 +41,6 @@
         </li>
       </ul>
     </div>
-  <!-- EstadisticS -->
-<div class="statistics" ng-hide="isSelected(4)">
   <div class="description">
     <!-- Tabla -->
     <table class="table table-condensed table-hover" ng-if="isSelected(1)">

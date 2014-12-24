@@ -220,7 +220,7 @@ body {
 }
 @media screen and (min-width: 768px) {
   .header {
-    width: 67%;
+    /*width: 67%;*/
     cursor: default;
     /*background: #fff;*/
     opacity: .7;
@@ -231,12 +231,24 @@ body {
     margin-bottom: 0px;
     padding-left: 114px;
   }
+  .nav-pestana768{
+    display: none;
+  }
   .nav-pestana{
-    position: absolute;
+    position: fixed;
     top: 10px;
     right: 3px;
     clear: both;
     z-index: 3;
+    opacity: .7;
+  }
+  .nav-pestana:hover{
+    opacity: .7 !important;
+  }
+  .nav-tabs li.active a,
+  .nav-tabs li.active a:hover,
+  .nav-tabs li.active a:focus{
+    border-color: #bbb #bbb transparent;
   }
   .statistics{
     left: auto;
@@ -261,7 +273,8 @@ body {
   .statistics:hover{
     overflow: auto;
   }
-  .statistics .description:hover{
+  .statistics .description:hover,
+  .statistics:hover .nav-pestana{
     opacity: 1;
   }
   .leaflet-top {
@@ -298,6 +311,9 @@ body {
     height: 70px;
   }
   .nav-pestana{
+    display: none;
+  }
+  .nav-pestana768{
     position: absolute;
     top: 83px;
     left: 0px;
