@@ -82,8 +82,15 @@ angular.module('geoelectoralFrontendApp')
         }
         function colorInverso(hex){
           var c = hexToRgb(hex);
-          if(c)
-          { hex = rgbToHex(255-c.r, 255-c.g, 255-c.b); }
+          if(c){
+            //hex = rgbToHex(255-c.r, 255-c.g, 255-c.b);
+            var contrast = Math.round(((parseInt(c.r) * 299) + (parseInt(c.g) * 587) + (parseInt(c.b) * 114)) /1000);
+            if(contrast > 125) {
+              hex = 'black';
+            }else{
+              hex = 'white';
+            }
+          }
           return hex;
         }
 
@@ -103,11 +110,11 @@ angular.module('geoelectoralFrontendApp')
             .attr('x', function(d) { return x(d.porcentaje); })
             .attr('text-anchor', 'start')
             .attr('dy', '.35em')
-            //.style('fill',function(d) { if (esTextoMayor(this, d)) return colorInverso('#'+d.color); else return '#000000'; } )
+            .style('fill',function(d) { if (esTextoMayor(this, d)) return colorInverso('#'+d.color); else return '#000000'; } )
             .attr('dx', function(d) {
               if (esTextoMayor(this, d)) {
-                //return -Math.ceil(this.getBBox().width) - marginTexto;
-                return marginTexto;
+                return -Math.ceil(this.getBBox().width) - marginTexto;
+                //return marginTexto;
               } else {
                 return marginTexto;
               }
