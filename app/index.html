@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="bower_components/angular-growl-v2/build/angular-growl.css" />
     <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
     <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -37,9 +38,10 @@
 
         </div><!-- /.header -->
         <div growl inline="true"></div>
-        <div id="fondo-mapa" resize ng-show="isSelected(4)"></div>
+        <leaflet id="mapa" defaults="defaults" center="bolivia" maxbounds="maxbounds" resize></leaflet>
+        <!--div id="fondo-mapa" resize ng-show="isSelected(4)"></div>
         <mapa-bolivia data="dpaGeoJSON" votos="partidosDepartamento" current-dpa="currentDpa" tipos-dpa="tiposDpa" partido="partidoSeleccionado" centrar-mapa="centrarMapa">
-        </mapa-bolivia>
+        </mapa-bolivia-->
         <div ng-view id="ng-view"></div>
       </section>
 
@@ -76,6 +78,7 @@
     <script src="bower_components/leaflet/dist/leaflet-src.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/ng-csv/build/ng-csv.min.js"></script>
+    <script src="bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -83,7 +86,7 @@
         <script src="scripts/app.js"></script>
         <script src="scripts/config.js"></script>
         <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/directives/mapabolivia.js"></script>
+        <script src="scripts/services/mapabolivia.js"></script>
         <script src="scripts/directives/barrasbolivia.js"></script>
         <script src="scripts/controllers/panel.js"></script>
         <script src="scripts/directives/tortabolivia.js"></script>
