@@ -91,6 +91,9 @@ angular.module('geoelectoralFrontendApp')
         }
       }
       d3.select('#ctrl-burbuja').on('click',controlCirculoClick);
+      d3.select('#ctrl-burbuja').on('dblclick',function(){
+        L.DomEvent.stopPropagation(d3.event); // stop the zoom
+      });
       //document.getElementById ("ctrl-circulo").addEventListener ("click", controlCirculoClick, false);
 
       var controlCentrar = L.control({position: 'topleft'});
@@ -167,6 +170,9 @@ angular.module('geoelectoralFrontendApp')
         //map.setView(mapaCentroide, map.getZoom());
       }
       d3.select('#ctrl-centrar').on('click',controlCentrarClick);
+      d3.select('#ctrl-centrar').on('dblclick',function(){
+        L.DomEvent.stopPropagation(d3.event); // stop the zoom
+      });
 
       //$('.nav-pestana').bind('mousewheel DOMMouseScroll wheel',mouseWheel);
       /* Funciones  y variables necesarias */
@@ -362,6 +368,7 @@ angular.module('geoelectoralFrontendApp')
         .enter().append('path')
           .attr('class', 'departamento hover '+departamentoBurbuja())
           .attr('fill', function(d) { return setColorPartido(d, votos, partido); })
+          .on('dblclick',function(){ L.DomEvent.stopPropagation(d3.event); })
           .on('mouseover', mouseover)
           .on('mousemove', mousemove)
           .on('mouseout', mouseout)
@@ -408,6 +415,7 @@ angular.module('geoelectoralFrontendApp')
                     .attr('fill','#'+p.partido.color)
                     .attr('stroke','#888')
                     .attr('opacity','.7')
+                    .on('dblclick',function(){ L.DomEvent.stopPropagation(d3.event); })
                     .on('mouseover', mouseover)
                     .on('mousemove', function(){ mousemove(p); })
                     .on('mouseout', mouseout)
