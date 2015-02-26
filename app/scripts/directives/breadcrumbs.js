@@ -28,6 +28,7 @@ angular.module('geoelectoralFrontendApp')
               $scope.centrarMapa();
             }
             resetCrumbs();
+            $scope.mapControl.ajustar=true;
           };
           $scope.$on( 'breadcrumbsRefresh', function() {
             $log.log( "$on" );

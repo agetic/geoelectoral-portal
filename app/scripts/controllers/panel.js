@@ -247,6 +247,7 @@ angular.module('geoelectoralFrontendApp')
           establecerDescendiente(d, $scope.currentDpa, $scope.tiposDpa);
           $scope.currentDpa.dpaNombre = d.properties.nombre;
           $scope.$apply();
+          $scope.mapControl.ajustar=true;
         }
       };
       var click = function(d) {
@@ -386,6 +387,10 @@ angular.module('geoelectoralFrontendApp')
         if(isBurbujaEnabled()){
           g.selectAll('circle').remove();
           circulos();
+        }
+        if($scope.mapControl.ajustar){
+          $scope.centrarMapa();
+          $scope.mapControl.ajustar=false;
         }
       }
 
