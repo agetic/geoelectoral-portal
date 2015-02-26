@@ -8,7 +8,7 @@
  * Controller of the geoelectoralFrontendApp
  */
 angular.module('geoelectoralFrontendApp')
-  .controller('PanelCtrl', function (ENV, $scope, leafletData) {
+  .controller('PanelCtrl', function (ENV, $scope, $window, leafletData) {
 
     $scope.tab = 1;
 
@@ -19,6 +19,13 @@ angular.module('geoelectoralFrontendApp')
     $scope.isSelected = function(checkTab) {
       return $scope.tab === checkTab;
     };
+
+    var w = angular.element($window);
+    $scope.getWindowDimensions = function () {
+        //$('.dropdown-submenu > a').submenupicker();
+        return {'h': w.height(),'w': w.width()};
+    };
+    console.log($scope.getWindowDimensions().w );
 
     // Extiende la directiva angular-leaflet
     angular.extend($scope, {

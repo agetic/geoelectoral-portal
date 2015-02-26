@@ -37,7 +37,7 @@
 
         </div><!-- /.header -->
         <div growl inline="true"></div>
-        <leaflet id="mapa" defaults="defaults" center="bolivia" maxbounds="maxbounds" resize ng-hide="!isSelected(4)"></leaflet>
+        <leaflet id="mapa" defaults="defaults" center="bolivia" maxbounds="maxbounds" resize ng-hide="!isSelected(4) && getWindowDimensions().w < 768"></leaflet>
         <!--div id="fondo-mapa" resize ng-show="isSelected(4)"></div>
         <mapa-bolivia data="dpaGeoJSON" votos="partidosDepartamento" current-dpa="currentDpa" tipos-dpa="tiposDpa" partido="partidoSeleccionado" centrar-mapa="centrarMapa">
         </mapa-bolivia-->
