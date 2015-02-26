@@ -221,7 +221,7 @@ angular.module('geoelectoralFrontendApp')
             .style('opacity', 1)
             .style('left', (e.touches[0].pageX - 0) + 'px')
             .style('top', (e.touches[0].pageY-parseInt(div.style('height'))) + 'px');
-          if( e.touches[0].pageX > parseInt(d3.select('#fondo-mapa').style('width'))-parseInt(div.style('width')) ){
+          if( e.touches[0].pageX > parseInt(d3.select('#mapa').style('width'))-parseInt(div.style('width')) ){
             div.style('left', (e.touches[0].pageX - parseInt(div.style('width'))) + 'px')
           }
 
