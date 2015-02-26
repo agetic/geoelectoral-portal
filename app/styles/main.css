@@ -570,3 +570,12 @@ div[growl] {
   padding-left: 5px;
   line-height: 30px;
 }
+
+#ctrl-centrar img {
+  display: inline-block;
+  background:url('../images/cross_hair.svg') no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
