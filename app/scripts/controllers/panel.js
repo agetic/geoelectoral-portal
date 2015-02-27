@@ -261,6 +261,7 @@ angular.module('geoelectoralFrontendApp')
           establecerDescendiente(d, $scope.currentDpa, $scope.tiposDpa);
           $scope.currentDpa.dpaNombre = d.properties.nombre;
           $scope.$apply();
+          $scope.recargarMapa();
           $scope.mapControl.ajustar=true;
         }
       };

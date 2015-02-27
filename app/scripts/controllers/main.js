@@ -320,4 +320,5 @@ angular.module('geoelectoralFrontendApp')
         console.warn("Error en la conexión a GeoElectoral API");
       });
     };
+    $scope.recargarMapa = recargarMapa;
   });
