@@ -289,6 +289,12 @@ angular.module('geoelectoralFrontendApp')
           toolt = tooltipTplBlank.replace(/{sigla}/g, 'Sin datos')
                            .replace(/{lugar}/g, d.properties.nombre);
         }
+        if( d3.event.pageX > parseInt(d3.select('#mapa').style('width'))-parseInt(div.style('width')) ){
+          div.style('left', (parseInt(div.style('left')) - parseInt(div.style('width'))) + 'px')
+        }
+        if( d3.event.pageY > parseInt(d3.select('body').style('height'))-parseInt(div.style('height')) ){
+          div.style('top', (parseInt(div.style('top')) - parseInt(div.style('height'))) + 'px')
+        }
         div.html(toolt);
       };
       var mouseout = function() {
