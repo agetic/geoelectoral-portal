@@ -77,7 +77,7 @@ angular.module('geoelectoralFrontendApp')
 
       controlCirculo.onAdd = function (map) {
         var div = L.DomUtil.create('div', 'leaflet-bar');
-        div.innerHTML = '<a id="ctrl-burbuja" title="Burbujas"><svg width="26" height="26"><g><circle id="ctrl-circulo" stroke="#000" fill="#fff" cx="13" cy="13" r="8"></g></svg></a>'; 
+        div.innerHTML = '<a id="ctrl-burbuja" title="Burbujas"><svg width="26" height="26"><g><circle id="ctrl-circulo" stroke="#000" fill="#fff" cx="13" cy="13" r="8"></g></svg></a>';
         return div;
       };
       controlCirculo.addTo(map);
@@ -142,7 +142,7 @@ angular.module('geoelectoralFrontendApp')
     };
 
     var controlCentrarClick = function(){}
-    
+
     var mapaCentroide = [];
     if(!mapaCentroide[0]) { mapaCentroide = [-16.642589, -64.617366]; }
 
@@ -204,7 +204,7 @@ angular.module('geoelectoralFrontendApp')
       // Evento click en el mapa
       var mpos = [0,0];
       var isTouch=false;
-      
+
       d3.select('body').on('click',function(){
         if(isTouch &&(d3.event.pageX!=mpos[0] || d3.event.pageY!=mpos[1]) ){
           div.transition()
@@ -241,7 +241,7 @@ angular.module('geoelectoralFrontendApp')
                              .replace(/{lugar}/g, d.properties.nombre);
           }
           div.html(toolt);
-          return ; 
+          return ;
         }
         // double-touch
           $scope.currentDpa.idDpa = d.properties.id_dpa;
@@ -448,8 +448,8 @@ angular.module('geoelectoralFrontendApp')
                     .attr('class','circulo '+controlCirculoHide())
                     .attr('cx', punto[0])
                     .attr('cy', punto[1])
-                    .attr('r', ((0.250*Math.pow(2,map.getZoom()))* (Math.log(p.partido.resultado/125)/Math.log(1.09))/100  ));
                     //.attr('r', ((0.250*Math.pow(2,map.getZoom()))* (p.partido.resultado/5000)/100  ));
+                    .attr('r', ((Math.pow(2,map.getZoom()))* Math.sqrt(p.partido.resultado)/1000 ));
           }
         });
       }
