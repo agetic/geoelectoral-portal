@@ -353,9 +353,19 @@ angular.module('geoelectoralFrontendApp')
         return max;
       };
 
+      // Verifica si el partido seleccionado esta en vector partidos
+      var verPartidoSeleccionado = function() {
+        for(var i=0; i<$scope.partidos.length;i++) {
+          if($scope.partidos[i].id_partido===partido.id_partido){
+            return true;
+          }
+        }
+        return false;
+      }
+
       var setColorPartido = function(d, votos, partido) {
         var colorEscala, color;
-        if (partido) {
+        if (partido && verPartidoSeleccionado()) {
           d.partido = partidoSeleccionado(d, votos, partido);
           colorEscala = d3.scale.linear().domain([0, maximoPorcentaje(d, votos, partido, $scope.currentDpa)]);
         } else {

@@ -182,7 +182,7 @@ angular.module('geoelectoralFrontendApp')
 
     // Seleccionar un partido en la tabla de votos
     $scope.seleccionarPartido = function(index) {
-      if ($scope.partidoSeleccionado && $scope.partidoSeleccionado === $scope.partidos[index]) {
+      if ($scope.partidoSeleccionado && $scope.partidoSeleccionado.id_partido === $scope.partidos[index].id_partido) {
         $scope.partidoSeleccionado = null;
       } else {
         $scope.partidoSeleccionado = $scope.partidos[index];
