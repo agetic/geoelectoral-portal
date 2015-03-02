@@ -106,7 +106,7 @@ angular.module('geoelectoralFrontendApp')
       var controlCentrar = L.control({position: 'topleft'});
       controlCentrar.onAdd = function (map) {
         var div = L.DomUtil.create('div','leaflet-bar');
-        div.innerHTML = '<a id="ctrl-centrar" title="Ajustar Mapa"><img width="20" height="20"></a>';
+        div.innerHTML = '<a id="ctrl-centrar" title="Ajustar Mapa"><img width="24" height="24"></a>';
         return div;
       }
       controlCentrar.addTo(map);

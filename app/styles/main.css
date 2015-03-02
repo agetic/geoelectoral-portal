@@ -576,7 +576,7 @@ div[growl] {
 
 #ctrl-centrar img {
   display: inline-block;
-  background:url('../images/cross_hair.svg') no-repeat;
+  background:url('../images/locate.svg') no-repeat;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
