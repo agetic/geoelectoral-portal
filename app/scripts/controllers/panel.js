@@ -8,7 +8,7 @@
  * Controller of the geoelectoralFrontendApp
  */
 angular.module('geoelectoralFrontendApp')
-  .controller('PanelCtrl', function (ENV, $scope, $window, leafletData) {
+  .controller('PanelCtrl', function (ENV, $scope, $window, leafletData, PanelFactory) {
 
     $scope.tab = 1;
 
@@ -88,12 +88,14 @@ angular.module('geoelectoralFrontendApp')
           d3.selectAll('.circulo').classed('hidden',false);
           ctrl.attr('fill','#000');
           d3.selectAll('.departamento').classed('burbuja',true);
+          d3.select('.leaflet-bottom.leaflet-right').classed('hidden',false);
           circulos();
           //d3.selectAll('.departamento').attr('opacity',0.5);
         } else {
           d3.selectAll('.circulo').classed('hidden',true);
           ctrl.attr('fill','#fff');
           d3.selectAll('.departamento').classed('burbuja',false);
+          d3.select('.leaflet-bottom.leaflet-right').classed('hidden',true);
           //d3.selectAll('.departamento').attr('opacity',1);
         }
       }
@@ -111,6 +113,16 @@ angular.module('geoelectoralFrontendApp')
       }
       controlCentrar.addTo(map);
 
+      // Leyenda para las burbujas
+      var burbujaLeyenda = L.control({position: 'bottomright'});
+      burbujaLeyenda.onAdd = function (map) {
+        var div = L.DomUtil.create('div','leaflet-bar');
+        div.innerHTML = '<a id="bubble-legend"></a>';
+        return div;
+      }
+      burbujaLeyenda.addTo(map);
+
+      PanelFactory.makeLegend();
     });
 
     // Llevarlo como factory
@@ -380,7 +392,7 @@ angular.module('geoelectoralFrontendApp')
       d3.select(map.getPanes().overlayPane).selectAll('svg').remove();
       svg = d3.select(map.getPanes().overlayPane).append('svg');
       g = svg.append('g').attr('class', 'departamentos');
-
+      
       svg.attr('class','leaflet-zoom-hide');
 
       var collection=$scope.data.data;
@@ -449,9 +461,11 @@ angular.module('geoelectoralFrontendApp')
                     .attr('cx', punto[0])
                     .attr('cy', punto[1])
                     //.attr('r', ((0.250*Math.pow(2,map.getZoom()))* (p.partido.resultado/5000)/100  ));
-                    .attr('r', ((Math.pow(2,map.getZoom()))* Math.sqrt(p.partido.resultado)/1000 ));
+                    .attr('r', PanelFactory.radioFromCant(p.partido.resultado,map.getZoom()) );
           }
         });
+        PanelFactory.changeLegend(map.getZoom());
+        
       }
       map.on('viewreset', reset, svg);
       reset();

@@ -294,7 +294,9 @@ body {
   #fondo-mapa{
     display: block !important;
   }
-
+  .leaflet-bottom.leaflet-right {
+    opacity: .7;
+  }
 }
 /* Responsive: Portrait tablets and down 768 */
 @media screen and (max-width: 767px) {
@@ -384,6 +386,12 @@ body {
   }
   body {
     padding-bottom: 0px;
+  }
+  .leaflet-bottom {
+    bottom: 30px;
+  }
+  .leaflet-bottom.leaflet-right {
+    opacity: .1;
   }
 }
 /* Estadísticas */
@@ -581,4 +589,7 @@ div[growl] {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+.leaflet-bottom.leaflet-right:hover {
+  opacity: 1;
 }
