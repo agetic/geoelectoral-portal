@@ -53,7 +53,7 @@ body {
   border-radius: 4px;
   position: absolute;
   width: 140px;
-  top: 55px;
+  top: 80px;
   background: #fff;
   opacity: .7;
   max-height: 72%;
@@ -79,12 +79,12 @@ body {
   float: left;
   margin-right: 15px;
 }
-.logo-adsib img {
-  height: 50px;
-}
 .geoelectoral-titulo {
   margin-bottom: 0px;
-  margin-top: 3px;
+  clear: left;
+  float: left;
+  margin-right: 15px;
+  margin-top: 25px;
 }
 
 /*-- change anios dropdown color --*/
@@ -182,7 +182,14 @@ body {
   overflow: hidden;
   z-index: 2;
 }
-
+.leaflet-bottom.leaflet-right:hover {
+  opacity: 1;
+}
+.leaflet-bottom.leaflet-left {
+  top: 0;
+  left: -10px;
+  bottom: none;
+}
 /* Custom page footer */
 .footer {
   padding-top: 0;
@@ -223,16 +230,18 @@ body {
 }
 @media screen and (min-width: 768px) {
   .header {
-    /*width: 67%;*/
     cursor: default;
-    /*background: #fff;*/
     opacity: .7;
   }
   /* Título Elecciones */
+  .logo-adsib img {
+    height: 50px;
+  }
   .titulo {
-    margin-top: 0px;
+    float: left;
+    margin-top: 30px;
     margin-bottom: 0px;
-    padding-left: 114px;
+    margin-right: 4px;
   }
   .nav-pestana768{
     display: none;
@@ -280,10 +289,8 @@ body {
   .statistics:hover .nav-pestana{
     opacity: 1;
   }
-  .leaflet-top {
-    top: 45px !important;
-  }
-  .leaflet-left {
+  .leaflet-top.leaflet-left {
+    top: 71px;
     left: 132px !important;
   }
   #tab-map{
@@ -300,42 +307,34 @@ body {
 }
 /* Responsive: Portrait tablets and down 768 */
 @media screen and (max-width: 767px) {
-  .geoelectoral-titulo {
-    margin-top: 25px;
-  }
   .header{
     width: 100%;
     margin-top: -100px;
   }
-  .header .titulo{
-    clear: left;
-    float: none;
-    width: 100%;
+  .logo-adsib img {
+    height: 32px;
+  }
+  #header-titulo .titulo{
+    padding-left: 152px;
     margin-top: 0;
-    font-size: 14px;
-    margin-bottom: 2px;
-    height: 70px;
+    font-size: 13px;
   }
   .nav-pestana{
     display: none;
   }
   .nav-pestana768{
     position: absolute;
-    top: 83px;
+    top: 61px;
     left: 0px;
     clear: both;
     z-index: 3;
   }
 
   #menu-anios {
-    top: 126px;
+    top: 106px;
     background: none;
     height: auto;
     bottom: auto;
-  }
-  .container section {
-    height: 100%;
-    padding-top: 100px;
   }
   #fondo-mapa{
     padding-top: 125px;
@@ -370,19 +369,18 @@ body {
   .jumbotron {
     border-bottom: 0;
   }
-  .leaflet-top {
-    top: 15px !important;
-  }
-  .leaflet-left {
-    left: auto !important;
+  .leaflet-top.leaflet-left {
+    top: 55px;
+    left: auto;
     right: 0px;
   }
   .statistics{
     position: absolute;
     background: #fff;
     width: 100%;
-    bottom: 0px;
-    top: 125px;
+    bottom: 10px;
+    top: 103px;
+    z-index: 1001;
   }
   body {
     padding-bottom: 0px;
@@ -392,6 +390,18 @@ body {
   }
   .leaflet-bottom.leaflet-right {
     opacity: .1;
+  }
+  .leaflet-bottom.leaflet-left {
+    width: 100%;
+  }
+  .leaflet-bottom.leaflet-left
+  .leaflet-bar.leaflet-control {
+    background: #fff;
+    width: 100%;
+    padding-right: 10px;
+  }
+  .geoelectoral-titulo {
+    margin-top: 5px;
   }
 }
 /* Estadísticas */
@@ -419,6 +429,7 @@ body {
   margin-bottom: 0.5em;
   border: 0;
   border-top: 1px solid #eee;
+  display: none;
 }
 
 div.tooltip-mapa {
@@ -589,7 +600,4 @@ div[growl] {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-}
-.leaflet-bottom.leaflet-right:hover {
-  opacity: 1;
 }

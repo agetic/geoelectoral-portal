@@ -123,6 +123,17 @@ angular.module('geoelectoralFrontendApp')
       burbujaLeyenda.addTo(map);
 
       PanelFactory.makeLegend();
+
+      var tituloMapa = L.control({position:'bottomleft'});
+      tituloMapa.onAdd = function(map) {
+        var div = L.DomUtil.create('div','leaflet-bar');
+        div.id = 'header-titulo';
+        div.innerHTML = $('#header').html();
+        $('#header').css('z-index','-1');
+        return div;
+      }
+      tituloMapa.addTo(map);
+
     });
 
     // Llevarlo como factory
@@ -164,20 +175,6 @@ angular.module('geoelectoralFrontendApp')
       //map.setView(mapaCentroide, map.getZoom());
     }
 
-    var mouseWheel = function(e){
-      var updown=0;
-      updown -=(e.originalEvent.deltaY)?e.originalEvent.deltaY:0; // otros
-      updown -=(e.originalEvent.detail)?e.originalEvent.detail:0; // firefox
-      updown +=(e.originalEvent.wheelDelta)?e.originalEvent.wheelDelta:0; //chrome
-      if(updown>=0){
-        map.setZoom(map.getZoom()+1);
-      }else{
-        map.setZoom(map.getZoom()-1);
-      }
-      e.preventDefault();
-    }
-    $('.header').bind('mousewheel DOMMouseScroll wheel',mouseWheel);
-
     var graficarMapa = function() {
       $scope.data=$scope.dpaGeoJSON;
       if (!$scope.data.data) { return; }
@@ -193,7 +190,9 @@ angular.module('geoelectoralFrontendApp')
         L.DomEvent.stopPropagation(d3.event); // stop the zoom
       });
 
-      //$('.nav-pestana').bind('mousewheel DOMMouseScroll wheel',mouseWheel);
+      // Copiar titulo
+      $('#header-titulo').html($('#header').html());
+
       /* Funciones  y variables necesarias */
       var votos = $scope.partidosDepartamento;
       var partido = $scope.partidoSeleccionado;
