@@ -199,6 +199,7 @@ angular.module('geoelectoralFrontendApp')
       // Tooltip container
       var div = d3.select('#tooltip-mapa')
           .attr('class', 'tooltip-mapa')
+          .style('display','block')
           .style('opacity', 1e-6);
       var tooltipTpl = [
           '<strong>{sigla}</strong>',
