@@ -16,11 +16,14 @@ angular.module('geoelectoralFrontendApp')
       if(bc[0]) {
         zoomDpa = bc[0].length-1;
       }
-      if(zoom>6)
-        if(zoomDpa>2)
-          zoom = 4+zoomDpa;
-        else
-          zoom = 6;
+      if(zoom<=10 && zoomDpa>2)
+        zoom = zoom-zoomDpa-1;
+      else
+        if(zoom>6)
+          if(zoomDpa>2)
+            zoom = 4+zoomDpa;
+          else
+            zoom = 6;
       return (0.8*(Math.pow(2,zoom))* Math.sqrt(cantidad)/1000 );
     }
     function cantFromRadio(radio,zoom) {
@@ -29,11 +32,14 @@ angular.module('geoelectoralFrontendApp')
       if(bc[0]) {
         zoomDpa = bc[0].length-1;
       }
-      if(zoom>6)
-        if(zoomDpa>2)
-          zoom = 4+zoomDpa;
-        else
-          zoom = 6;
+      if(zoom<=10 && zoomDpa>2)
+        zoom = zoom-zoomDpa-1;
+      else
+        if(zoom>6)
+          if(zoomDpa>2)
+            zoom = 4+zoomDpa;
+          else
+            zoom = 6;
       return parseInt(Math.pow((parseFloat(radio)/0.8/(Math.pow(2,zoom))*1000),2));
     }
 
