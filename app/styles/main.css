@@ -69,6 +69,10 @@ body {
 }
 
 /* Custom page header */
+#header-titulo {
+  box-shadow: none;
+  cursor: pointer;
+}
 .header {
   position: absolute;
   margin: 0;
