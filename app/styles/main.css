@@ -429,7 +429,6 @@ body {
   margin-bottom: 0.5em;
   border: 0;
   border-top: 1px solid #eee;
-  display: none;
 }
 
 div.tooltip-mapa {
@@ -442,6 +441,7 @@ div.tooltip-mapa {
   border-radius: 8px;
   padding: 8px;
   pointer-events: none;
+  display: none;
 }
 
 /* Gráficos */
