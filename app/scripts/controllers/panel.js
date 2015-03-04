@@ -421,6 +421,7 @@ angular.module('geoelectoralFrontendApp')
 
         svg .attr('width', (bottomRight[0] - topLeft[0])*escala)
             .attr('height', (bottomRight[1] - topLeft[1])*escala)
+            .style('overflow','visible')
             .style('left', topLeft[0] + 'px')
             .style('top', topLeft[1] + 'px');
 
@@ -430,6 +431,7 @@ angular.module('geoelectoralFrontendApp')
 
         if(isBurbujaEnabled()){
           g.selectAll('circle').remove();
+          PanelFactory.maxRadio(votos,map.getZoom());
           circulos();
         }
         if($scope.mapControl.ajustar){

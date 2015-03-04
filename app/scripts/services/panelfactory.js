@@ -10,41 +10,39 @@
 angular.module('geoelectoralFrontendApp')
   .factory('PanelFactory', function (ENV) {
 
+    var zoomAjuste=0;
+
     function radioFromCant(cantidad,zoom) {
-      var bc = d3.select('#mapa-breadcrumb').selectAll('li');
-      var zoomDpa = 0;
-      if(bc[0]) {
-        zoomDpa = bc[0].length-1;
-      }
-      if(zoom<=10 && zoomDpa>2)
-        zoom = zoom-zoomDpa-1;
-      else
-        if(zoom>6)
-          if(zoomDpa>2)
-            zoom = 4+zoomDpa;
-          else
-            zoom = 6;
+      zoom = zoom-zoomAjuste;
       return (0.8*(Math.pow(2,zoom))* Math.sqrt(cantidad)/1000 );
     }
     function cantFromRadio(radio,zoom) {
-      var bc = d3.select('#mapa-breadcrumb').selectAll('li');
-      var zoomDpa = 0;
-      if(bc[0]) {
-        zoomDpa = bc[0].length-1;
-      }
-      if(zoom<=10 && zoomDpa>2)
-        zoom = zoom-zoomDpa-1;
-      else
-        if(zoom>6)
-          if(zoomDpa>2)
-            zoom = 4+zoomDpa;
-          else
-            zoom = 6;
+      zoom = zoom-zoomAjuste;
       return parseInt(Math.pow((parseFloat(radio)/0.8/(Math.pow(2,zoom))*1000),2));
+    }
+    // Calcula el ajuste para zoom segun la cantidad de votos y el zoom actual 
+    function maxRadio(votos,zoom){
+      console.time('Tiempo maxR');
+      var maxR = 0;
+      votos.forEach(function(p){
+        p.partidos.forEach(function(v){
+          if(v.resultado>maxR) maxR=v.resultado;
+        });
+      });
+      zoomAjuste = 0;
+      var radio = (0.8*(Math.pow(2,zoom))* Math.sqrt(maxR)/1000 );
+      while(radio>64) { // maximo radio permitido 64px
+        radio = (0.8*(Math.pow(2,--zoom))* Math.sqrt(maxR)/1000 );
+        zoomAjuste++;
+      }
+      console.timeEnd('Tiempo maxR');
     }
 
     // Public API here
     return {
+      maxRadio: function(votos,zoom) {
+        maxRadio(votos,zoom);
+      },
       // Tamaño del radio a partir de la cantidad
       radioFromCant: function(cantidad,zoom) {
         return radioFromCant(cantidad,zoom);
