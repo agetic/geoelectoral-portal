@@ -267,7 +267,7 @@ angular.module('geoelectoralFrontendApp')
                                                 .replace(/{idTipoDpa}/g, $scope.currentDpa.idTipoDpa)));
       promises.push($http.get(eleccionesUrl.replace(/{anio}/g, $scope.anio)
                                            .replace(/{idTipoEleccion}/g, $scope.currentDpa.idTipoEleccion)
-                                           .replace(/{idTipoDpa}/g, $scope.currentDpa.idTipoDpa)
+                                           .replace(/{idTipoDpa}/g, $scope.currentDpa.idTipoDpaActual)
                                            .replace(/{idDpa}/g, $scope.currentDpa.idDpa)));
 
       $q.all(promises).then(function(response) {
@@ -307,12 +307,18 @@ angular.module('geoelectoralFrontendApp')
       promises.push($http.get(eleccionesDeptoUrl.replace(/{anio}/g, $scope.anio)
                                                 .replace(/{idTipoEleccion}/g, $scope.currentDpa.idTipoEleccion)
                                                 .replace(/{idTipoDpa}/g, $scope.currentDpa.idTipoDpa)));
+      promises.push($http.get(eleccionesUrl.replace(/{anio}/g, $scope.anio)
+                                           .replace(/{idTipoEleccion}/g, $scope.currentDpa.idTipoEleccion)
+                                           .replace(/{idTipoDpa}/g, $scope.currentDpa.idTipoDpaActual)
+                                           .replace(/{idDpa}/g, $scope.currentDpa.idDpa)));
 
       $q.all(promises).then(function(response) {
         if (response[1].data.dpas) {
           $scope.dpaGeoJSON = reducePorAnio(response[0]);
           $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
           $scope.partidosDepartamento = reducirDpasVista($scope.partidosDepartamento);
+          $scope.partidos = eliminarValidos(response[2].data.dpas[0].partidos);
+          $scope.partidos = $scope.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
         } else {
           growl.info("No hay datos de elecciones disponibles", {});
         }
