@@ -203,6 +203,37 @@ angular.module('geoelectoralFrontendApp')
     var capitalize = function(string) {
       return string.charAt(0).toUpperCase() + string.substr(1).toLowerCase();
     };
+    // Sumar el total de votos por partido cuando se muestran varios dpas
+    var sumarValidos = function(dpas) {
+      var totalPartidos = [];
+      var totalVotos=0;
+      var totalVotosP=0;
+      if(dpas)
+      dpas.forEach(function(dpa){
+        dpa.partidos.forEach(function (p, i) {
+          if (p.sigla === 'VALIDOS') {
+            totalVotos += p.resultado;
+          } else {
+            var c=0;
+            totalVotosP += p.resultado;
+            totalPartidos.forEach(function (totalp,i){
+              if(totalp.id_partido===p.id_partido){
+                totalPartidos[i].resultado += p.resultado;
+                return;
+              }
+              c++;
+            });
+            if(c==totalPartidos.length) {
+              totalPartidos.push(p);
+            }
+          }
+        });
+      });
+      totalPartidos.forEach(function (totalp,i){
+        totalPartidos[i].porcentaje = totalp.resultado / totalVotosP * 100;
+      });
+      return totalPartidos;
+    }
     var eliminarValidos = function(partidos) {
       partidos.forEach(function (p, i) {
         if (p.sigla === 'VALIDOS') {
@@ -276,7 +307,8 @@ angular.module('geoelectoralFrontendApp')
           $scope.dpaGeoJSON = reducePorAnio(response[0]);
           $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
           $scope.partidosDepartamento = reducirDpasVista($scope.partidosDepartamento);
-          $scope.partidos = eliminarValidos(response[2].data.dpas[0].partidos);
+          //$scope.partidos = eliminarValidos(response[2].data.dpas[0].partidos);
+          $scope.partidos = sumarValidos(response[2].data.dpas);
           $scope.partidos = $scope.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
         } else {
           if(response[2].data.eleccion)
@@ -313,6 +345,8 @@ angular.module('geoelectoralFrontendApp')
           $scope.dpaGeoJSON = reducePorAnio(response[0]);
           $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
           $scope.partidosDepartamento = reducirDpasVista($scope.partidosDepartamento);
+          $scope.partidos = sumarValidos(response[1].data.dpas);
+          $scope.partidos = $scope.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
         } else {
           growl.info("No hay datos de elecciones disponibles", {});
         }
