@@ -12,13 +12,18 @@ angular.module('geoelectoralFrontendApp')
 
     var zoomAjuste=0;
 
+    function numComas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
     function radioFromCant(cantidad,zoom) {
       zoom = zoom-zoomAjuste;
       return (0.8*(Math.pow(2,zoom))* Math.sqrt(cantidad)/1000 );
     }
     function cantFromRadio(radio,zoom) {
       zoom = zoom-zoomAjuste;
-      return parseInt(Math.pow((parseFloat(radio)/0.8/(Math.pow(2,zoom))*1000),2));
+      var cant = parseInt(Math.pow((parseFloat(radio)/0.8/(Math.pow(2,zoom))*1000),2));
+      cant = parseInt(cant/100)*100;
+      return numComas(cant);;
     }
     // Calcula el ajuste para zoom segun la cantidad de votos y el zoom actual 
     function maxRadio(votos,zoom){
@@ -68,7 +73,7 @@ angular.module('geoelectoralFrontendApp')
               .attr('stroke','#000')
               .attr('cx',64)
               .attr('cy',128-radioFromCant(600000,6))
-              .attr('r',radioFromCant(600000,6));
+              .attr('r',radioFromCant(600001,6));
             lg.append('circle')
               .attr('fill','#'+ENV.color)
               .attr('stroke','#000')
@@ -101,6 +106,13 @@ angular.module('geoelectoralFrontendApp')
               .text(100000)
               .attr('x',43)
               .attr('y',126-radioFromCant(100000,6)*2)
+            // titulo leyenda
+            lg.append('text')
+              .attr('id','ltext-titulo')
+              .text('Votos')
+              .style('font-weight','bold')
+              .attr('x',48)
+              .attr('y',10)
       },
       // Cambia el tamaño o los valores de la leyenda para burbujas
       changeLegend: function(zoom) {
@@ -113,7 +125,7 @@ angular.module('geoelectoralFrontendApp')
           lcircle[0].forEach(function(c,i){
             c=d3.select(c);
             ltext = $('#ltext'+i);
-            ltext.text(parseInt(cantFromRadio(c.attr('r'),zoom)/100)*100);
+            ltext.text(cantFromRadio(c.attr('r'),zoom));
             ltext.attr('x',64-ltext[0].getBBox().width/2);
           });
         }else{
