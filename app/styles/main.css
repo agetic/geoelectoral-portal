@@ -288,6 +288,7 @@ body {
   }
   .statistics:hover{
     overflow: auto;
+    z-index: 1001;
   }
   .statistics .description:hover,
   .statistics:hover .nav-pestana{
