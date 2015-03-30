@@ -240,6 +240,8 @@ angular.module('geoelectoralFrontendApp')
       fecha = new Date($scope.eleccion.fecha.replace(/T.+$/, ''));
       dpas.data.features.forEach(function (d, i) {
         p = d.properties;
+        p.fecha_creacion_corte=p.fecha_creacion_corte.replace('Z','');
+        p.fecha_supresion_corte=p.fecha_supresion_corte.replace('Z','');
         fechaCreacion = Date.parse(p.fecha_creacion_corte);
         fechaSupresion = Date.parse(p.fecha_supresion_corte);
         anioCreacion =  Number.NEGATIVE_INFINITY;
