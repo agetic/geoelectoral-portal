@@ -429,9 +429,9 @@ angular.module('geoelectoralFrontendApp')
 
         feature.attr('d', path);
 
+        g.selectAll('circle').remove();
+        PanelFactory.maxRadio(votos,map.getZoom());
         if(isBurbujaEnabled()){
-          g.selectAll('circle').remove();
-          PanelFactory.maxRadio(votos,map.getZoom());
           circulos();
         }
         if($scope.mapControl.ajustar){
