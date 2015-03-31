@@ -345,8 +345,10 @@ angular.module('geoelectoralFrontendApp')
       var totalPartidos = [];
       var totalVotos=0;
       var totalVotosP=0;
+      var dpaPadres = Dpa.idDpasPadre($scope.currentDpa.idDpa);
       if(dpas)
         dpas.forEach(function(dpa){
+          if(dpa.id_dpa_superior==$scope.currentDpa.idDpa || $scope.currentDpa.idDpa==1)
           dpa.partidos.forEach(function (p, i) {
             if (p.sigla === 'VALIDOS') {
               totalVotos += p.resultado;
