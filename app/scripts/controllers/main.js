@@ -143,6 +143,33 @@ angular.module('geoelectoralFrontendApp')
       //$scope.partidoSeleccionado = null;
       $scope.e.anioIndex = index;
       $scope.anio = $scope.anios[$scope.e.anioIndex];
+      $scope.aniosDetalle.some(function(adet){
+        if(adet.anio==$scope.anio){
+          var ite=0;
+          adet.tipos_eleccion.some(function(tEle,i){
+            if(tEle.id_tipo_eleccion==$scope.currentDpa.idTipoEleccion){
+              ite=i;
+              return true;
+            }
+          });
+          $scope.currentDpa.idTipoEleccion=adet.tipos_eleccion[ite].id_tipo_eleccion;
+          if( adet.tipos_eleccion[ite].id_tipos_dpa.indexOf($scope.currentDpa.idTipoDpa)<0 ){
+            switch(adet.tipos_eleccion[ite].id_tipo_eleccion){
+              case 1:
+                $scope.currentDpa.idTipoDpa=adet.tipos_eleccion[ite].id_tipos_dpa[1];
+                $scope.currentDpa.idTipoEleccion=adet.tipos_eleccion[ite].id_tipo_eleccion;
+                break;
+              case 2:
+              case 6:
+              case 7:
+                $scope.currentDpa.idTipoDpa=adet.tipos_eleccion[ite].id_tipos_dpa[0];
+                $scope.currentDpa.idTipoEleccion=adet.tipos_eleccion[ite].id_tipo_eleccion;
+                break;
+            }
+          }
+          return true;
+        }
+      });
       $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
     };
 
@@ -287,23 +314,10 @@ angular.module('geoelectoralFrontendApp')
             $scope.partidos = eliminarValidos(response[2].data.dpas[0].partidos);
           }
           else{
-            $scope.partidos = sumarValidos(response[1].data.dpas);
+            $scope.partidos = sumarValidos(response[1].data.dpas,response[0].data.features);
           }
           $scope.partidos = $scope.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
         } else {
-          if(response[1].data.eleccion)
-            $scope.currentDpa.idTipoDpa = Dpa.getIdTipoDpaSuperior($scope.currentDpa.idTipoDpa);
-          $scope.currentDpa.idTipoDpaActual = Dpa.getIdTipoDpaSuperior($scope.currentDpa.idTipoDpaActual);
-          $scope.currentDpa.idDpa = Dpa.idDpasPadre($scope.currentDpa.idDpa)[0];
-          // Cuando se cambia el año y el tipo dpa actual no existe
-          // Se coloca al tipo dpa inicial (revisar)
-          if(!$scope.currentDpa.idDpa){
-            $scope.currentDpa.idDpa=1;
-            $scope.currentDpa.idTipoEleccion=1;
-          }
-          if($scope.currentDpa.idTipoDpa)
-            loadServices();
-          else
             growl.warning("No hay datos de elecciones disponibles.",{});
         }
       }, function(error) {
@@ -333,7 +347,7 @@ angular.module('geoelectoralFrontendApp')
             $scope.partidos = eliminarValidos(response[2].data.dpas[0].partidos);
           }
           else{
-            $scope.partidos = sumarValidos(response[1].data.dpas);
+            $scope.partidos = sumarValidos(response[1].data.dpas,response[0].data.features);
           }
           $scope.partidos = $scope.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
         } else {
@@ -346,14 +360,16 @@ angular.module('geoelectoralFrontendApp')
     $scope.recargarMapa = recargarMapa;
 
     // Sumar el total de votos por partido cuando se muestran varios dpas
-    var sumarValidos = function(dpas) {
+    var sumarValidos = function(dpas,features) {
       var totalPartidos = [];
       var totalVotos=0;
       var totalVotosP=0;
-      var dpaPadres = Dpa.idDpasPadre($scope.currentDpa.idDpa);
       if(dpas)
         dpas.forEach(function(dpa){
-          if(dpa.id_dpa_superior==$scope.currentDpa.idDpa || $scope.currentDpa.idDpa==1)
+          //if(dpa.id_dpa_superior==$scope.currentDpa.idDpa || $scope.currentDpa.idDpa==1)
+          if( features.some(function(feat){
+            return feat.properties.id_dpa==dpa.id_dpa;
+              }) )
           dpa.partidos.forEach(function (p, i) {
             if (p.sigla === 'VALIDOS') {
               totalVotos += p.resultado;
