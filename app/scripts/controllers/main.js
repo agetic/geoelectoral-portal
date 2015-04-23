@@ -305,6 +305,11 @@ angular.module('geoelectoralFrontendApp')
                                            .replace(/{idDpa}/g, $scope.currentDpa.idDpa)));
 
       $q.all(promises).then(function(response) {
+        if(response[0].data.features.length==0){
+          $scope.mapControl.ajustar=true;
+          $scope.currentDpa.idDpa=Dpa.idDpasPadre($scope.currentDpa.idDpa)[0];
+          return;
+        }
         if (response[1].data.dpas && response[1].data.eleccion) {
           $scope.eleccion = response[1].data.eleccion;
           $scope.dpaGeoJSON = reducePorAnio(response[0]);
@@ -318,7 +323,14 @@ angular.module('geoelectoralFrontendApp')
           }
           $scope.partidos = $scope.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
         } else {
-            growl.warning("No hay datos de elecciones disponibles.",{});
+            //growl.warning("No hay datos de elecciones disponibles.",{});
+            $scope.tiposDpa.some(function(tDpa){
+              if(tDpa.idTipoDpa == $scope.currentDpa.idTipoDpa){
+                $scope.currentDpa.idTipoDpa = tDpa.idTipoDpaSuperior;
+                loadServices();
+                return true;
+              }
+            });
         }
       }, function(error) {
         console.warn("Error en la conexión a GeoElectoral API");
