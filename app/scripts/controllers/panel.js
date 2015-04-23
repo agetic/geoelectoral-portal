@@ -256,11 +256,15 @@ angular.module('geoelectoralFrontendApp')
           return ;
         }
         // double-touch
-          $scope.currentDpa.idDpa = d.properties.id_dpa;
+          $scope.mapControl.ajustar=true;
           establecerDescendiente(d, $scope.currentDpa, $scope.tiposDpa);
           $scope.currentDpa.dpaNombre = d.properties.nombre;
-          $scope.$apply();
-          $scope.mapControl.ajustar=true;
+          if($scope.currentDpa.idDpa == d.properties.id_dpa){
+            $scope.recargarMapa();
+          }else{
+            $scope.currentDpa.idDpa = d.properties.id_dpa;
+          }
+          //$scope.$apply();
         e.preventDefault(); // double tap - prevent the zoom
         return ;
       }
@@ -269,12 +273,15 @@ angular.module('geoelectoralFrontendApp')
       };
       var mouseup = function(d){
         if(mpos[0]==d3.event.pageX && mpos[1]==d3.event.pageY && !isTouch){
-          $scope.currentDpa.idDpa = d.properties.id_dpa;
+          $scope.mapControl.ajustar=true;
           establecerDescendiente(d, $scope.currentDpa, $scope.tiposDpa);
           $scope.currentDpa.dpaNombre = d.properties.nombre;
-          $scope.$apply();
-          $scope.recargarMapa();
-          $scope.mapControl.ajustar=true;
+          if($scope.currentDpa.idDpa == d.properties.id_dpa){
+            $scope.recargarMapa();
+          }else{
+            $scope.currentDpa.idDpa = d.properties.id_dpa;
+          }
+          //$scope.$apply();
         }
       };
       var click = function(d) {
