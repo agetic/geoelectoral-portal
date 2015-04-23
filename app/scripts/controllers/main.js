@@ -42,7 +42,7 @@ angular.module('geoelectoralFrontendApp')
                           idTipoDpaActual: 1,   // Tipo de Dpa del dpa actual
                           idTipoEleccion: 1,    // Tipo de la Elección: plurinominal, uninominal
                           dpaNombre: 'Bolivia', // Nombre del dpa actual
-                          idTipoDpa: 2          // Tipo de Dpa hijos que se va mostrar
+                          idTipoDpa: null       // Tipo de Dpa hijos que se va mostrar
                         };
 
     var breadcrumbFactory = function() {
@@ -60,6 +60,11 @@ angular.module('geoelectoralFrontendApp')
     $scope.$on('$routeChangeSuccess', function() {
       if ($routeParams.anio && $routeParams.idDpa) {
         Dpa.query().then(function(data) {
+          $scope.aniosDetalle.some(function(aDet,i){
+            if(aDet.anio==$routeParams.anio)
+            $scope.e.anioIndex = i;
+          });
+
           $scope.currentDpa = Dpa.find(parseInt($routeParams.idDpa),$scope.aniosDetalle[$scope.e.anioIndex],$scope.currentDpa);
           $scope.e = { anioIndex: $scope.anios.indexOf(parseInt($routeParams.anio)) };
           $scope.anio = $scope.anios[$scope.e.anioIndex];
