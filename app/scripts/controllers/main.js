@@ -321,7 +321,7 @@ angular.module('geoelectoralFrontendApp')
           else{
             $scope.partidos = sumarValidos(response[1].data.dpas,response[0].data.features);
           }
-          $scope.partidos = $scope.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
+          $scope.partidos = $scope.partidos.sort(function(a, b) { return b.resultado - a.resultado; });
         } else {
             //growl.warning("No hay datos de elecciones disponibles.",{});
             $scope.tiposDpa.some(function(tDpa){
@@ -361,7 +361,7 @@ angular.module('geoelectoralFrontendApp')
           else{
             $scope.partidos = sumarValidos(response[1].data.dpas,response[0].data.features);
           }
-          $scope.partidos = $scope.partidos.sort(function(a, b) { return b.porcentaje - a.porcentaje; });
+          $scope.partidos = $scope.partidos.sort(function(a, b) { return b.resultado - a.resultado; });
         } else {
           growl.info("No hay datos de elecciones disponibles", {});
         }
@@ -402,7 +402,7 @@ angular.module('geoelectoralFrontendApp')
           });
         });
         totalPartidos.forEach(function (totalp,i){
-          totalPartidos[i].porcentaje = totalp.resultado / totalVotosP * 100;
+          totalPartidos[i].porcentaje = parseInt(totalp.resultado / totalVotosP * 10000)/100;
         });
         return totalPartidos;
     }
