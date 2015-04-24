@@ -137,6 +137,17 @@ angular.module('geoelectoralFrontendApp')
       }
       return titulo;
     };
+    $scope.getEleccion = function() {
+      var tipoElec;
+      switch($scope.currentDpa.idTipoEleccion){
+        case 1: tipoElec='Generales'; break
+        case 2: tipoElec='Generales'; break
+        case 6: tipoElec='Departamentales'; break
+        case 7: tipoElec='Municipales'; break
+        default: tipoElec='Generales';
+      }
+      return tipoElec;
+    }
 
     // Establecer el año
     $scope.setAnioIndex = function (index) {
