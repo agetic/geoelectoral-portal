@@ -82,6 +82,16 @@ angular.module('geoelectoralFrontendApp')
         $scope.anio = $scope.anios[$scope.e.anioIndex];
         $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
       } else {
+        $http.get(host+api+"/anios").then(function(response){
+          $scope.aniosDetalle = response.data.anios.reverse();
+          if($scope.aniosDetalle[0].anio){
+            for(var a in $scope.aniosDetalle)
+              $scope.anios[a]=$scope.aniosDetalle[a].anio;
+            $scope.e = { anioIndex: 0 };
+            $scope.anio = $scope.anios[$scope.e.anioIndex];
+          }
+          $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
+        });
         return;
       }
     });
@@ -93,7 +103,7 @@ angular.module('geoelectoralFrontendApp')
         if($scope.aniosDetalle[0].anio){
           for(var a in $scope.aniosDetalle)
             $scope.anios[a]=$scope.aniosDetalle[a].anio;
-          $scope.e = { anioIndex: $scope.anios.length - 1 };
+          $scope.e = { anioIndex: 0 };
           $scope.anio = $scope.anios[$scope.e.anioIndex];
         }
       });
