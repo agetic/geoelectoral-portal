@@ -457,7 +457,7 @@ angular.module('geoelectoralFrontendApp')
         collection.features.forEach(function(p) {
           var punto = path.centroid(p);
           //if(punto[0] && p.partido.porcentaje>0 && p.partido.porcentaje<100 && p.properties.extent){
-          if(punto[0] && p.partido.porcentaje>0 && p.partido.porcentaje<100 ){
+          if(punto[0] && p.partido.porcentaje>0 && p.partido.porcentaje<=100 ){
             g.append('circle')
                     .attr('fill','#'+p.partido.color)
                     .attr('stroke','#888')
