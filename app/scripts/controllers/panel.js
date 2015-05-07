@@ -77,7 +77,7 @@ angular.module('geoelectoralFrontendApp')
 
       controlCirculo.onAdd = function (map) {
         var div = L.DomUtil.create('div', 'leaflet-bar');
-        div.innerHTML = '<a id="ctrl-burbuja" title="Burbujas"><svg width="26" height="26"><g><circle id="ctrl-circulo" stroke="#000" fill="#000" cx="13" cy="13" r="8"></g></svg></a>';
+        div.innerHTML = '<a id="ctrl-burbuja" title="Burbujas"><svg width="26" height="26"><g><circle id="ctrl-circulo" stroke="#000" fill="#fff" cx="13" cy="13" r="8"></g></svg></a>';
         return div;
       };
       controlCirculo.addTo(map);
