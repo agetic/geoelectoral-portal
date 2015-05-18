@@ -315,6 +315,7 @@ angular.module('geoelectoralFrontendApp')
     var loadServices = function() {
       var promises = [];
       // GeoJSON político administrativo de Bolivia
+      $scope.currentDpa.lz=1;
       promises.push($http.get(dpaGeoJSONUrl, { params: $scope.currentDpa }));
       // Elecciones a nivel departamento
       promises.push($http.get(eleccionesDeptoUrl.replace(/{anio}/g, $scope.anio)
@@ -326,6 +327,11 @@ angular.module('geoelectoralFrontendApp')
                                            .replace(/{idDpa}/g, $scope.currentDpa.idDpa)));
 
       $q.all(promises).then(function(response) {
+        if(response[0].data.lz){
+          var lzData = LZString.decompressFromEncodedURIComponent(response[0].data.lz);
+          response[0].data=JSON.parse(lzData);
+          console.log(response[0].data);
+        }
         if(response[0].data.features.length==0){
           $scope.mapControl.ajustar=true;
           $scope.currentDpa.idDpa=Dpa.idDpasPadre($scope.currentDpa.idDpa)[0];
@@ -361,6 +367,7 @@ angular.module('geoelectoralFrontendApp')
     var recargarMapa = function() {
       var promises = [];
       // GeoJSON político administrativo de Bolivia
+      $scope.currentDpa.lz=1;
       promises.push($http.get(dpaGeoJSONUrl, { params: $scope.currentDpa }));
       // Elecciones a nivel departamento
       promises.push($http.get(eleccionesDeptoUrl.replace(/{anio}/g, $scope.anio)
@@ -372,6 +379,10 @@ angular.module('geoelectoralFrontendApp')
                                            .replace(/{idDpa}/g, $scope.currentDpa.idDpa)));
 
       $q.all(promises).then(function(response) {
+        if(response[0].data.lz){
+          var lzData = LZString.decompressFromEncodedURIComponent(response[0].data.lz);
+          response[0].data=JSON.parse(lzData);
+        }
         if (response[1].data.dpas) {
           $scope.dpaGeoJSON = reducePorAnio(response[0]);
           $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
