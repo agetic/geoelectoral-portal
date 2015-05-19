@@ -154,6 +154,7 @@ angular.module('geoelectoralFrontendApp')
         case 2: tipoElec='Generales'; break
         case 6: tipoElec='Departamentales'; break
         case 7: tipoElec='Municipales'; break
+        case 8: tipoElec='Departamentales (2da.Vuelta)'; break
         default: tipoElec='Generales';
       }
       return tipoElec;

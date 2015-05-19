@@ -67,6 +67,9 @@ body {
 #menu-anios .dropdown-menu{
   position: relative;
 }
+#menu-anios span{
+  padding-right: 0;
+}
 
 /* Custom page header */
 #header-titulo {

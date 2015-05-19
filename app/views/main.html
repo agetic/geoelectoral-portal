@@ -92,6 +92,7 @@
             <span ng-switch-when="2">Uninominales</span>
             <span ng-switch-when="6">Departamentales</span>
             <span ng-switch-when="7">Municipales</span>
+            <span ng-switch-when="8">2da Vuelta</span>
           </span>
           <ul class="nav">
             <li ng-repeat="c in b.id_tipos_dpa" ng-click="setTipoDpa(c,b.id_tipo_eleccion)" ng-class="{active: getTipoDpa()===c && getTipoEleccion()==b.id_tipo_eleccion}" ng-switch="c">
