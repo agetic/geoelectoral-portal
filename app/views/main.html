@@ -83,7 +83,7 @@
     <span class="caret"></span>
   </button>
   <ul class="nav-anios affix-anios" ng-class="anios_tipo()">
-    <li ng-class="{active: a.anio === anio}" ng-repeat="a in aniosDetalle" >
+    <li ng-class="{active: a.anio === anio}" ng-repeat="a in aniosLista" >
       <a tabindex="0" ng-click="setAnioIndex($index)">{{a.anio}}</a>
       <ul class="nav" ng-show="a.anio===anio">
         <li ng-repeat="b in a.tipos_eleccion">

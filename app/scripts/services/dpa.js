@@ -56,7 +56,7 @@ angular.module('geoelectoralFrontendApp')
     };
 
     var getIdDpaSuperior = function (idDpa, bc) {
-      var id_dpa_superior;
+      var id_dpa_superior=null;
       _dpa.some(function(d) {
         if (d.id_dpa === idDpa) {
           id_dpa_superior = d.id_dpa_superior;
@@ -68,7 +68,7 @@ angular.module('geoelectoralFrontendApp')
     };
 
     var buscarIdDpaSuperior = function (idDpa, bc) {
-      var id_dpa_superior;
+      var id_dpa_superior=null;
       _dpa.some(function(d) {
         if (d.id_dpa === idDpa) {
           id_dpa_superior = d.id_dpa_superior;
@@ -104,8 +104,8 @@ angular.module('geoelectoralFrontendApp')
     return {
 
       // Datos de todos los dpa
-      query: function () {
-        return $http.get(dpaUrl).then(function (data) {
+      query: function (fecha) {
+        return $http.get(dpaUrl+'?fecha='+fecha).then(function (data) {
           _dpa = data.data;
           return _dpa;
         }, function (error) {

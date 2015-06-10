@@ -20,7 +20,7 @@ angular.module('geoelectoralFrontendApp')
     $scope.date = new Date();
 
     $scope.anios = [1979, 1980, 1985, 1989, 1993, 1997, 2002, 2005, 2009, 2014].reverse();
-    $scope.aniosDetalle = [];
+    $scope.aniosLista = null;
     $scope.tiposDpa = [
       { idTipoDpa: 1, nombre: 'país', idTipoDpaSuperior: null },
       { idTipoDpa: 2, nombre: 'departamento', idTipoDpaSuperior: 1 },
@@ -33,7 +33,7 @@ angular.module('geoelectoralFrontendApp')
     $scope.anio = $scope.anios[$scope.e.anioIndex];
     $scope.partidos = [];
     $scope.partidosDepartamento = [];
-    $scope.eleccion = {};
+    $scope.eleccion = null;
     $scope.dpaGeoJSON = [];
     $scope.gris = ENV.color;
     $scope.porcetajeGroup = 3; // 3% Porcentaje de agrupación
@@ -56,58 +56,95 @@ angular.module('geoelectoralFrontendApp')
       }
     });
 
+    // Obtener anios y sus respectivas elecciones
+    function getAnios(callback){
+      if(!$scope.aniosLista){
+        $http.get(host+api+"/anios").then(function(response){
+          $scope.aniosLista = response.data.anios.reverse();
+          if($scope.aniosLista[0].anio){
+            for(var a in $scope.aniosLista)
+              $scope.anios[a]=$scope.aniosLista[a].anio;
+            $scope.e = { anioIndex: 0 };
+            $scope.anio = $scope.anios[0];
+            $scope.eleccion = $scope.aniosLista[0];
+            $scope.eleccion.fecha = $scope.eleccion.descripcion;
+          }
+          callback();
+        });
+      }else{
+        callback();
+      }
+    }
     // Se ejecuta cuando hay cambios en la URL
     $scope.$on('$routeChangeSuccess', function() {
       if ($routeParams.anio && $routeParams.idDpa) {
-        Dpa.query().then(function(data) {
-          $scope.aniosDetalle.some(function(aDet,i){
-            if(aDet.anio==$routeParams.anio)
-            $scope.e.anioIndex = i;
+        if(isNaN(parseInt($routeParams.idDpa))){
+          $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
+          return;
+        }
+        getAnios(function(){
+          $scope.currentDpa.idDpa = parseInt($routeParams.idDpa);
+          if( !$scope.aniosLista.some(function(a,i){
+                if(a.anio==parseInt($routeParams.anio)){
+                  $scope.anio = parseInt($routeParams.anio);
+                  $scope.e.anioIndex=i;
+                  $scope.eleccion = a;
+                  $scope.eleccion.fecha = $scope.eleccion.descripcion;
+                  return true;
+                }
+              })
+            ){
+              $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
+              return;
+             }
+          // ver si existe el tipo eleccion y tipo dpa.
+          var iEleccion=0,iTipoDpa=0;
+          $scope.eleccion.tipos_eleccion.some(function(el,i){
+            if(el.id_tipo_eleccion==$scope.currentDpa.idTipoEleccion){
+              iEleccion=i;
+              return true;
+            }
           });
-
-          $scope.currentDpa = Dpa.find(parseInt($routeParams.idDpa),$scope.aniosDetalle[$scope.e.anioIndex],$scope.currentDpa);
-          $scope.e = { anioIndex: $scope.anios.indexOf(parseInt($routeParams.anio)) };
-          $scope.anio = $scope.anios[$scope.e.anioIndex];
-          if ($scope.e.anioIndex >= 0) {
+          $scope.currentDpa.idTipoEleccion = $scope.eleccion.tipos_eleccion[iEleccion].id_tipo_eleccion;
+          $scope.eleccion.tipos_eleccion[iEleccion].id_tipos_dpa.some(function(idt,i){
+            if(idt==$scope.currentDpa.idTipoDpa){
+              iTipoDpa=i;
+              return true;
+            }
+          });
+          $scope.currentDpa.idTipoDpa = $scope.eleccion.tipos_eleccion[iEleccion].id_tipos_dpa[iTipoDpa];
+          if($scope.currentDpa.idTipoDpaActual==$scope.currentDpa.idTipoDpa &&
+             $scope.eleccion.tipos_eleccion[iEleccion].id_tipos_dpa[iTipoDpa+1])
+            $scope.currentDpa.idTipoDpa = $scope.eleccion.tipos_eleccion[iEleccion].id_tipos_dpa[iTipoDpa+1];
+          Dpa.query($scope.eleccion.fecha).then(function(data) {
             loadServices();
             breadcrumbFactory();
-          } else {
-            $scope.e = { anioIndex: $scope.anios.length - 1 };
-            $scope.anio = $scope.anios[$scope.e.anioIndex];
-            $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
-          }
+          });
         });
       } else if ($routeParams.anio) {
-        $scope.e = { anioIndex: $scope.anios.indexOf(parseInt($routeParams.anio)) };
-        $scope.anio = $scope.anios[$scope.e.anioIndex];
-        $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
+        getAnios(function(){
+              $scope.aniosLista.some(function(a,i){
+                if(a.anio==parseInt($routeParams.anio)){
+                  $scope.anio = parseInt($routeParams.anio);
+                  $scope.e.anioIndex=i;
+                  $scope.eleccion = a;
+                  $scope.eleccion.fecha = $scope.eleccion.descripcion;
+                  return true;
+                }
+              });
+          $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
+          return;
+        });
       } else {
-        $http.get(host+api+"/anios").then(function(response){
-          $scope.aniosDetalle = response.data.anios.reverse();
-          if($scope.aniosDetalle[0].anio){
-            for(var a in $scope.aniosDetalle)
-              $scope.anios[a]=$scope.aniosDetalle[a].anio;
-            $scope.e = { anioIndex: 0 };
-            $scope.anio = $scope.anios[$scope.e.anioIndex];
-          }
+        getAnios(function(){
+          $scope.eleccion = $scope.aniosLista[$scope.e.anioIndex];
+          $scope.currentDpa.idTipoEleccion = $scope.eleccion.tipos_eleccion[0].id_tipo_eleccion;
+          $scope.currentDpa.idTipoDpa = $scope.eleccion.tipos_eleccion[0].id_tipos_dpa[0];
           $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
         });
-        return;
       }
     });
 
-    // Obtener anos y sus respectivas elecciones
-    $scope.getAnios = function(){
-      $http.get(host+api+"/anios").then(function(response){
-        $scope.aniosDetalle = response.data.anios.reverse();
-        if($scope.aniosDetalle[0].anio){
-          for(var a in $scope.aniosDetalle)
-            $scope.anios[a]=$scope.aniosDetalle[a].anio;
-          $scope.e = { anioIndex: 0 };
-          $scope.anio = $scope.anios[$scope.e.anioIndex];
-        }
-      });
-    }
     // Crear tabla partidos 
     $scope.getPartidosTable = function(){
       var pdatos = [{ //id:'id',
@@ -165,7 +202,7 @@ angular.module('geoelectoralFrontendApp')
       //$scope.partidoSeleccionado = null;
       $scope.e.anioIndex = index;
       $scope.anio = $scope.anios[$scope.e.anioIndex];
-      $scope.aniosDetalle.some(function(adet){
+      $scope.aniosLista.some(function(adet){
         if(adet.anio==$scope.anio){
           var ite=0;
           adet.tipos_eleccion.some(function(tEle,i){
@@ -263,6 +300,27 @@ angular.module('geoelectoralFrontendApp')
           partidos.splice(i, 1);
         }
       });
+      // para llevar a api.
+      partidos.forEach(function (p, i) {
+        if (p.sigla === 'EMITIDOS') {
+          partidos.splice(i, 1);
+        }
+      });
+      partidos.forEach(function (p, i) {
+        if (p.sigla === 'INSCRITOS') {
+          partidos.splice(i, 1);
+        }
+      });
+      partidos.forEach(function (p, i) {
+        if (p.sigla === 'BLANCOS') {
+          partidos.splice(i, 1);
+        }
+      });
+      partidos.forEach(function (p, i) {
+        if (p.sigla === 'NULOS') {
+          partidos.splice(i, 1);
+        }
+      });
       return partidos;
     };
     var establecerColorValidos = function(dpas) {
@@ -331,15 +389,15 @@ angular.module('geoelectoralFrontendApp')
         if(response[0].data.lz){
           var lzData = LZString.decompressFromEncodedURIComponent(response[0].data.lz);
           response[0].data=JSON.parse(lzData);
-          console.log(response[0].data);
         }
         if(response[0].data.features.length==0){
           $scope.mapControl.ajustar=true;
-          $scope.currentDpa.idDpa=Dpa.idDpasPadre($scope.currentDpa.idDpa)[0];
+          var idDpa =Dpa.idDpasPadre($scope.currentDpa.idDpa)[0];
+          $scope.currentDpa.idDpa=idDpa?idDpa:1;
           return;
         }
         if (response[1].data.dpas && response[1].data.eleccion) {
-          $scope.eleccion = response[1].data.eleccion;
+          //$scope.eleccion = response[1].data.eleccion;
           $scope.dpaGeoJSON = reducePorAnio(response[0]);
           $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
           $scope.partidosDepartamento = reducirDpasVista($scope.partidosDepartamento);
