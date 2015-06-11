@@ -114,7 +114,7 @@ angular.module('geoelectoralFrontendApp')
       },
 
       // Búsqueda de los datos del DPA
-      find: function (idDpa,anioDetalle,antDpa) {
+      find: function (idDpa) {
         var d = null;
         _dpa.some(function (e) {
           if (e.id_dpa === idDpa) {
@@ -122,19 +122,6 @@ angular.module('geoelectoralFrontendApp')
             return true
           }
         });
-        d = toCurrentDpa(d);
-        if (establecerDescendiente(d) !== null) {
-          d.idTipoDpa = establecerDescendiente(d);
-        }
-        if(anioDetalle)
-          d.idTipoEleccion = anioDetalle.tipos_eleccion[0].id_tipo_eleccion;
-          if(hayDpa4Eleccion(anioDetalle,antDpa)){
-          d.idTipoEleccion = antDpa.idTipoEleccion;
-            d.idTipoDpa = antDpa.idTipoDpa;}
-          else{
-            if(anioDetalle.tipos_eleccion[0].id_tipo_eleccion==7)
-              d.idTipoDpa = anioDetalle.tipos_eleccion[0].id_tipos_dpa[0];
-        }
         return d;
       },
 

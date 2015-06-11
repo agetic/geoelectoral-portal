@@ -13,7 +13,7 @@ angular.module('geoelectoralFrontendApp')
     var host = ENV.geoelectoralApi;
     var api = ENV.geoelectoralApiVersion;
     var eleccionesUrl = host + api + '/elecciones?anio={anio}&id_tipo_dpa={idTipoDpa}&id_dpa={idDpa}&id_tipo_eleccion={idTipoEleccion}&formato=json';
-    var eleccionesDeptoUrl = host + api + '/elecciones?anio={anio}&id_tipo_dpa={idTipoDpa}&id_tipo_eleccion={idTipoEleccion}&formato=json';
+    var eleccionesDeptoUrl = host + api + '/elecciones?anio={anio}&id_tipo_dpa={idTipoDpa}&id_dpa={idDpa}&id_tipo_eleccion={idTipoEleccion}&formato=json';
     var dpaGeoJSONUrl = host + api + '/proxy';
 
     $scope.mapControl = {ajustar: true};
@@ -383,10 +383,12 @@ angular.module('geoelectoralFrontendApp')
       var promises = [];
       // GeoJSON político administrativo de Bolivia
       $scope.currentDpa.lz=1;
+      $scope.currentDpa.fecha=$scope.eleccion.fecha;
       promises.push($http.get(dpaGeoJSONUrl, { params: $scope.currentDpa }));
       // Elecciones a nivel departamento
       promises.push($http.get(eleccionesDeptoUrl.replace(/{anio}/g, $scope.anio)
                                                 .replace(/{idTipoEleccion}/g, $scope.currentDpa.idTipoEleccion)
+                                                .replace(/{idDpa}/g, $scope.currentDpa.idDpa)
                                                 .replace(/{idTipoDpa}/g, $scope.currentDpa.idTipoDpa)));
       promises.push($http.get(eleccionesUrl.replace(/{anio}/g, $scope.anio)
                                            .replace(/{idTipoEleccion}/g, $scope.currentDpa.idTipoEleccion)
@@ -435,10 +437,12 @@ angular.module('geoelectoralFrontendApp')
       var promises = [];
       // GeoJSON político administrativo de Bolivia
       $scope.currentDpa.lz=1;
+      $scope.currentDpa.fecha=$scope.eleccion.fecha;
       promises.push($http.get(dpaGeoJSONUrl, { params: $scope.currentDpa }));
       // Elecciones a nivel departamento
       promises.push($http.get(eleccionesDeptoUrl.replace(/{anio}/g, $scope.anio)
                                                 .replace(/{idTipoEleccion}/g, $scope.currentDpa.idTipoEleccion)
+                                                .replace(/{idDpa}/g, $scope.currentDpa.idDpa)
                                                 .replace(/{idTipoDpa}/g, $scope.currentDpa.idTipoDpa)));
       promises.push($http.get(eleccionesUrl.replace(/{anio}/g, $scope.anio)
                                            .replace(/{idTipoEleccion}/g, $scope.currentDpa.idTipoEleccion)
