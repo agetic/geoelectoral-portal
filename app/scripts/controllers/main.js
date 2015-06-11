@@ -117,6 +117,14 @@ angular.module('geoelectoralFrontendApp')
              $scope.eleccion.tipos_eleccion[iEleccion].id_tipos_dpa[iTipoDpa+1])
             $scope.currentDpa.idTipoDpa = $scope.eleccion.tipos_eleccion[iEleccion].id_tipos_dpa[iTipoDpa+1];
           Dpa.query($scope.eleccion.fecha).then(function(data) {
+            var _dpa = Dpa.find($scope.currentDpa.idDpa);
+            if(_dpa){
+              $scope.currentDpa.idTipoDpaActual=_dpa.id_tipo_dpa;
+              $scope.currentDpa.dpaNombre=_dpa.nombre;
+              if($scope.currentDpa.idTipoDpa<$scope.currentDpa.idTipoDpaActual)
+                $scope.currentDpa.idTipoDpa=$scope.currentDpa.idTipoDpaActual;
+            }
+            $scope.mapControl.ajustar=true;
             loadServices();
             breadcrumbFactory();
           });
