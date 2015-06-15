@@ -140,6 +140,7 @@ angular.module('geoelectoralFrontendApp')
       // Verificar si es idDpaHijo del idDpa
       verificarSuperior: function (idDpa, idDpaHijo) {
         var sw = false;
+        if(idDpa===idDpaHijo) return true; // En vista recintos tambien se muestra el dpa superior.
         this.idDpasPadre(idDpaHijo).some(function (id) {
           if (id === idDpa) {
             sw = true;

@@ -409,6 +409,9 @@ angular.module('geoelectoralFrontendApp')
           return;
         }
         if (response[1].data.dpas && response[1].data.eleccion) {
+          if(response[2].data.dpas){ // En vista recintos adicionar el dpa superior
+            response[1].data.dpas.push(response[2].data.dpas[0]);
+          }
           //$scope.eleccion = response[1].data.eleccion;
           $scope.dpaGeoJSON = reducePorAnio(response[0]);
           $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
@@ -457,6 +460,9 @@ angular.module('geoelectoralFrontendApp')
           response[0].data=JSON.parse(lzData);
         }
         if (response[1].data.dpas) {
+          if(response[2].data.dpas){ // En vista recintos adicionar el dpa superior
+            response[1].data.dpas.push(response[2].data.dpas[0]);
+          }
           $scope.dpaGeoJSON = reducePorAnio(response[0]);
           $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
           $scope.partidosDepartamento = reducirDpasVista($scope.partidosDepartamento);
