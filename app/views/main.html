@@ -101,8 +101,8 @@
               <a ng-switch-when="3">Provincia</a>
               <a ng-switch-when="4">Municipio</a>
               <a ng-switch-when="5">Circunscripcion</a>
-              <a ng-switch-when="6">Recinto</a>
-              <a ng-switch-when="8">Recinto</a>
+              <a ng-switch-when="6" ng-if="currentDpa.idTipoDpaActual>=2">Recinto</a>
+              <a ng-switch-when="8" ng-if="currentDpa.idTipoDpaActual>=2">Recinto</a>
             </li>
           </ul>
         </li>

@@ -126,6 +126,17 @@ angular.module('geoelectoralFrontendApp')
               if($scope.currentDpa.idTipoDpa<$scope.currentDpa.idTipoDpaActual)
                 $scope.currentDpa.idTipoDpa=$scope.currentDpa.idTipoDpaActual;
             }
+            // Por ahora no se muestran las mesas
+            if($scope.currentDpa.idTipoDpa==7)
+              $scope.currentDpa.idTipoDpa=6;
+            if($scope.currentDpa.idTipoDpa==9)
+              $scope.currentDpa.idTipoDpa=8;
+            // Por ahora no se muestran los recintos en toda Bolivia
+            if($scope.currentDpa.idTipoDpaActual==1 && $scope.currentDpa.idTipoDpa==8)
+              $scope.currentDpa.idTipoDpa=5;
+            if($scope.currentDpa.idTipoDpaActual==1 && $scope.currentDpa.idTipoDpa==6)
+              $scope.currentDpa.idTipoDpa=4;
+
             $scope.mapControl.ajustar=true;
             loadServices();
             breadcrumbFactory();
