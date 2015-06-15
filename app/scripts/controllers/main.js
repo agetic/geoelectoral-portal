@@ -27,7 +27,8 @@ angular.module('geoelectoralFrontendApp')
       { idTipoDpa: 3, nombre: 'provincia', idTipoDpaSuperior: 2 },
       { idTipoDpa: 4, nombre: 'municipio', idTipoDpaSuperior: 3 },
       { idTipoDpa: 5, nombre: 'circunscripción', idTipoDpaSuperior: 2 },
-      { idTipoDpa: 6, nombre: 'recinto', idTipoDpaSuperior: 4 }
+      { idTipoDpa: 6, nombre: 'recinto', idTipoDpaSuperior: 4 },
+      { idTipoDpa: 8, nombre: 'cir_recinto', idTipoDpaSuperior: 5 }
     ];
     $scope.partidoSeleccionado = null;
     $scope.e = { anioIndex: $scope.anios.length - 1 };
