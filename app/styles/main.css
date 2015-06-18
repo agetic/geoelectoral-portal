@@ -175,6 +175,9 @@ body {
   .nav-anios .active>ul:after{
     width: 100%;
   }
+  .nav-anios .li-header{
+    cursor: default;
+  }
 
 .breadcrumb {
   margin-bottom: 0;
@@ -275,7 +278,7 @@ body {
     right: 5px;
     top: 50px;
     width: 32%;
-    max-height: 80%;
+    max-height: 70%;
     overflow: hidden;
     border: 1px solid #bbb;
   }
@@ -291,7 +294,6 @@ body {
   }
   .statistics:hover{
     overflow: auto;
-    z-index: 1001;
   }
   .statistics .description:hover,
   .statistics:hover .nav-pestana{
