@@ -210,6 +210,8 @@ angular.module('geoelectoralFrontendApp')
       switch($scope.currentDpa.idTipoEleccion){
         case 1: tipoElec='Generales'; break
         case 2: tipoElec='Generales'; break
+        case 4: tipoElec='Constituyentes'; break
+        case 5: tipoElec='Constituyentes'; break
         case 6: tipoElec='Gobernaciones'; break
         case 7: tipoElec='Municipales'; break
         case 8: tipoElec='Gobernaciones (2da.Vuelta)'; break
@@ -219,6 +221,9 @@ angular.module('geoelectoralFrontendApp')
         case 12: tipoElec='Asambleista por Territorio'; break
         case 13: tipoElec='Asambleista por Población'; break
         case 14: tipoElec='Asambleista por Población (2da Vuelta)'; break
+        case 15: tipoElec='Referendum Autonómico Departamental'; break
+        case 16: tipoElec='Referendum Autonómico Municipal'; break
+        case 17: tipoElec='Referendum Autonómico Regional'; break
         default: tipoElec='Generales';
       }
       return tipoElec;

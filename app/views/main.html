@@ -91,15 +91,20 @@
             <span ng-switch-when="1">Plurinominales</span>
             <span ng-switch-when="2">Uninominales</span>
             <span ng-switch-when="3">Especiales</span>
+            <span ng-switch-when="4" title="Constituyentes Plurinominales">Plurinominales</span>
+            <span ng-switch-when="5" title="Constituyentes Uninominales">Uninominales</span>
             <span ng-switch-when="6">Gobernaciones</span>
             <span ng-switch-when="7">Municipales</span>
-            <span ng-switch-when="8">Gobernación 2º</span>
+            <span ng-switch-when="8" title="Segunda vuelta">Gobernación 2º</span>
             <span ng-switch-when="9">Subgobernador</span>
             <span ng-switch-when="10">Corregidor</span>
             <span ng-switch-when="11">Ejecutivo</span>
             <span ng-switch-when="12">Territorio</span>
             <span ng-switch-when="13">Población</span>
-            <span ng-switch-when="14">Población 2ºV</span>
+            <span ng-switch-when="14" title="Segunda vuelta">Población 2º</span>
+            <span ng-switch-when="15">Referendum Dep</span>
+            <span ng-switch-when="16">Referendum Mun</span>
+            <span ng-switch-when="17">Referendum Reg</span>
           </span>
           <ul class="nav">
             <li ng-repeat="c in b.id_tipos_dpa track by $index" ng-click="setTipoDpa(c,b.id_tipo_eleccion)" ng-class="{active: getTipoDpa()===c && getTipoEleccion()==b.id_tipo_eleccion}" ng-switch="c">
