@@ -69,7 +69,7 @@ angular.module('geoelectoralFrontendApp')
             $scope.e = { anioIndex: 0 };
             $scope.anio = $scope.anios[0];
             $scope.eleccion = $scope.aniosLista[0];
-            $scope.eleccion.fecha = $scope.eleccion.descripcion;
+            //$scope.eleccion.fecha = $scope.eleccion.descripcion;
           }
           callback();
         });
@@ -91,7 +91,7 @@ angular.module('geoelectoralFrontendApp')
                   $scope.anio = parseInt($routeParams.anio);
                   $scope.e.anioIndex=i;
                   $scope.eleccion = a;
-                  $scope.eleccion.fecha = $scope.eleccion.descripcion;
+                  //$scope.eleccion.fecha = $scope.eleccion.descripcion;
                   return true;
                 }
               })
@@ -149,7 +149,7 @@ angular.module('geoelectoralFrontendApp')
                   $scope.anio = parseInt($routeParams.anio);
                   $scope.e.anioIndex=i;
                   $scope.eleccion = a;
-                  $scope.eleccion.fecha = $scope.eleccion.descripcion;
+                  //$scope.eleccion.fecha = $scope.eleccion.descripcion;
                   return true;
                 }
               });

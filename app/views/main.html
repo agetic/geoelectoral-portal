@@ -99,12 +99,20 @@
             <span ng-switch-when="9">Subgobernador</span>
             <span ng-switch-when="10">Corregidor</span>
             <span ng-switch-when="11">Ejecutivo</span>
-            <span ng-switch-when="12">Territorio</span>
-            <span ng-switch-when="13">Población</span>
-            <span ng-switch-when="14" title="Segunda vuelta">Población 2º</span>
-            <span ng-switch-when="15">Referendum Dep</span>
-            <span ng-switch-when="16">Referendum Mun</span>
-            <span ng-switch-when="17">Referendum Reg</span>
+            <span ng-switch-when="12" title="Provincias">Territorio</span>
+            <span ng-switch-when="13" title="Municipios">Territorio</span>
+            <span ng-switch-when="14" title="Departamentos">Población</span>
+            <span ng-switch-when="15" title="Municipios">Población</span>
+            <span ng-switch-when="16" title="Segunda vuelta">Población 2º</span>
+            <span ng-switch-when="17">Ref. Departamental</span>
+            <span ng-switch-when="18">Ref. Municipal</span>
+            <span ng-switch-when="19">Ref. Regional</span>
+            <span ng-switch-when="20" title="Revocatorio presidencial">Ref. Revocatorio</span>
+            <span ng-switch-when="21" title="Revocatorio gobernación">Ref. Revocatorio</span>
+            <span ng-switch-when="22" title="Tribunal Agroambiental">Agroambiental</span>
+            <span ng-switch-when="23" title="Consejo de la Magistratura">Magistratura</span>
+            <span ng-switch-when="24" title="Tribunal Constitucional">Constitucional</span>
+            <span ng-switch-when="25" title="Tribunal Supremo de Justicia">Justicia</span>
           </span>
           <ul class="nav">
             <li ng-repeat="c in b.id_tipos_dpa track by $index" ng-click="setTipoDpa(c,b.id_tipo_eleccion)" ng-class="{active: getTipoDpa()===c && getTipoEleccion()==b.id_tipo_eleccion}" ng-switch="c">
