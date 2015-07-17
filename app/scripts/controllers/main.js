@@ -114,17 +114,19 @@ angular.module('geoelectoralFrontendApp')
               return true;
             }
           });
-          $scope.currentDpa.idTipoDpa = $scope.eleccion.tipos_eleccion[iEleccion].id_tipos_dpa[iTipoDpa];
-          if($scope.currentDpa.idTipoDpaActual==$scope.currentDpa.idTipoDpa &&
+          if($scope.currentDpa.idTipoDpa==null &&
              $scope.eleccion.tipos_eleccion[iEleccion].id_tipos_dpa[iTipoDpa+1])
             $scope.currentDpa.idTipoDpa = $scope.eleccion.tipos_eleccion[iEleccion].id_tipos_dpa[iTipoDpa+1];
+          else
+            $scope.currentDpa.idTipoDpa = $scope.eleccion.tipos_eleccion[iEleccion].id_tipos_dpa[iTipoDpa];
           Dpa.query($scope.eleccion.fecha).then(function(data) {
             var _dpa = Dpa.find($scope.currentDpa.idDpa);
             if(_dpa){
               $scope.currentDpa.idTipoDpaActual=_dpa.id_tipo_dpa;
               $scope.currentDpa.dpaNombre=_dpa.nombre;
-              if($scope.currentDpa.idTipoDpa<$scope.currentDpa.idTipoDpaActual)
+              if($scope.currentDpa.idTipoDpa<$scope.currentDpa.idTipoDpaActual){
                 $scope.currentDpa.idTipoDpa=$scope.currentDpa.idTipoDpaActual;
+              }
             }
             // Por ahora no se muestran las mesas
             if($scope.currentDpa.idTipoDpa==7)
