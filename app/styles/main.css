@@ -360,6 +360,9 @@ body {
   .footer {
     display: none;
   }
+  #logo-auspicia {
+    display: none;
+  }
   /* Space out the masthead */
   .btn-anios{
     color: #428bca;
@@ -610,4 +613,13 @@ div[growl] {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+
+#logo-auspicia{
+  position: absolute;
+  bottom: 0px;
+  left: 5px;
+}
+#logo-auspicia img{
+  height: 25px;
 }
