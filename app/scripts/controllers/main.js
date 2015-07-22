@@ -433,6 +433,8 @@ angular.module('geoelectoralFrontendApp')
           return;
         }
         if (response[1].data.dpas && response[1].data.eleccion) {
+          if(!$scope.eleccion.fecha)
+            $scope.eleccion.fecha = response[1].data.eleccion.fecha;
           if(response[2].data.dpas){ // En vista recintos adicionar el dpa superior
             response[1].data.dpas.push(response[2].data.dpas[0]);
           }
@@ -484,6 +486,8 @@ angular.module('geoelectoralFrontendApp')
           response[0].data=JSON.parse(lzData);
         }
         if (response[1].data.dpas) {
+          if(!$scope.eleccion.fecha)
+            $scope.eleccion.fecha = response[1].data.eleccion.fecha;
           if(response[2].data.dpas){ // En vista recintos adicionar el dpa superior
             response[1].data.dpas.push(response[2].data.dpas[0]);
           }
