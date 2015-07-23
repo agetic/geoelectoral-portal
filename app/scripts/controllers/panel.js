@@ -52,10 +52,12 @@ angular.module('geoelectoralFrontendApp')
         attributionControl: false,
         //maxBounds: [[-90,-230],[90,340]],
         //maxBounds: [[-54,-169],[83,195]],
+        /*
         tileLayer: 'https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png',
         tileLayerOptions: {
           id: 'mayakreidieh.map-dfh9esrb',
         }
+        */
       }
     });
 
@@ -69,7 +71,66 @@ angular.module('geoelectoralFrontendApp')
 
     leafletData.getMap('mapa').then(function(objmap) {
       map = objmap;
-          //add zoom control with your options
+
+      /* Fondos de mapa */
+      var maya = new L.TileLayer('https://{s}.tiles.mapbox.com/v3/mayakreidieh.map-dfh9esrb/{z}/{x}/{y}.png',{
+          attribution: 'mayakreidieh.map-dfh9esrb'
+      });
+
+      var topo = new L.TileLayer('http://server.opentopomap.org/{z}/{x}/{y}.png',{
+          detectRetina: true,
+          minZoom: 1, maxZoom: 16,
+          attribution: 'Kartendaten: &copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>-Mitwirkende, <a href="http://viewfinderpanoramas.org">SRTM</a> | Kartendarstellung: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+      });
+
+      var osm = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+          maxZoom: 19,
+          detectRetina: true,
+          attribution: 'Kartendaten &copy; OpenStreetMap'
+      });
+
+      var geobo1 = L.tileLayer.wms("http://test.geo.gob.bo/raster/service/wms?SERVICE=WMS&", {
+          layers: 'mapbox_terrain',
+          format: 'image/png',
+          transparent: true,
+          version: '1.1.0',
+          attribution: "GeoBolivia"
+      });
+
+      var geobo2 = L.tileLayer.wms("http://test.geo.gob.bo/raster/service/wms?SERVICE=WMS&", {
+          layers: 'mapbox_bolivia',
+          format: 'image/png',
+          transparent: true,
+          version: '1.1.0',
+          attribution: "GeoBolivia"
+      });
+
+      var grayscale = new L.TileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ',{
+          id: 'mapbox.light',
+          attribution:  'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+                        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                        'Imagery © <a href="http://mapbox.com">Mapbox</a>'
+      });
+      var streets = new L.TileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ',{
+          id: 'mapbox.streets',
+          attribution:  'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+                        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                        'Imagery © <a href="http://mapbox.com">Mapbox</a>'
+      });
+
+      var baseMaps = {
+        'Por defecto': maya,
+        'GeoBolivia': geobo1,
+        'GeoBolivia Satelite': geobo2,
+        'OpenTopoMap': topo,
+        'OpenStreetMap': osm,
+        'GrayScale': grayscale,
+        'Streets': streets
+      }
+      // Fondo por defecto
+      maya.addTo(map);
+
+      //adicionar zoom control
       L.control.zoom({position:'topleft',zoomInTitle:'Acercar',zoomOutTitle:'Alejar'}).addTo(map);
 
       //crear el control de circulos
@@ -133,6 +194,10 @@ angular.module('geoelectoralFrontendApp')
         return div;
       }
       tituloMapa.addTo(map);
+
+      //var layersControl = new L.Control.Layers(baseMaps, overlayMaps);
+      var layersControl = new L.Control.Layers(baseMaps, null, {position: 'topleft'});
+      map.addControl(layersControl);
 
     });
 
