@@ -217,8 +217,10 @@ angular.module('geoelectoralFrontendApp')
     function controlCirculoHide() {
       return isBurbujaEnabled()?'':'hidden';
     }
-    function departamentoBurbuja() {
-      return isBurbujaEnabled()?'burbuja':'';
+    function departamentoBurbuja(d) {
+      if(d.properties.id_tipo_dpa!=$scope.currentDpa.idTipoDpa || d.properties.id_tipo_dpa!=6)
+        return isBurbujaEnabled()?'burbuja':'';
+      return isBurbujaEnabled()?'burbuja recinto':'recinto';
     }
     //fin crear el control de circulos
 

@@ -478,6 +478,9 @@ svg.marco-mapa {
 svg .burbuja{
   fill: #fff;
 }
+svg .burbuja.recinto{
+  display: none;
+}
 /* Etiquetas de partidos ganadores - mapa */
 svg .barras-etiquetas text {
   /*fill: rgb(44, 44, 44);*/
