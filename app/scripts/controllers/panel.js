@@ -25,7 +25,6 @@ angular.module('geoelectoralFrontendApp')
         //$('.dropdown-submenu > a').submenupicker();
         return {'h': w.height(),'w': w.width()};
     };
-    console.log($scope.getWindowDimensions().w );
 
     // Extiende la directiva angular-leaflet
     angular.extend($scope, {
@@ -367,30 +366,34 @@ angular.module('geoelectoralFrontendApp')
       };
 
       // tooltip functions
-      var mouseover = function() {
-        div.transition()
-           .duration(500)
-           .style('opacity', 1);
+      var mouseover = function(d) {
+        if(!d || !isBurbujaEnabled() && d.properties.id_tipo_dpa==$scope.currentDpa.idTipoDpa) {
+          div.transition()
+             .duration(500)
+             .style('opacity', 1);
+        }
       };
       var mousemove = function(d) {
-        var toolt = tooltipTpl.replace(/{sigla}/g, d.partido.sigla)
-                           .replace(/{porcentaje}/g, d.partido.porcentaje)
-                           .replace(/{votos}/g, d3.format(',d')(d.partido.resultado))
-                           .replace(/{lugar}/g, d.properties.nombre);
-        div
-          .style('left', (d3.event.pageX - 0) + 'px')
-          .style('top', (d3.event.pageY-0) + 'px');
-        if (d.partido.sigla === undefined) {
-          toolt = tooltipTplBlank.replace(/{sigla}/g, 'Sin datos')
-                           .replace(/{lugar}/g, d.properties.nombre);
+        if(d.properties.id_tipo_dpa==$scope.currentDpa.idTipoDpa) {
+          var toolt = tooltipTpl.replace(/{sigla}/g, d.partido.sigla)
+                             .replace(/{porcentaje}/g, d.partido.porcentaje)
+                             .replace(/{votos}/g, d3.format(',d')(d.partido.resultado))
+                             .replace(/{lugar}/g, d.properties.nombre);
+          div
+            .style('left', (d3.event.pageX - 0) + 'px')
+            .style('top', (d3.event.pageY-0) + 'px');
+          if (d.partido.sigla === undefined) {
+            toolt = tooltipTplBlank.replace(/{sigla}/g, 'Sin datos')
+                             .replace(/{lugar}/g, d.properties.nombre);
+          }
+          if( d3.event.pageX > parseInt(d3.select('#mapa').style('width'))-parseInt(div.style('width')) ){
+            div.style('left', (parseInt(div.style('left')) - parseInt(div.style('width'))) + 'px')
+          }
+          if( d3.event.pageY > parseInt(d3.select('body').style('height'))-parseInt(div.style('height')) ){
+            div.style('top', (parseInt(div.style('top')) - parseInt(div.style('height'))) + 'px')
+          }
+          div.html(toolt);
         }
-        if( d3.event.pageX > parseInt(d3.select('#mapa').style('width'))-parseInt(div.style('width')) ){
-          div.style('left', (parseInt(div.style('left')) - parseInt(div.style('width'))) + 'px')
-        }
-        if( d3.event.pageY > parseInt(d3.select('body').style('height'))-parseInt(div.style('height')) ){
-          div.style('top', (parseInt(div.style('top')) - parseInt(div.style('height'))) + 'px')
-        }
-        div.html(toolt);
       };
       var mouseout = function() {
         div.transition()
@@ -459,14 +462,17 @@ angular.module('geoelectoralFrontendApp')
 
       var setColorPartido = function(d, votos, partido) {
         var colorEscala, color;
-        if (partido && verPartidoSeleccionado()) {
-          d.partido = partidoSeleccionado(d, votos, partido);
-          colorEscala = d3.scale.linear().domain([0, maximoPorcentaje(d, votos, partido, $scope.currentDpa)]);
-        } else {
-          d.partido = partidoGanador(d, votos);
-          colorEscala = d3.scale.linear().domain([0, 100]);
+        if(d.properties.id_tipo_dpa==$scope.currentDpa.idTipoDpa) {
+          if (partido && verPartidoSeleccionado()) {
+            d.partido = partidoSeleccionado(d, votos, partido);
+            colorEscala = d3.scale.linear().domain([0, maximoPorcentaje(d, votos, partido, $scope.currentDpa)]);
+          } else {
+            d.partido = partidoGanador(d, votos);
+            colorEscala = d3.scale.linear().domain([0, 100]);
+          }
+          return colorEscala.range(['white', '#' + (d.partido.color || ENV.color)])((d.partido.porcentaje+0.0001) || 100);
         }
-        return colorEscala.range(['white', '#' + (d.partido.color || ENV.color)])((d.partido.porcentaje+0.0001) || 100);
+        return '#bbb';
       };
       /* Fin funciones necesarias */
 
@@ -485,10 +491,10 @@ angular.module('geoelectoralFrontendApp')
       var feature = g.selectAll('path')
           .data(collection.features)
         .enter().append('path')
-          .attr('class', 'departamento hover '+departamentoBurbuja())
+          .attr('class', function(d) { return 'departamento hover '+departamentoBurbuja(d)})
           .attr('fill', function(d) { return setColorPartido(d, votos, partido); })
           .on('dblclick',function(){ L.DomEvent.stopPropagation(d3.event); })
-          .on('mouseover', mouseover)
+          .on('mouseover', function(d){ mouseover(d) })
           .on('mousemove', mousemove)
           .on('mouseout', mouseout)
           .on('touchstart',function(d){ countTouch(this,d); })
@@ -532,13 +538,14 @@ angular.module('geoelectoralFrontendApp')
         collection.features.forEach(function(p) {
           var punto = path.centroid(p);
           //if(punto[0] && p.partido.porcentaje>0 && p.partido.porcentaje<100 && p.properties.extent){
+         if(p.properties.id_tipo_dpa==$scope.currentDpa.idTipoDpa) {
           if(punto[0] && p.partido.porcentaje>0 && p.partido.porcentaje<=100 ){
             g.append('circle')
                     .attr('fill','#'+p.partido.color)
                     .attr('stroke','#888')
                     .attr('opacity','.7')
                     .on('dblclick',function(){ L.DomEvent.stopPropagation(d3.event); })
-                    .on('mouseover', mouseover)
+                    .on('mouseover', function(d){ mouseover(d); })
                     .on('mousemove', function(){ mousemove(p); })
                     .on('mouseout', mouseout)
                     .on('touchstart',function(){ countTouch(this,p); })
@@ -550,6 +557,7 @@ angular.module('geoelectoralFrontendApp')
                     //.attr('r', ((0.250*Math.pow(2,map.getZoom()))* (p.partido.resultado/5000)/100  ));
                     .attr('r', PanelFactory.radioFromCant(p.partido.resultado,map.getZoom()) );
           }
+         }
         });
         PanelFactory.changeLegend(map.getZoom());
         
