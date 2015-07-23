@@ -47,7 +47,7 @@ angular.module('geoelectoralFrontendApp')
       defaults: {
         zoomControl: false,
         scrollWheelZoom: true,
-        maxZoom: 12,
+        maxZoom: 20,
         minZoom: 2,
         attributionControl: false,
         //maxBounds: [[-90,-230],[90,340]],
