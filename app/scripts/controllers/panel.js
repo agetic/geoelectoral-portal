@@ -50,6 +50,7 @@ angular.module('geoelectoralFrontendApp')
         maxZoom: 20,
         minZoom: 2,
         attributionControl: false,
+        tileLayer: ''
         //maxBounds: [[-90,-230],[90,340]],
         //maxBounds: [[-54,-169],[83,195]],
         /*
@@ -89,7 +90,7 @@ angular.module('geoelectoralFrontendApp')
           attribution: 'Kartendaten &copy; OpenStreetMap'
       });
 
-      var geobo1 = L.tileLayer.wms("http://test.geo.gob.bo/raster/service/wms?SERVICE=WMS&", {
+      var geobo1 = L.tileLayer.wms("http://geo.gob.bo/raster/service/wms?SERVICE=WMS&", {
           layers: 'mapbox_terrain',
           format: 'image/png',
           transparent: true,
@@ -97,8 +98,16 @@ angular.module('geoelectoralFrontendApp')
           attribution: "GeoBolivia"
       });
 
-      var geobo2 = L.tileLayer.wms("http://test.geo.gob.bo/raster/service/wms?SERVICE=WMS&", {
+      var geobo2 = L.tileLayer.wms("http://geo.gob.bo/raster/service/wms?SERVICE=WMS&", {
           layers: 'mapbox_bolivia',
+          format: 'image/png',
+          transparent: true,
+          version: '1.1.0',
+          attribution: "GeoBolivia"
+      });
+
+      var geobo3 = L.tileLayer.wms("http://geo.gob.bo/geoserver/fondos/ows?SERVICE=WMS&", {
+          layers: 'openstreetmap',
           format: 'image/png',
           transparent: true,
           version: '1.1.0',
@@ -120,8 +129,9 @@ angular.module('geoelectoralFrontendApp')
 
       var baseMaps = {
         'Por defecto': maya,
-        'GeoBolivia': geobo1,
+        'GeoBolivia Terrain': geobo1,
         'GeoBolivia Satelite': geobo2,
+        'GeoBolivia OpenStreetMap': geobo3,
         'OpenTopoMap': topo,
         'OpenStreetMap': osm,
         'GrayScale': grayscale,
