@@ -191,6 +191,7 @@ angular.module('geoelectoralFrontendApp')
         return div;
       }
       burbujaLeyenda.addTo(map);
+      d3.select('.leaflet-bottom.leaflet-right').classed('hidden',true);
 
       PanelFactory.makeLegend();
 
@@ -482,7 +483,7 @@ angular.module('geoelectoralFrontendApp')
       d3.select(map.getPanes().overlayPane).selectAll('svg').remove();
       svg = d3.select(map.getPanes().overlayPane).append('svg');
       g = svg.append('g').attr('class', 'departamentos');
-      
+
       svg.attr('class','leaflet-zoom-hide');
 
       var collection=$scope.data.data;
@@ -562,7 +563,7 @@ angular.module('geoelectoralFrontendApp')
          }
         });
         PanelFactory.changeLegend(map.getZoom());
-        
+
       }
       map.on('viewreset', reset, svg);
       reset();

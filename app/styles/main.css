@@ -238,6 +238,13 @@ body {
 .marketing p + h4 {
   margin-top: 28px;
 }
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .footer {
+    font-size: 10px;
+    width: 360px;
+    margin: -3px auto;
+  }
+}
 @media screen and (min-width: 768px) {
   .header {
     cursor: default;
@@ -360,7 +367,8 @@ body {
   .footer {
     display: none;
   }
-  #logo-auspicia {
+  #logo-canada,
+  #logo-geobolivia {
     display: none;
   }
   /* Space out the masthead */
@@ -618,11 +626,19 @@ div[growl] {
   background-size: cover;
 }
 
-#logo-auspicia{
+#logo-canada{
   position: absolute;
   bottom: 0px;
   left: 5px;
 }
-#logo-auspicia img{
+#logo-canada img{
+  height: 25px;
+}
+#logo-geobolivia{
+  position: absolute;
+  bottom: 0px;
+  right: 5px;
+}
+#logo-geobolivia img{
   height: 25px;
 }
