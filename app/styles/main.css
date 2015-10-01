@@ -476,7 +476,15 @@ svg:active, svg g:active {
 /* Mapa */
 svg .departamentos path {
   stroke: #bbb;
-  opacity: 0.5;
+  opacity: .3;
+}
+svg .departamentos path.recinto {
+  stroke: #bbb;
+  opacity: .9;
+}
+svg .departamentos path.recinto:hover {
+  stroke: #bbb;
+  opacity: .3;
 }
 
 svg.marco-mapa {
@@ -484,10 +492,13 @@ svg.marco-mapa {
   border-radius: 10px;
 }
 svg .burbuja{
-  fill: #fff;
+  fill: #bbb;
 }
 svg .burbuja.recinto{
   display: none;
+}
+svg .circulo:hover{
+  opacity: .3;
 }
 /* Etiquetas de partidos ganadores - mapa */
 svg .barras-etiquetas text {
@@ -501,9 +512,9 @@ svg .fondos rect {
 }
 
 svg .hover:hover {
-  stroke: #222;
+  stroke: #bbb;
   fill: #bbb;
-  opacity: 0.2;
+  opacity: .3;
 }
 
 /* Barras */
