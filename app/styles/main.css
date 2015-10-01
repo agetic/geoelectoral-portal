@@ -476,23 +476,25 @@ svg:active, svg g:active {
 /* Mapa */
 svg .departamentos path {
   stroke: #bbb;
+  opacity: .5;
+}
+svg .departamentos path.burbuja {
+  fill: #bbb;
+  opacity: .3;
+}
+svg .departamentos path.fondo {
   opacity: .3;
 }
 svg .departamentos path.recinto {
-  stroke: #bbb;
   opacity: .9;
 }
 svg .departamentos path.recinto:hover {
-  stroke: #bbb;
   opacity: .3;
 }
 
 svg.marco-mapa {
   border: 1px solid #999;
   border-radius: 10px;
-}
-svg .burbuja{
-  fill: #bbb;
 }
 svg .burbuja.recinto{
   display: none;

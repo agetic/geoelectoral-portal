@@ -219,6 +219,8 @@ angular.module('geoelectoralFrontendApp')
       return isBurbujaEnabled()?'':'hidden';
     }
     function departamentoBurbuja(d) {
+      if(d.properties.id_tipo_dpa!=$scope.currentDpa.idTipoDpa)
+        return isBurbujaEnabled()?'burbuja fondo':'fondo';
       if(d.properties.id_tipo_dpa!=$scope.currentDpa.idTipoDpa || d.properties.id_tipo_dpa!=6)
         return isBurbujaEnabled()?'burbuja':'';
       return isBurbujaEnabled()?'burbuja recinto':'recinto';
@@ -545,7 +547,7 @@ angular.module('geoelectoralFrontendApp')
           if(punto[0] && p.partido.porcentaje>0 && p.partido.porcentaje<=100 ){
             g.append('circle')
                     .attr('fill','#'+p.partido.color)
-                    .attr('stroke','#888')
+                    .attr('stroke','#bbb')
                     .attr('opacity','.7')
                     .on('dblclick',function(){ L.DomEvent.stopPropagation(d3.event); })
                     .on('mouseover', function(d){ mouseover(d); })
