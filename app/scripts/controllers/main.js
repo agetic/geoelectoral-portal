@@ -345,6 +345,16 @@ angular.module('geoelectoralFrontendApp')
           partidos.splice(i, 1);
         }
       });
+      // Nombres de candidatos en elecciones judiciales
+      partidos.forEach(function (p, i) {
+        if( p.sigla.indexOf(p.observacion)<0
+            &&( $scope.currentDpa.idTipoEleccion==22
+              || $scope.currentDpa.idTipoEleccion==23
+              || $scope.currentDpa.idTipoEleccion==24
+              || $scope.currentDpa.idTipoEleccion==25) ){
+          p.sigla = p.sigla+' - '+p.observacion;
+        }
+      });
       // para llevar a api.
       partidos.forEach(function (p, i) {
         if (p.sigla === 'EMITIDOS') {
