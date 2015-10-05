@@ -220,12 +220,23 @@ angular.module('geoelectoralFrontendApp')
         case 9: tipoElec='Sub Gobernadores'; break
         case 10: tipoElec='Corregidores'; break
         case 11: tipoElec='Ejecutivo Seccional'; break
-        case 12: tipoElec='Asambleista por Territorio'; break
-        case 13: tipoElec='Asambleista por Población'; break
-        case 14: tipoElec='Asambleista por Población (2da Vuelta)'; break
-        case 15: tipoElec='Referendum Autonómico Departamental'; break
-        case 16: tipoElec='Referendum Autonómico Municipal'; break
-        case 17: tipoElec='Referendum Autonómico Regional'; break
+        case 12: tipoElec='Asambleista Departamental por Territorio en provincia'; break
+        case 13: tipoElec='Asambleista Departamental por Territorio en municipio'; break
+        case 14: tipoElec='Asambleista Departamental por Población en departamentos'; break
+        case 15: tipoElec='Asambleista Departamental por Población en municipios'; break
+        case 16: tipoElec='Asambleista Departamental por Población en municipios (2da Vuelta)'; break
+
+        case 17: tipoElec='Referendum Autonómico Departamental'; break
+        case 18: tipoElec='Referendum Autonómico Municipal'; break
+        case 19: tipoElec='Referendum Autonómico Regional'; break
+
+        case 20: tipoElec='Referendum Revocatorio Presidencial'; break
+        case 21: tipoElec='Referendum Revocatorio Gobernaciones'; break
+
+        case 22: tipoElec='Tribunal Agroambiental'; break
+        case 23: tipoElec='Consejo de la Magistratura'; break
+        case 24: tipoElec='Tribunal Constitucional'; break
+        case 25: tipoElec='Tribunal Supremo de Justicia'; break
         default: tipoElec='Generales';
       }
       return tipoElec;
