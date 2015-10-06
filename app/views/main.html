@@ -57,7 +57,7 @@
           <td>
             <div class="bandera" style="background-color: #{{partido.color}};" ng-class="establecerClases(partido)"></div>
           </td>
-          <td>{{partido.sigla}}</td>
+          <td>{{partido.sigla}} {{partido.candidato}}</td>
           <td class="numero">{{partido.resultado | number}}</td>
           <td class="numero">{{partido.porcentaje | number:2}}%</td>
         </tr>
