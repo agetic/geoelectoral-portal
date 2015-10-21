@@ -478,12 +478,18 @@ angular.module('geoelectoralFrontendApp')
             colorEscala = d3.scale.linear().domain([0, maximoPorcentaje(d, votos, partido, $scope.currentDpa)]);
           } else {
             d.partido = partidoGanador(d, votos);
-            colorEscala = d3.scale.linear().domain([0, 100]);
+            colorEscala = d3.scale.linear().domain([0, 60]);
           }
           return colorEscala.range(['white', '#' + (d.partido.color || ENV.color)])((d.partido.porcentaje+0.0001) || 100);
         }
         return '#bbb';
       };
+
+      var hayDatos = function(d) {
+        if(d.partido) {
+          return d.partido.sigla==undefined?'opacity:0.1':'';
+        }
+      }
       /* Fin funciones necesarias */
 
       map.off('viewreset',reset,svg);
@@ -501,8 +507,9 @@ angular.module('geoelectoralFrontendApp')
       var feature = g.selectAll('path')
           .data(collection.features)
         .enter().append('path')
-          .attr('class', function(d) { return 'departamento hover '+departamentoBurbuja(d)})
           .attr('fill', function(d) { return setColorPartido(d, votos, partido); })
+          .attr('class', function(d) { return 'departamento hover '+departamentoBurbuja(d)})
+          .attr('style', function(d) { return hayDatos(d) })
           .on('dblclick',function(){ L.DomEvent.stopPropagation(d3.event); })
           .on('mouseover', function(d){ mouseover(d) })
           .on('mousemove', mousemove)
