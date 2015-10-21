@@ -428,12 +428,17 @@ angular.module('geoelectoralFrontendApp')
       };
 
       var partidoSeleccionado = function(d, votos, partido) {
+        var gana = partidoGanador(d, votos);
         var max = { porcentaje: 0 };
         votos.forEach(function(v) {
           if(d.properties.codigo === v.dpa_codigo) {
             v.partidos.forEach(function(p) {
               if (partido.id_partido === p.id_partido) {
-                max = p;
+                max = angular.copy(p);
+                if(p.id_partido!=gana.id_partido){
+                  max.color='ccc'; // Mostrar color solo en dpas ganadores
+                  max.porcentaje=0;
+                }
               }
             });
           }
