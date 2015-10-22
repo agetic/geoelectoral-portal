@@ -437,7 +437,6 @@ angular.module('geoelectoralFrontendApp')
                 max = angular.copy(p);
                 if(p.id_partido!=gana.id_partido){
                   max.color='ccc'; // Mostrar color solo en dpas ganadores
-                  max.porcentaje=0;
                 }
               }
             });
