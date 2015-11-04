@@ -436,7 +436,8 @@ angular.module('geoelectoralFrontendApp')
               if (partido.id_partido === p.id_partido) {
                 max = angular.copy(p);
                 if(p.id_partido!=gana.id_partido){
-                  max.color='ccc'; // Mostrar color solo en dpas ganadores
+                  if( !isBurbujaEnabled() )
+                    max.color='ccc'; // Mostrar color solo en dpas ganadores
                 }
               }
             });
@@ -477,8 +478,9 @@ angular.module('geoelectoralFrontendApp')
             colorEscala = d3.scale.linear().domain([0, maximoPorcentaje(d, votos, partido, $scope.currentDpa)]);
           } else {
             d.partido = partidoGanador(d, votos);
-            colorEscala = d3.scale.linear().domain([0, 60]);
+            colorEscala = d3.scale.linear().domain([0, 100]);
           }
+          return '#'+(d.partido.color || ENV.color); // Mostrar colores solidos.
           return colorEscala.range(['white', '#' + (d.partido.color || ENV.color)])((d.partido.porcentaje+0.0001) || 100);
         }
         return '#bbb';
