@@ -435,6 +435,7 @@ angular.module('geoelectoralFrontendApp')
             v.partidos.forEach(function(p) {
               if (partido.id_partido === p.id_partido) {
                 max = angular.copy(p);
+                max.colorc=max.color;
                 if(p.id_partido!=gana.id_partido){
                   if( !isBurbujaEnabled() )
                     max.color='ccc'; // Mostrar color solo en dpas ganadores
@@ -453,6 +454,7 @@ angular.module('geoelectoralFrontendApp')
             v.partidos.forEach(function(p) {
               if (max.porcentaje < p.porcentaje) {
                 max = p;
+                max.colorc=max.color;
               }
             });
           }
@@ -554,12 +556,13 @@ angular.module('geoelectoralFrontendApp')
 
       circulos = function() {
         collection.features.forEach(function(p) {
+          console.log('P:',p);
           var punto = path.centroid(p);
           //if(punto[0] && p.partido.porcentaje>0 && p.partido.porcentaje<100 && p.properties.extent){
          if(p.properties.id_tipo_dpa==$scope.currentDpa.idTipoDpa) {
           if(punto[0] && p.partido.porcentaje>0 && p.partido.porcentaje<=100 ){
             g.append('circle')
-                    .attr('fill','#'+p.partido.color)
+                    .attr('fill','#'+p.partido.colorc)
                     .attr('stroke','#bbb')
                     .attr('opacity','.7')
                     .on('dblclick',function(){ L.DomEvent.stopPropagation(d3.event); })
