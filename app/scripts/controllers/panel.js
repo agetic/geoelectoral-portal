@@ -556,7 +556,6 @@ angular.module('geoelectoralFrontendApp')
 
       circulos = function() {
         collection.features.forEach(function(p) {
-          console.log('P:',p);
           var punto = path.centroid(p);
           //if(punto[0] && p.partido.porcentaje>0 && p.partido.porcentaje<100 && p.properties.extent){
          if(p.properties.id_tipo_dpa==$scope.currentDpa.idTipoDpa) {
