@@ -351,6 +351,11 @@ angular.module('geoelectoralFrontendApp')
               || $scope.currentDpa.idTipoEleccion==23
               || $scope.currentDpa.idTipoEleccion==24
               || $scope.currentDpa.idTipoEleccion==25) ){
+          // Verificar nombre de candidato
+          if(!p.observacion) {
+            p.candidato='';
+            return;
+          }
           var cnombre = p.observacion.split(' ');
           p.candidato = '- ';
           if(cnombre.length<4)
