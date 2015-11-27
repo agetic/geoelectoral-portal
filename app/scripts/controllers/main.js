@@ -46,6 +46,7 @@ angular.module('geoelectoralFrontendApp')
                           dpaNombre: 'Bolivia', // Nombre del dpa actual
                           idTipoDpa: null       // Tipo de Dpa hijos que se va mostrar
                         };
+    $scope.anteriorDpa = angular.copy($scope.currentDpa);
 
     var breadcrumbFactory = function() {
       BreadcrumbFactory.fromDpa('mapa-breadcrumb', Dpa.breadcrumb($scope.currentDpa.idDpa), $scope.anio);
@@ -279,6 +280,7 @@ angular.module('geoelectoralFrontendApp')
 
     // Establecer el tipo de dpa para mostrar en el mapa
     $scope.setTipoDpa = function (idTipoDpa,idTipoEleccion) {
+      $scope.anteriorDpa = angular.copy($scope.currentDpa);
       if(idTipoEleccion) $scope.currentDpa.idTipoEleccion = idTipoEleccion;
 
       var dpaPadres = Dpa.idDpasPadre($scope.currentDpa.idDpa);
@@ -532,7 +534,8 @@ angular.module('geoelectoralFrontendApp')
           }
           $scope.partidos = $scope.partidos.sort(function(a, b) { return b.resultado - a.resultado; });
         } else {
-          growl.info("No hay datos de elecciones disponibles", {});
+          growl.warning("No hay datos de elecciones disponibles", {});
+          $scope.currentDpa = angular.copy($scope.anteriorDpa);
         }
       }, function(error) {
         console.warn("Error en la conexión a GeoElectoral API");
