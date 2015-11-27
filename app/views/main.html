@@ -86,47 +86,29 @@
     <li ng-class="{active: a.anio === anio}" ng-repeat="a in aniosLista" >
       <a tabindex="0" ng-click="setAnioIndex($index)">{{a.anio}}</a>
       <ul class="nav" ng-show="a.anio===anio">
-        <li ng-repeat="b in a.tipos_eleccion">
-          <span class="li-header" ng-class="{active: getTipoEleccion()==b.id_tipo_eleccion}" ng-switch="b.id_tipo_eleccion">
-            <span ng-switch-when="1">Plurinominales</span>
-            <span ng-switch-when="2">Uninominales</span>
-            <span ng-switch-when="3">Especiales</span>
-            <span ng-switch-when="4" title="Constituyentes Plurinominales">Plurinominales</span>
-            <span ng-switch-when="5" title="Constituyentes Uninominales">Uninominales</span>
-            <span ng-switch-when="6">Gobernaciones</span>
-            <span ng-switch-when="7">Municipales</span>
-            <span ng-switch-when="8" title="Segunda vuelta">Gobernación 2º</span>
-            <span ng-switch-when="9">Subgobernador</span>
-            <span ng-switch-when="10">Corregidor</span>
-            <span ng-switch-when="11" title="Ejecutivos Seccionales">Ejecutivo</span>
-            <span ng-switch-when="12" title="Asambleistas por Territorio en Provincias">Territorio</span>
-            <span ng-switch-when="13" title="Asambleistas por Territorio en Municipios">Territorio</span>
-            <span ng-switch-when="14" title="Asambleistas por Población en Departamentos">Población</span>
-            <span ng-switch-when="15" title="Asambleistas por Población en Municipios">Población</span>
-            <span ng-switch-when="16" title="Segunda vuelta">Población 2º</span>
-            <span ng-switch-when="17">Ref. Departamental</span>
-            <span ng-switch-when="18">Ref. Municipal</span>
-            <span ng-switch-when="19">Ref. Regional</span>
-            <span ng-switch-when="20" title="Revocatorio presidencial">Ref. Revocatorio</span>
-            <span ng-switch-when="21" title="Revocatorio gobernación">Ref. Revocatorio</span>
-            <span ng-switch-when="22" title="Tribunal Agroambiental">Agroambiental</span>
-            <span ng-switch-when="23" title="Consejo de la Magistratura">Magistratura</span>
-            <span ng-switch-when="24" title="Tribunal Constitucional">Constitucional</span>
-            <span ng-switch-when="25" title="Tribunal Supremo de Justicia">Justicia</span>
-          </span>
-          <ul class="nav">
-            <li ng-repeat="c in b.id_tipos_dpa track by $index" ng-click="setTipoDpa(c,b.id_tipo_eleccion)" ng-class="{active: getTipoDpa()===c && getTipoEleccion()==b.id_tipo_eleccion}" ng-switch="c">
-              <!-- <a ng-switch-when="1">Bolivia</a> -->
-              <a ng-switch-when="2">Departamento</a>
-              <a ng-switch-when="3">Provincia</a>
-              <a ng-switch-when="4">Municipio</a>
-              <a ng-switch-when="5">Circunscripcion</a>
-              <a ng-switch-when="6" ng-if="currentDpa.idTipoDpaActual>=2">Recinto</a>
-              <a ng-switch-when="8" ng-if="currentDpa.idTipoDpaActual>=2">Recinto</a>
-            </li>
-          </ul>
+        <li ng-click="setTipoEleccion(b.id_tipo_eleccion)" ng-repeat="b in a.tipos_eleccion" ng-class="{active: getTipoEleccion()==b.id_tipo_eleccion}" title="Fecha: {{b.fecha}}">
+          {{getNombreTipoEleccion(b.id_tipo_eleccion)}}
         </li>
       </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="nav-dpa">
+  <ul>
+    <li ng-repeat="a in currentDpa.tiposDpa.id_tipos_dpa"
+        ng-if="a!=7 && a!=9 && !(currentDpa.idTipoDpaActual<2 && (a==6 || a==8))"
+        ng-click="setTipoDpa(a,currentDpa.tiposDpa.id_tipo_eleccion)"
+        ng-class="{active: getTipoDpa()==a}">
+      <span ng-switch="a">
+        <a ng-switch-when="1">Pais</a>
+        <a ng-switch-when="2">Departamentos</a>
+        <a ng-switch-when="3">Provincias</a>
+        <a ng-switch-when="4">Municipios</a>
+        <a ng-switch-when="5">Circunscripciones</a>
+        <a ng-switch-when="6" ng-if="currentDpa.idTipoDpaActual>=2">Recintos</a>
+        <a ng-switch-when="8" ng-if="currentDpa.idTipoDpaActual>=2">Recintos</a>
+      </span>
     </li>
   </ul>
 </div>

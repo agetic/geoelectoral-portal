@@ -144,6 +144,17 @@ angular.module('geoelectoralFrontendApp')
             loadServices();
             breadcrumbFactory();
           });
+          // Tipo dpa actual para divisiones
+          $scope.aniosLista.forEach(function(l) {
+            if(l.anio==$scope.anio){
+              l.tipos_eleccion.forEach(function(t) {
+                if(t.id_tipo_eleccion==$scope.currentDpa.idTipoEleccion) {
+                  $scope.currentDpa.tiposDpa = t;
+                }
+              });
+            }
+          });
+
         });
       } else if ($routeParams.anio) {
         getAnios(function(){
@@ -207,6 +218,38 @@ angular.module('geoelectoralFrontendApp')
         });
       }
       return titulo;
+    };
+    $scope.getNombreTipoEleccion = function(idTipoEleccion) {
+      var tipo='';
+      switch(idTipoEleccion) {
+        case 1: tipo='Elecciones Plurinominales'; break;
+        case 2: tipo='Elecciones Uninominales'; break;
+        case 3: tipo='Elecciones Especiales'; break;
+        case 4: tipo='Elecciones Constituyentes Plurinominales'; break;
+        case 5: tipo='Elecciones Constituyentes Uninominales'; break;
+        case 6: tipo='Elecciones Departamentales'; break;
+        case 7: tipo='Elecciones Municipales'; break;
+        case 8: tipo='Elecciones Departamentales 2da Vuelta'; break;
+        case 9: tipo='Elecciones Provinciales Subgobernador'; break;
+        case 10: tipo='Elecciones Corregidor Municipal'; break;
+        case 11: tipo='Elecciones Ejecutivo Seccional'; break;
+        case 12: tipo='Elecciones Asambleista Departamental por Territorio'; break;
+        case 13: tipo='Elecciones Asambleista Departamental por Territorio Municipios'; break;
+        case 14: tipo='Elecciones Asambleista Departamental por Población'; break;
+        case 15: tipo='Elecciones Asambleista Departamental por Población Municipios'; break;
+        case 16: tipo='Elecciones Asambleista Departamental por Población Municipios 2da Vuelta'; break;
+        case 17: tipo='Referendo Autonómico Departamental'; break;
+        case 18: tipo='Referendo Autonómico Municipal'; break;
+        case 19: tipo='Referendo Autonómico Regional'; break;
+        case 20: tipo='Referendo Revocatorio Presidencial'; break;
+        case 21: tipo='Referendo Revocatorio Departamental'; break;
+        case 22: tipo='Elecciones Judiciales Tribunal Agroambiental'; break;
+        case 23: tipo='Elecciones Judiciales Consejo de la Magistratura'; break;
+        case 24: tipo='Elecciones Judiciales Tribunal Constitucional'; break;
+        case 25: tipo='Elecciones Judiciales Tribunal Supremo de Justicia'; break;
+      }
+      tipo=tipo.replace(' ',' ');
+      return tipo;
     };
     $scope.getEleccion = function() {
       var tipoElec;
@@ -299,7 +342,27 @@ angular.module('geoelectoralFrontendApp')
 
     // Establecer el tipo de elección: plurinominal, uninominal
     $scope.setTipoEleccion = function (idTipoEleccion) {
+      $scope.anteriorDpa = angular.copy($scope.currentDpa);
       $scope.currentDpa.idTipoEleccion = idTipoEleccion;
+      $scope.aniosLista.forEach(function(l) {
+        if(l.anio==$scope.anio){
+          l.tipos_eleccion.forEach(function(t) {
+            if(t.id_tipo_eleccion==$scope.currentDpa.idTipoEleccion) {
+              // Verificar si existe el tipo dpa actual
+              if(!t.id_tipos_dpa.some(function(td){
+                if(td==$scope.currentDpa.idTipoDpa)
+                  return true;
+              })){
+                $scope.currentDpa.idTipoDpa=t.id_tipos_dpa[0];
+                if(t.id_tipos_dpa[0]==1)
+                  $scope.currentDpa.idTipoDpa=t.id_tipos_dpa[1];
+              }
+
+              $scope.currentDpa.tiposDpa = t;
+            }
+          });
+        }
+      });
       recargarMapa();
     };
     $scope.getTipoEleccion = function () {

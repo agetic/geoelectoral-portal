@@ -102,17 +102,9 @@ body {
     background-color: #ffffff;
     color: #808090;
   }
-  .nav > li > a,
-  .nav > li > span {
+  .nav > li > a{
     padding: 4px 15px;
     color: #a5a5a5;
-  }
-  .li-header{
-    padding-left: 22px !important;
-  }
-  .li-header.active{
-    color: #214676;
-    /*font-weight: bold;*/
   }
   .col-sm-2.col-xs-3 a:hover{
     z-index: 1;
@@ -123,23 +115,10 @@ body {
     max-width: 140px;
     padding-left: 0;
   }
-  .nav-anios li  ul{
+  .nav-anios li ul{
     background-color: #fff;
     padding-left: 0px;
     font-size: 12px;
-  }
-  .nav-anios li a{
-    padding-left: 15px;
-  }
-  .nav-anios li ul a{
-    padding-left: 25px;
-    padding-top: 0;
-    padding-bottom: 0;
-    line-height: 15px;
-    margin: 6px 0;
-  }
-  .nav-anios a {
-    border-left: 2px solid #fff;
   }
   .nav-anios li a:hover{
     border-left: 1px solid #428bca;
@@ -178,6 +157,70 @@ body {
   .nav-anios .li-header{
     cursor: default;
   }
+  .nav-anios ul.nav li{
+    border-bottom: 1px dotted #bbb;
+  }
+
+  .nav-anios ul.nav li{
+    padding-left: 25px;
+    padding-right: 15px;
+    color: #a5a5a5;
+  }
+  .nav-anios:hover ul.nav li{
+    padding-right: 10px;
+  }
+  .nav-anios ul.nav li.active{
+    padding-left: 23px;
+    color: #428bca;
+    border-left: 2px solid #428bca;
+    font-weight: bold;
+  }
+  .nav-anios ul.nav li.active:hover{
+    padding-left: 23px;
+    border-left: 2px solid #428bca;
+    color: #428bca;
+  }
+  .nav-anios ul.nav li:hover{
+    padding-left: 26px;
+    border-left: 1px solid #428bca;
+    color: #428bca;
+  }
+
+  /* Botones de seleccion de tipos dpa */
+  .nav-dpa {
+    position: absolute;
+    bottom: 25px;
+  }
+  .nav-dpa a {
+    text-decoration: none;
+  }
+  .nav-dpa ul {
+    padding: 5px;
+  }
+  .nav-dpa ul li {
+    margin: 0;
+    display: inline-block;
+    background: #abcdef;
+    border: 1px solid #fff;
+    border-radius: 3px;
+    cursor: pointer;
+    list-style: none;
+    line-height: 30px;
+  }
+  .nav-dpa ul li a {
+    padding: 0px;
+    border-radius: 3px;
+    padding: 4px;
+  }
+  .nav-dpa ul .active {
+    background: #428bca;
+  }
+  .nav-dpa ul li.active a {
+    background: #428bca;
+    color: #fff;
+  }
+
+
 
 .breadcrumb {
   margin-bottom: 0;
@@ -259,6 +302,7 @@ body {
     margin-top: 30px;
     margin-bottom: 0px;
     margin-right: 4px;
+    display: none;
   }
   .nav-pestana768{
     display: none;
@@ -439,6 +483,9 @@ body {
     top: 0;
     width: 200px;
   }
+  .nav-dpa ul li {
+    display: block;
+  }
 }
 /* Estadísticas */
 .statistics .numero {
@@ -598,18 +645,29 @@ svg .hover:hover {
   position: relative;
   margin-left: -1px;
 }
-.breadcrumb li:hover a {
-  background: #649cca;
+.breadcrumb li svg path {
+  fill: #abcdef;
 }
-.breadcrumb li:hover svg path{
-  fill: #649cca;
+.breadcrumb li:hover a {
+  background: #abcdef;
+  color: #6E94C9;
+}
+.breadcrumb li:hover svg path {
+  fill: #abcdef;
+}
+.breadcrumb li.active a {
+  background: #428bca;
+  color: #fff;
+}
+.breadcrumb li.active svg path {
+  fill: #428bca;
 }
 
 .breadcrumb li a{
   line-height: 32px;
   vertical-align: top;
-  color: #fff;
-  background: #428bca;
+  color: #408FD8;
+  background: #abcdef;
   display: inline-block;
   padding-left: 20px;
   padding-right: 2px;
@@ -625,6 +683,7 @@ div[growl] {
   right: 0;
   position: absolute;
   z-index: 100;
+  background: #fff;
 }
 
 /* Posicion icono del loader */
@@ -671,4 +730,17 @@ div[growl] {
 }
 #logo-geobolivia img{
   height: 25px;
+}
+
+.nav.tipo-dpa {
+  position: absolute;
+  left: 250px;
+  bottom: 150px;
+  z-index: 1005;
+}
+.nav-anios .nav .nav {
+  display: none;
+}
+.nav-anios .nav .nav.active{
+  display: block;
 }
