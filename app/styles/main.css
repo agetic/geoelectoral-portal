@@ -298,11 +298,11 @@ body {
     height: 50px;
   }
   .titulo {
-    float: left;
-    margin-top: 30px;
-    margin-bottom: 0px;
-    margin-right: 4px;
-    display: none;
+    /*float: left;*/
+    margin-top: 5px;
+    /*margin-bottom: 0px;*/
+    margin-right: 33%;
+    padding-left: 225px;
   }
   .nav-pestana768{
     display: none;
@@ -682,7 +682,7 @@ div[growl] {
 .growl-container {
   right: 0;
   position: absolute;
-  z-index: 100;
+  z-index: 1001;
   background: #fff;
 }
 

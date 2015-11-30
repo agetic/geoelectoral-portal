@@ -86,7 +86,7 @@
     <li ng-class="{active: a.anio === anio}" ng-repeat="a in aniosLista" >
       <a tabindex="0" ng-click="setAnioIndex($index)">{{a.anio}}</a>
       <ul class="nav" ng-show="a.anio===anio">
-        <li ng-click="setTipoEleccion(b.id_tipo_eleccion)" ng-repeat="b in a.tipos_eleccion" ng-class="{active: getTipoEleccion()==b.id_tipo_eleccion}" title="Fecha: {{b.fecha}}">
+        <li ng-click="setTipoEleccion(b.id_tipo_eleccion)" ng-repeat="b in a.tipos_eleccion" ng-class="{active: getTipoEleccion()==b.id_tipo_eleccion}">
           {{getNombreTipoEleccion(b.id_tipo_eleccion)}}
         </li>
       </ul>

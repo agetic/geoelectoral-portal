@@ -224,66 +224,38 @@ angular.module('geoelectoralFrontendApp')
       switch(idTipoEleccion) {
         case 1: tipo='Elecciones Plurinominales'; break;
         case 2: tipo='Elecciones Uninominales'; break;
-        case 3: tipo='Elecciones Especiales'; break;
+        case 3: tipo='Elecciones Circunscripciones Especiales'; break;
         case 4: tipo='Elecciones Constituyentes Plurinominales'; break;
         case 5: tipo='Elecciones Constituyentes Uninominales'; break;
         case 6: tipo='Elecciones Departamentales'; break;
         case 7: tipo='Elecciones Municipales'; break;
         case 8: tipo='Elecciones Departamentales 2da Vuelta'; break;
-        case 9: tipo='Elecciones Provinciales Subgobernador'; break;
-        case 10: tipo='Elecciones Corregidor Municipal'; break;
-        case 11: tipo='Elecciones Ejecutivo Seccional'; break;
-        case 12: tipo='Elecciones Asambleista Departamental por Territorio'; break;
-        case 13: tipo='Elecciones Asambleista Departamental por Territorio Municipios'; break;
-        case 14: tipo='Elecciones Asambleista Departamental por Población'; break;
-        case 15: tipo='Elecciones Asambleista Departamental por Población Municipios'; break;
-        case 16: tipo='Elecciones Asambleista Departamental por Población Municipios 2da Vuelta'; break;
+        case 9: tipo='Elecciones Regionales Subgobernador'; break;
+        case 10: tipo='Elecciones Regionales Corregidor Municipal'; break;
+        case 11: tipo='Elecciones Regionales Ejecutivo Seccional'; break;
+        case 12: tipo='Elecciones Asambleista Departamental por Territorio (Provincias)'; break;
+        case 13: tipo='Elecciones Asambleista Departamental por Territorio (Municipios)'; break;
+        case 14: tipo='Elecciones Asambleista Departamental por Población (Departamentos)'; break;
+        case 15: tipo='Elecciones Asambleista Departamental por Población (Municipios)'; break;
+        case 16: tipo='Elecciones Asambleista Departamental por Población 2da Vuelta (Municipios)'; break;
         case 17: tipo='Referendo Autonómico Departamental'; break;
         case 18: tipo='Referendo Autonómico Municipal'; break;
         case 19: tipo='Referendo Autonómico Regional'; break;
-        case 20: tipo='Referendo Revocatorio Presidencial'; break;
-        case 21: tipo='Referendo Revocatorio Departamental'; break;
+        case 20: tipo='Referendo Revocatorio de Mandato del Presidente y Vicepresidente'; break;
+        case 21: tipo='Referendo Revocatorio de Mandato de Prefectos'; break;
         case 22: tipo='Elecciones Judiciales Tribunal Agroambiental'; break;
         case 23: tipo='Elecciones Judiciales Consejo de la Magistratura'; break;
         case 24: tipo='Elecciones Judiciales Tribunal Constitucional'; break;
         case 25: tipo='Elecciones Judiciales Tribunal Supremo de Justicia'; break;
       }
-      tipo=tipo.replace(' ',' ');
+      //tipo=tipo.replace(' ',' ');
+      if($scope.anio<1995) // Hasta 1994 Elecciones Generales
+        tipo=tipo.replace('Plurinominales','Generales');
       return tipo;
     };
     $scope.getEleccion = function() {
       var tipoElec;
-      switch($scope.currentDpa.idTipoEleccion){
-        case 1: tipoElec='Generales'; break
-        case 2: tipoElec='Generales'; break
-        case 4: tipoElec='Constituyentes'; break
-        case 5: tipoElec='Constituyentes'; break
-        case 6: tipoElec='Gobernaciones'; break
-        case 7: tipoElec='Municipales'; break
-        case 8: tipoElec='Gobernaciones (2da.Vuelta)'; break
-        case 9: tipoElec='Sub Gobernadores'; break
-        case 10: tipoElec='Corregidores'; break
-        case 11: tipoElec='Ejecutivo Seccional'; break
-        case 12: tipoElec='Asambleista Departamental por Territorio en provincia'; break
-        case 13: tipoElec='Asambleista Departamental por Territorio en municipio'; break
-        case 14: tipoElec='Asambleista Departamental por Población en departamentos'; break
-        case 15: tipoElec='Asambleista Departamental por Población en municipios'; break
-        case 16: tipoElec='Asambleista Departamental por Población en municipios (2da Vuelta)'; break
-
-        case 17: tipoElec='Referendum Autonómico Departamental'; break
-        case 18: tipoElec='Referendum Autonómico Municipal'; break
-        case 19: tipoElec='Referendum Autonómico Regional'; break
-
-        case 20: tipoElec='Referendum Revocatorio Presidencial'; break
-        case 21: tipoElec='Referendum Revocatorio Gobernaciones'; break
-
-        case 22: tipoElec='Tribunal Agroambiental'; break
-        case 23: tipoElec='Consejo de la Magistratura'; break
-        case 24: tipoElec='Tribunal Constitucional'; break
-        case 25: tipoElec='Tribunal Supremo de Justicia'; break
-        default: tipoElec='Generales';
-      }
-      return tipoElec;
+      return $scope.getNombreTipoEleccion($scope.currentDpa.idTipoEleccion);
     }
 
     // Establecer el año
@@ -597,7 +569,7 @@ angular.module('geoelectoralFrontendApp')
           }
           $scope.partidos = $scope.partidos.sort(function(a, b) { return b.resultado - a.resultado; });
         } else {
-          growl.warning("No hay datos de elecciones disponibles", {});
+          growl.warning("Para la vista actual no existen datos para la elección que desea ver. . .", {});
           $scope.currentDpa = angular.copy($scope.anteriorDpa);
         }
       }, function(error) {
