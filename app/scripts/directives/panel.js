@@ -32,10 +32,11 @@ angular.module('geoelectoralFrontendApp')
                 scope.selectTab(1);
             }
         }, true);
-
+/*
         w.bind('resize', function () {
             scope.$apply();
         });
+*/
       }
 });
 

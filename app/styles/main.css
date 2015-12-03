@@ -205,12 +205,12 @@ body {
     border-radius: 3px;
     cursor: pointer;
     list-style: none;
-    line-height: 30px;
+    line-height: 24px;
   }
   .nav-dpa ul li a {
     padding: 0px;
     border-radius: 3px;
-    padding: 4px;
+    padding: 1px 5px;
   }
   .nav-dpa ul .active {
     background: #428bca;
@@ -312,7 +312,7 @@ body {
     top: 10px;
     right: 3px;
     clear: both;
-    z-index: 3;
+    z-index: 1001;
     opacity: .7;
   }
   .nav-pestana:hover{
@@ -483,8 +483,14 @@ body {
     top: 0;
     width: 200px;
   }
+  .nav-dpa {
+    font-size: 10px;
+    bottom: auto;
+    top: 138px;
+  }
   .nav-dpa ul li {
     display: block;
+    line-height: 18px;
   }
 }
 /* Estadísticas */
