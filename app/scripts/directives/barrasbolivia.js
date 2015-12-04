@@ -60,8 +60,12 @@ angular.module('geoelectoralFrontendApp')
             .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
         var esTextoMayor = function(texto, data) {
-          var anchoTexto = Math.ceil(texto.getBBox().width) + marginTexto * 2;
-          var anchoBarra = Math.ceil(x(data.porcentaje));
+          try {
+            var anchoTexto = Math.ceil(texto.getBBox().width) + marginTexto * 2;
+            var anchoBarra = Math.ceil(x(data.porcentaje));
+          } catch (e) {
+            return false;
+          }
           return anchoTexto < anchoBarra;
         };
 
