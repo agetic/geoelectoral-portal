@@ -73,8 +73,19 @@ angular.module('geoelectoralFrontendApp')
       map = objmap;
 
       /* Fondos de mapa */
+      /*
       var maya = new L.TileLayer('https://{s}.tiles.mapbox.com/v3/mayakreidieh.map-dfh9esrb/{z}/{x}/{y}.png',{
           attribution: 'mayakreidieh.map-dfh9esrb'
+      });
+      */
+      /*
+      nypllabs.7f17c2d1
+      saman.map-lomu7f5q
+      landplanner.map-azfnqdsx
+      landplanner.map-dsn5dtki
+      */
+      var maya = new L.TileLayer('https://api.mapbox.com/v4/landplanner.map-dsn5dtki  /{z}/{x}/{y}.jpg?access_token=pk.eyJ1IjoiY2hlbG9hbGVqb2MiLCJhIjoiY2lod2lkZHdrMDJueHUxbTFqMXRodGUzdyJ9.Vs-56Km_o5AXT9N5QrcLsw',{
+          attribution: 'mapbox.light'
       });
 
       var topo = new L.TileLayer('http://server.opentopomap.org/{z}/{x}/{y}.png',{
