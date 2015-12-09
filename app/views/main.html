@@ -96,9 +96,9 @@
 
 <div class="nav-dpa">
   <ul><!-- Por ahora no se muestra la vista por recintos en toda Bolivia ni por mesas (ng-if)-->
-    <li ng-repeat="a in currentDpa.tiposDpa.id_tipos_dpa"
+    <li ng-repeat="a in ctiposDpa.id_tipos_dpa"
         ng-if="a!=7 && a!=9 && !(currentDpa.idTipoEleccion==1&&a==5) && !(currentDpa.idTipoDpaActual<2 && (a==6 || a==8))"
-        ng-click="setTipoDpa(a,currentDpa.tiposDpa.id_tipo_eleccion)"
+        ng-click="setTipoDpa(a,ctiposDpa.id_tipo_eleccion)"
         ng-class="{active: getTipoDpa()==a}">
       <span ng-switch="a">
         <a ng-switch-when="1">Pais</a>

@@ -47,6 +47,7 @@ angular.module('geoelectoralFrontendApp')
                           idTipoDpa: null       // Tipo de Dpa hijos que se va mostrar
                         };
     $scope.anteriorDpa = angular.copy($scope.currentDpa);
+    $scope.ctiposDpa = {};
 
     var breadcrumbFactory = function() {
       BreadcrumbFactory.fromDpa('mapa-breadcrumb', Dpa.breadcrumb($scope.currentDpa.idDpa), $scope.anio);
@@ -149,7 +150,7 @@ angular.module('geoelectoralFrontendApp')
             if(l.anio==$scope.anio){
               l.tipos_eleccion.forEach(function(t) {
                 if(t.id_tipo_eleccion==$scope.currentDpa.idTipoEleccion) {
-                  $scope.currentDpa.tiposDpa = t;
+                  $scope.ctiposDpa = t;
                 }
               });
             }
@@ -330,7 +331,7 @@ angular.module('geoelectoralFrontendApp')
                   $scope.currentDpa.idTipoDpa=t.id_tipos_dpa[1];
               }
 
-              $scope.currentDpa.tiposDpa = t;
+              $scope.ctiposDpa = t;
             }
           });
         }
