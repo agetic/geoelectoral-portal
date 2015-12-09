@@ -468,10 +468,6 @@ body {
   .geoelectoral-titulo {
     margin-top: 5px;
   }
-  .leaflet-control-layers-toggle {
-    height: 26px;
-    width: 26px;
-  }
   .leaflet-control-layers-list {
     background: #fff;
     border-radius: 4px;
@@ -700,8 +696,9 @@ div[growl] {
   bottom: 0;
 }
 
-.leaflet-control a{
+.leaflet-control a.leaflet-control-layers-toggle {
   cursor: pointer;
+  background-image:url(../images/layers.png);
   height: 26px;
   width: 26px;
 }

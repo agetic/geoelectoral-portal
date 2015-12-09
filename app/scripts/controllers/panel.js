@@ -84,7 +84,7 @@ angular.module('geoelectoralFrontendApp')
       landplanner.map-azfnqdsx
       landplanner.map-dsn5dtki
       */
-      var maya = new L.TileLayer('https://api.mapbox.com/v4/landplanner.map-dsn5dtki  /{z}/{x}/{y}.jpg?access_token=pk.eyJ1IjoiY2hlbG9hbGVqb2MiLCJhIjoiY2lod2lkZHdrMDJueHUxbTFqMXRodGUzdyJ9.Vs-56Km_o5AXT9N5QrcLsw',{
+      var maya = new L.TileLayer('https://api.mapbox.com/v4/landplanner.map-dsn5dtki/{z}/{x}/{y}.jpg?access_token=pk.eyJ1IjoiY2hlbG9hbGVqb2MiLCJhIjoiY2lod2lkZHdrMDJueHUxbTFqMXRodGUzdyJ9.Vs-56Km_o5AXT9N5QrcLsw',{
           attribution: 'mapbox.light'
       });
 
