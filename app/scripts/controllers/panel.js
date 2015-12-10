@@ -540,8 +540,8 @@ angular.module('geoelectoralFrontendApp')
             topLeft = bounds[0],
             bottomRight = bounds[1];
 
-        svg .attr('width', (bottomRight[0] - topLeft[0])*escala)
-            .attr('height', (bottomRight[1] - topLeft[1])*escala)
+        svg .attr('width', (bottomRight[0] - topLeft[0])*escala +1)
+            .attr('height', (bottomRight[1] - topLeft[1])*escala +1)
             .style('overflow','visible')
             .style('left', topLeft[0] + 'px')
             .style('top', topLeft[1] + 'px');
