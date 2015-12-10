@@ -31,7 +31,7 @@ angular.module('geoelectoralFrontendApp')
       { idTipoDpa: 8, nombre: 'cir_recinto', idTipoDpaSuperior: 5 }
     ];
     $scope.partidoSeleccionado = null;
-    $scope.e = { anioIndex: $scope.anios.length - 1 };
+    $scope.e = {};
     $scope.anio = $scope.anios[$scope.e.anioIndex];
     $scope.partidos = [];
     $scope.partidosDepartamento = [];
@@ -46,7 +46,8 @@ angular.module('geoelectoralFrontendApp')
                           dpaNombre: 'Bolivia', // Nombre del dpa actual
                           idTipoDpa: null       // Tipo de Dpa hijos que se va mostrar
                         };
-    $scope.anteriorDpa = angular.copy($scope.currentDpa);
+    $scope.e = { anioIndex: $scope.anios.length - 1,
+                 anteriorDpa:angular.copy($scope.currentDpa) };
     $scope.ctiposDpa = {};
 
     var breadcrumbFactory = function() {
@@ -296,7 +297,7 @@ angular.module('geoelectoralFrontendApp')
 
     // Establecer el tipo de dpa para mostrar en el mapa
     $scope.setTipoDpa = function (idTipoDpa,idTipoEleccion) {
-      $scope.anteriorDpa = angular.copy($scope.currentDpa);
+      $scope.e.anteriorDpa = angular.copy($scope.currentDpa);
       if(idTipoEleccion) $scope.currentDpa.idTipoEleccion = idTipoEleccion;
 
       var dpaPadres = Dpa.idDpasPadre($scope.currentDpa.idDpa);
@@ -315,7 +316,7 @@ angular.module('geoelectoralFrontendApp')
 
     // Establecer el tipo de elección: plurinominal, uninominal
     $scope.setTipoEleccion = function (idTipoEleccion) {
-      $scope.anteriorDpa = angular.copy($scope.currentDpa);
+      $scope.e.anteriorDpa = angular.copy($scope.currentDpa);
       $scope.currentDpa.idTipoEleccion = idTipoEleccion;
       $scope.aniosLista.forEach(function(l) {
         if(l.anio==$scope.anio){
@@ -571,7 +572,7 @@ angular.module('geoelectoralFrontendApp')
           $scope.partidos = $scope.partidos.sort(function(a, b) { return b.resultado - a.resultado; });
         } else {
           growl.warning("Para la vista actual no existen datos para la elección que desea ver. . .", {});
-          $scope.currentDpa = angular.copy($scope.anteriorDpa);
+          $scope.currentDpa = angular.copy($scope.e.anteriorDpa);
         }
       }, function(error) {
         console.warn("Error en la conexión a GeoElectoral API");
