@@ -244,8 +244,11 @@ angular.module('geoelectoralFrontendApp')
       // Seleccionar la primera ocurrencia
       tiposDpa.some(function(t) {
         if (t.idTipoDpaSuperior === d.properties.id_tipo_dpa) {
-          idTipoDpa = t.idTipoDpa;
-          return true;
+          // PERO Si es elecciones por circunscripcion no tomar encuenta provincias, Seleccionar segunda ocurrencia
+          if( (currentDpa.idTipoEleccion!=2 && currentDpa.idTipoEleccion!=3) || t.idTipoDpa!=3) {
+            idTipoDpa = t.idTipoDpa;
+            return true;
+          }
         }
       });
       if (idTipoDpa !== null) {
