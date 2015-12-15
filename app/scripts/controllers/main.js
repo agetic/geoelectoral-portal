@@ -573,12 +573,23 @@ angular.module('geoelectoralFrontendApp')
         } else {
           growl.warning("Para la vista actual no existen datos para la elección que desea ver. . .", {});
           $scope.currentDpa = angular.copy($scope.e.anteriorDpa);
+          // Tipo dpa actual para divisiones
+          $scope.aniosLista.forEach(function(l) {
+            if(l.anio==$scope.anio){
+              l.tipos_eleccion.forEach(function(t) {
+                if(t.id_tipo_eleccion==$scope.currentDpa.idTipoEleccion) {
+                  $scope.ctiposDpa = t;
+                }
+              });
+            }
+          });
+
         }
       }, function(error) {
         console.warn("Error en la conexión a GeoElectoral API");
       });
     };
-    $scope.recargarMapa = recargarMapa;
+    //$scope.recargarMapa = recargarMapa;
 
     // Sumar el total de votos por partido cuando se muestran varios dpas
     var sumarValidos = function(dpas,features) {

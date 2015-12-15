@@ -684,7 +684,7 @@ div[growl] {
 .growl-container {
   right: 0;
   position: absolute;
-  z-index: 1001;
+  z-index: 1003;
   background: #fff;
 }
 
