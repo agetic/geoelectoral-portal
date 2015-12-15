@@ -47,7 +47,7 @@
       <thead>
         <tr>
           <th></th>
-          <th>Partido</th>
+          <th>Sigla</th>
           <th class="numero">Votos</th>
           <th class="numero">% votos</th>
         </tr>
@@ -63,7 +63,8 @@
         </tr>
       </tbody>
     </table>
-    <a id="linkcsv" type="button" ng-csv="getPartidosTable()" filename="partidos.csv" ng-if="isSelected(1)">Descargar CSV</a>
+    <a id="linkcsv" type="button" ng-csv="getPartidosTable()" filename="partidos.csv" ng-if="isSelected(1)" decimal-separator="," field-separator=";">Descargar CSV (Tabla)</a>
+    <a id="linkcsv" type="button" ng-csv="getDpaTable()" filename="{{getEleccion()}} - {{getLugar()}}.csv" ng-if="isSelected(1)" decimal-separator="," field-separator=";" class="pull-right">Descargar CSV (Mapa)  .</a>
     <!-- Barras -->
     <div>
       <barras-bolivia class="grafico" data="partidos" tab="{{tab}}" ng-if="isSelected(2)">

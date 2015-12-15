@@ -184,25 +184,67 @@ angular.module('geoelectoralFrontendApp')
 
     // Crear tabla partidos 
     $scope.getPartidosTable = function(){
+      var dpa='dpa';
+      $scope.tiposDpa.some(function(t){
+        if(t.idTipoDpa==$scope.currentDpa.idTipoDpaActual){
+          dpa = t.nombre;
+          return true;
+        }
+      });
       var pdatos = [{ //id:'id',
                       //color:'color',
-                      sigla:'sigla',
-                      nombre:'partido',
+                      dpa:dpa,
                       votos:'votos',
-                      porcentaje:'porcentaje'}];
+                      porcentaje:'porcentaje',
+                      sigla:'sigla',
+                      nombre:'partido'}];
       $scope.partidos.forEach(function(p){
         var d = new Object();
         //d.id = p.id_partido;
         //d.color = p.color;
-        d.sigla = p.sigla;
-        d.nombre = p.partido_nombre;
+        d.dpa = $scope.currentDpa.dpaNombre;
         d.votos = p.resultado;
         d.porcentaje = p.porcentaje;
+        d.sigla = p.sigla;
+        d.nombre = p.partido_nombre;
         pdatos.push(d);
       });
       return pdatos;
     }
-
+    // Crear tabla con los datos del mapa mostrado actualmente
+    $scope.getDpaTable = function(){
+      var dpa='dpa';
+      $scope.tiposDpa.some(function(t){
+        if(t.idTipoDpa==$scope.currentDpa.idTipoDpa){
+          dpa = t.nombre;
+          return true;
+        }
+      });
+      var pdatos = [{ //id:'id',
+                      //color:'color',
+                      dpa:dpa,
+                      votos:'votos',
+                      porcentaje:'porcentaje',
+                      sigla:'sigla',
+                      nombre:'partido' }];
+      $scope.partidosDepartamento.forEach(function(pD){
+        pD.partidos.sort(function(a,b){
+          return a.resultado < b.resultado;
+        });
+        pD.partidos.forEach(function(p){
+          var d = new Object();
+          //d.id = p.id_partido;
+          //d.color = p.color;
+          d.dpa = pD.dpa_nombre;
+          d.votos = p.resultado;
+          d.porcentaje = p.porcentaje;
+          d.sigla = p.sigla;
+          d.nombre = p.partido_nombre;
+          pdatos.push(d);
+        });
+      });
+      return pdatos;
+    }
     // Hover sobre las filas de la tabla
     $scope.hoverIn = function() {
       jQuery('.tooltip-tabla').tooltip();
