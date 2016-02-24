@@ -579,7 +579,7 @@ svg .fondos rect {
 
 svg .hover:hover {
   stroke: #bbb;
-  fill: #bbb;
+  /*fill: #bbb;*/
   opacity: .3;
 }
 
