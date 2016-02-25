@@ -16,6 +16,8 @@ angular.module('geoelectoralFrontendApp')
     var eleccionesDeptoUrl = host + api + '/elecciones?anio={anio}&id_tipo_dpa={idTipoDpa}&id_dpa={idDpa}&id_tipo_eleccion={idTipoEleccion}&formato=json';
     var dpaGeoJSONUrl = host + api + '/proxy';
 
+    var primeraVez = true; // Variable para simular entrada por primera vez al sistema (/)
+
     $scope.mapControl = {ajustar: true};
     $scope.date = new Date();
 
@@ -522,6 +524,20 @@ angular.module('geoelectoralFrontendApp')
       // GeoJSON político administrativo de Bolivia
       $scope.currentDpa.lz=1;
       $scope.currentDpa.fecha=$scope.eleccion.fecha;
+
+      // BEGIN Cambiar el estado de tipoDpa (TODO: provisional hasta encontrar la forma correcta)
+      if (primeraVez) {
+        switch($scope.currentDpa.idTipoEleccion) {
+          case 26: // Referendo Constitucional 2016
+            console.log("referendo");
+            $scope.currentDpa.idTipoDpa = 2;
+            primeraVez = false;
+            break;
+        }
+        primeraVez = false;
+      }
+      // END Cambiar el estado de tipoDpa (TODO: provisional hasta encontrar la forma correcta)
+
       promises.push($http.get(dpaGeoJSONUrl, { params: $scope.currentDpa }));
       // Elecciones a nivel departamento
       promises.push($http.get(eleccionesDeptoUrl.replace(/{anio}/g, $scope.anio)
