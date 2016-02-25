@@ -529,7 +529,6 @@ angular.module('geoelectoralFrontendApp')
       if (primeraVez) {
         switch($scope.currentDpa.idTipoEleccion) {
           case 26: // Referendo Constitucional 2016
-            console.log("referendo");
             $scope.currentDpa.idTipoDpa = 2;
             primeraVez = false;
             break;
