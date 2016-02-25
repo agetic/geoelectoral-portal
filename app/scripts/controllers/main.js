@@ -182,7 +182,7 @@ angular.module('geoelectoralFrontendApp')
       }
     });
 
-    // Crear tabla partidos 
+    // Crear tabla partidos
     $scope.getPartidosTable = function(){
       var dpa='dpa';
       $scope.tiposDpa.some(function(t){
@@ -291,6 +291,7 @@ angular.module('geoelectoralFrontendApp')
         case 23: tipo='Elecciones Judiciales Consejo de la Magistratura'; break;
         case 24: tipo='Elecciones Judiciales Tribunal Constitucional'; break;
         case 25: tipo='Elecciones Judiciales Tribunal Supremo de Justicia'; break;
+        case 26: tipo='Referendo Constitucional 2016'; break;
       }
       //tipo=tipo.replace(' ',' ');
       if($scope.anio<1995) // Hasta 1994 Elecciones Generales
