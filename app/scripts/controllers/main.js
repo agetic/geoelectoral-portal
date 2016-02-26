@@ -293,7 +293,7 @@ angular.module('geoelectoralFrontendApp')
         case 23: tipo='Elecciones Judiciales Consejo de la Magistratura'; break;
         case 24: tipo='Elecciones Judiciales Tribunal Constitucional'; break;
         case 25: tipo='Elecciones Judiciales Tribunal Supremo de Justicia'; break;
-        case 26: tipo='Referendo Constitucional'; break;
+        case 26: tipo='Referendo Constitucional al 99,81% - OEP'; break;
       }
       //tipo=tipo.replace(' ',' ');
       if($scope.anio<1995) // Hasta 1994 Elecciones Generales
