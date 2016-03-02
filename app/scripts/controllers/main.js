@@ -424,6 +424,15 @@ angular.module('geoelectoralFrontendApp')
       return string.charAt(0).toUpperCase() + string.substr(1).toLowerCase();
     };
     var eliminarValidos = function(partidos) {
+      // TODO eliminar cuando cambie la fecha
+      // BEGIN Provisional verificar en la observación sólo del 2016
+      function esPartidoDel2016(p) {
+        return /26-02-2016/.exec(p.observacion);
+      }
+      if (partidos.some(esPartidoDel2016)) {
+        return partidos
+      }
+      // END Provisional verificar en la observación sólo del 2016
       partidos.forEach(function (p, i) {
         if (p.sigla === 'VALIDOS') {
           partidos.splice(i, 1);
