@@ -427,7 +427,7 @@ angular.module('geoelectoralFrontendApp')
       // TODO eliminar cuando cambie la fecha
       // BEGIN Provisional verificar en la observación sólo del 2016
       function esPartidoDel2016(p) {
-        return /26-02-2016/.exec(p.observacion);
+        return /24-02-2016/.exec(p.observacion);
       }
       if (partidos.some(esPartidoDel2016)) {
         return partidos
