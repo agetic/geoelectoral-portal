@@ -36,6 +36,7 @@ angular.module('geoelectoralFrontendApp')
     $scope.e = {};
     $scope.anio = $scope.anios[$scope.e.anioIndex];
     $scope.partidos = [];
+    $scope.datosGrales = [];
     $scope.partidosDepartamento = [];
     $scope.eleccion = null;
     $scope.dpaGeoJSON = [];
@@ -201,6 +202,35 @@ angular.module('geoelectoralFrontendApp')
                       sigla:'sigla',
                       nombre:'partido'}];
       $scope.partidos.forEach(function(p){
+        var d = new Object();
+        //d.id = p.id_partido;
+        //d.color = p.color;
+        d.dpa = $scope.currentDpa.dpaNombre;
+        d.votos = p.resultado;
+        d.porcentaje = p.porcentaje;
+        d.sigla = p.sigla;
+        d.nombre = p.partido_nombre;
+        pdatos.push(d);
+      });
+      return pdatos;
+    }
+
+    $scope.getDatosGralesTable = function(){
+      var dpa = 'dpa';
+      $scope.tiposDpa.some(function(t){
+        if(t.idTipoDpa==$scope.currentDpa.idTipoDpaActual){
+          dpa = t.nombre;
+          return true;
+        }
+      });
+      var pdatos = [{ //id:'id',
+                      //color:'color',
+                      dpa:dpa,
+                      votos:'votos',
+                      porcentaje:'porcentaje',
+                      sigla:'sigla',
+                      nombre:'partido'}];
+      $scope.datosGrales.forEach(function(p){
         var d = new Object();
         //d.id = p.id_partido;
         //d.color = p.color;
@@ -416,13 +446,32 @@ angular.module('geoelectoralFrontendApp')
         total += p.resultado;
       });
       partidos.forEach(function (p) {
-        p.porcentaje = Math.ceil((p.resultado / total) * 100 * 100) / 100;
+        //p.porcentaje = Math.ceil((p.resultado / total) * 100 * 100) / 100;
+        p.porcentaje = 0;
       });
       return partidos;
     };
     var capitalize = function(string) {
       return string.charAt(0).toUpperCase() + string.substr(1).toLowerCase();
     };
+
+    var obtenerDatosGrales = function(partidos){
+      partidos.forEach(function(p,i){
+        if(p.sigla == 'BLANCOS' || p.sigla == 'ABSTENCION' || p.sigla == 'NULOS' || p.sigla == 'EMITIDOS' || p.sigla == 'INSCRITOS' || p.sigla == 'VALIDOS'){
+            var d = new Object();
+            d.dpa = p.dpa_nombre;
+            d.votos = p.resultado;
+            d.porcentaje = p.porcentaje;
+            d.sigla = p.sigla;
+            d.nombre = p.partido_nombre;
+            $scope.datosGrales.push(d);
+            partidos.splice(i, 1);
+        }
+        else {
+          //p.datosGrales = false;
+        }
+      });
+    }
     var eliminarValidos = function(partidos) {
       // TODO eliminar cuando cambie la fecha
       // BEGIN Provisional verificar en la observación sólo del 2016
@@ -483,6 +532,7 @@ angular.module('geoelectoralFrontendApp')
     var establecerColorValidos = function(dpas) {
       return dpas.map(function(d) {
         d.partidos = eliminarValidos(d.partidos);
+        d.datosGrales = obtenerDatosGrales(d.partidos);
         return d;
       });
     };
@@ -580,6 +630,7 @@ angular.module('geoelectoralFrontendApp')
           $scope.partidosDepartamento = reducirDpasVista($scope.partidosDepartamento);
           if( response[2].data.dpas && response[2].data.dpas[0].partidos ){
             $scope.partidos = eliminarValidos(response[2].data.dpas[0].partidos);
+            $scope.datosGrales = obtenerDatosGrales(response[2].data.dpas[0].partidos);
           }
           else{
             $scope.partidos = sumarValidos(response[1].data.dpas,response[0].data.features);
@@ -632,6 +683,7 @@ angular.module('geoelectoralFrontendApp')
           $scope.partidosDepartamento = reducirDpasVista($scope.partidosDepartamento);
           if( response[2].data.dpas && response[2].data.dpas[0].partidos ){
             $scope.partidos = eliminarValidos(response[2].data.dpas[0].partidos);
+            $scope.datosGrales = obtenerDatosGrales(response[2].data.dpas[0].partidos);
           }
           else{
             $scope.partidos = sumarValidos(response[1].data.dpas,response[0].data.features);
@@ -689,7 +741,8 @@ angular.module('geoelectoralFrontendApp')
           });
         });
         totalPartidos.forEach(function (totalp,i){
-          totalPartidos[i].porcentaje = parseInt(totalp.resultado / totalVotosP * 10000)/100;
+          //totalPartidos[i].porcentaje = parseInt(totalp.resultado / totalVotosP * 10000)/100;
+          totalPartidos[i].porcentaje = 0;
         });
         return totalPartidos;
     }
