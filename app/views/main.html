@@ -1,3 +1,4 @@
+
 <!-- Grafico Mapa -->
 <ol id="mapa-breadcrumb" bread-crumbs ng-show="isSelected(4)"></ol>
 
@@ -19,6 +20,10 @@
           <!-- Spreadsheet by dw from The Noun Project -->
           <a href ng-click="selectTab(1)"><img src="images/icon_table.svg" width="32" alt="Tabla" title="Tabla"></a>
         </li>
+        <li ng-class="{active: isSelected(5)}">
+          <!-- Spreadsheet by dw from The Noun Project -->
+          <a href ng-click="selectTab(5)"><img src="images/icon_info.svg" width="32" alt="Datos generales" title="Datos generales"></a>
+        </li>
       </ul>
     </div>
 <div class="statistics" ng-hide="isSelected(4)">
@@ -38,6 +43,10 @@
         <li ng-class="{active: isSelected(1)}">
           <!-- Spreadsheet by dw from The Noun Project -->
           <a href ng-click="selectTab(1)"><img src="images/icon_table.svg" width="32" alt="Tabla" title="Tabla"></a>
+        </li>
+        <li ng-class="{active: isSelected(5)}">
+          <!-- Spreadsheet by dw from The Noun Project -->
+          <a href ng-click="selectTab(5)"><img src="images/icon_info.svg" width="32" alt="Datos generales" title="Datos generales"></a>
         </li>
       </ul>
     </div>
@@ -75,6 +84,30 @@
       <torta-bolivia id="torta" class="grafico" data="partidos" tab="{{tab}}" ng-if="isSelected(3)">
       </torta-bolivia>
     </div>
+    <table class="table table-condensed table-hover" ng-if="isSelected(5)">
+    <thead>
+      <tr>
+        <th>
+          Dato
+        </th>
+        <th>
+          Valor
+        </th>
+        <th>
+          %
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="partido_{{partido.id_partido}}" ng-repeat="partido in datosGrales" title="{{partido.partido_nombre}}<br/>{{partido.observacion}}" data-html="true" data-toggle="tooltip" data-placement="{{$first?'bottom':'top'}}" class="tooltip-tabla" >
+
+        <td>{{partido.sigla}} {{partido.candidato}}</td>
+        <td class="numero">{{partido.resultado | number}}</td>
+        <td class="numero">{{partido.porcentaje | number:2}}%</td>
+      </tr>
+    </tbody>
+
+  </table>
   </div>
 </div>
   <!-- EstadisticS -->
@@ -115,3 +148,4 @@
 </div>
 
 <div id="tooltip-mapa"></div>
+
