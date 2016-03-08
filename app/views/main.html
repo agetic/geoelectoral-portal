@@ -44,7 +44,7 @@
           <!-- Spreadsheet by dw from The Noun Project -->
           <a href ng-click="selectTab(1)"><img src="images/icon_table.svg" width="32" alt="Tabla" title="Tabla"></a>
         </li>
-        <li ng-class="{active: isSelected(5)}">
+        <li ng-if="mostrarDatosGenerales" ng-class="{active: isSelected(5)}">
           <!-- Spreadsheet by dw from The Noun Project -->
           <a href ng-click="selectTab(5)"><img src="images/icon_info.svg" width="32" alt="Datos generales" title="Datos generales"></a>
         </li>
@@ -90,20 +90,50 @@
         <th>
           Dato
         </th>
-        <th>
+        <th class="numero" >
           Valor
         </th>
-        <th>
+        <th class="numero">
           %
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr id="partido_{{partido.id_partido}}" ng-repeat="partido in datosGrales" title="{{partido.partido_nombre}}<br/>{{partido.observacion}}" data-html="true" data-toggle="tooltip" data-placement="{{$first?'bottom':'top'}}" class="tooltip-tabla" >
+      <tr id="partido_{{datosGrales['INSCRITOS'].id_partido}}"  title="{{datosGrales['INSCRITOS'].partido_nombre}} {{datosGrales['INSCRITOS'].observacion}}" data-html="true" data-toggle="tooltip"
+      data-placement="{{$first?'bottom':'top'}}" class="tooltip-tabla" >
 
-        <td>{{partido.sigla}} {{partido.candidato}}</td>
-        <td class="numero">{{partido.resultado | number}}</td>
-        <td class="numero">{{partido.porcentaje | number:2}}%</td>
+        <td><b>{{datosGrales['INSCRITOS'].sigla}} {{datosGrales['INSCRITOS'].candidato}}</b></td>
+        <td class="numero"><b>{{datosGrales['INSCRITOS'].resultado | number}}</b></td>
+        <td class="numero"><b>{{datosGrales['INSCRITOS'].porcentaje | number:2}}%</b></td>
+      </tr>
+
+      <tr id="partido_{{datosGrales['EMITIDOS'].id_partido}}"  title="{{datosGrales['EMITIDOS'].partido_nombre}} {{datosGrales['EMITIDOS'].observacion}}" data-html="true" data-toggle="tooltip"
+      data-placement="{{$first?'bottom':'top'}}" class="tooltip-tabla" >
+
+        <td>{{datosGrales['EMITIDOS'].sigla}} {{datosGrales['EMITIDOS'].candidato}}</td>
+        <td class="numero">{{datosGrales['EMITIDOS'].resultado | number}}</td>
+        <td class="numero">{{datosGrales['EMITIDOS'].porcentaje | number:2}}%</td>
+      </tr>
+      <tr id="partido_{{datosGrales['VALIDOS'].id_partido}}"  title="{{datosGrales['VALIDOS'].partido_nombre}} {{datosGrales['VALIDOS'].observacion}}" data-html="true" data-toggle="tooltip"
+      data-placement="{{$first?'bottom':'top'}}" class="tooltip-tabla" >
+
+        <td>{{datosGrales['VALIDOS'].sigla}} {{datosGrales['VALIDOS'].candidato}}</td>
+        <td class="numero">{{datosGrales['VALIDOS'].resultado | number}}</td>
+        <td class="numero">{{datosGrales['VALIDOS'].porcentaje | number:2}}%</td>
+      </tr>
+      <tr id="partido_{{datosGrales['NULOS'].id_partido}}"  title="{{datosGrales['NULOS'].partido_nombre}} {{datosGrales['NULOS'].observacion}}" data-html="true" data-toggle="tooltip"
+      data-placement="{{$first?'bottom':'top'}}" class="tooltip-tabla" >
+
+        <td>{{datosGrales['NULOS'].sigla}} {{datosGrales['NULOS'].candidato}}</td>
+        <td class="numero">{{datosGrales['NULOS'].resultado | number}}</td>
+        <td class="numero">{{datosGrales['NULOS'].porcentaje | number:2}}%</td>
+      </tr>
+      <tr id="partido_{{datosGrales['BLANCOS'].id_partido}}"  title="{{datosGrales['BLANCOS'].partido_nombre}} {{datosGrales['BLANCOS'].observacion}}" data-html="true" data-toggle="tooltip"
+      data-placement="{{$first?'bottom':'top'}}" class="tooltip-tabla" >
+
+        <td>{{datosGrales['BLANCOS'].sigla}} {{datosGrales['BLANCOS'].candidato}}</td>
+        <td class="numero">{{datosGrales['BLANCOS'].resultado | number}}</td>
+        <td class="numero">{{datosGrales['BLANCOS'].porcentaje | number:2}}%</td>
       </tr>
     </tbody>
 
@@ -148,4 +178,3 @@
 </div>
 
 <div id="tooltip-mapa"></div>
-
