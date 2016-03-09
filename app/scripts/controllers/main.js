@@ -604,7 +604,11 @@ angular.module('geoelectoralFrontendApp')
                     var arrayAuxiliar=[];
                     for(var i in partidosPorSigla)
                         {
+                          if(i === 'INSCRITOS' || i === 'EMITIDOS' || i === 'ABSTENCION')
                             partidosPorSigla[i].porcentaje= partidosPorSigla[i].resultado*100/partidosPorSigla['INSCRITOS'].resultado;
+                          else {
+                            partidosPorSigla[i].porcentaje= partidosPorSigla[i].resultado*100/partidosPorSigla['EMITIDOS'].resultado;
+                          }
                             //console.log(partidosPorSigla[i]);
                             arrayAuxiliar.push(partidosPorSigla[i]);
                           }
