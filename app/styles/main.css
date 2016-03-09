@@ -1,22 +1,22 @@
 /*@import url(//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,300,400,700);*/
 /*@import url(styles/open-sans.css);*/
 @font-face {
-  font-family: 'Open Sans Light';
+  font-family: 'Lucida Sans';
   font-style: normal;
   font-weight: normal;
-  src: url(../fonts/OpenSans-Light-webfont.ttf) format('truetype');
+  /*src: url(../fonts/OpenSans-Light-webfont.ttf) format('truetype');*/
 }
 @font-face {
-  font-family: 'Open Sans Light';
+  font-family: 'Lucida Sans';
   font-style: italic;
   font-weight: normal;
-  src: url(../fonts/OpenSans-LightItalic.ttf) format('truetype');
+  /*src: url(../fonts/OpenSans-LightItalic.ttf) format('truetype');*/
 }
 
 html, body {
   height: 100%;
   width: 100%;
-  font-family: 'Open Sans Light';
+  font-family: 'Lucida Sans';
 }
 /* Space out content a bit */
 body {
@@ -104,7 +104,7 @@ body {
   }
   .nav > li > a{
     padding: 4px 15px;
-    color: #a5a5a5;
+    color: #a5a5a5; /*años del menu*/
   }
   .col-sm-2.col-xs-3 a:hover{
     z-index: 1;
@@ -116,27 +116,27 @@ body {
     padding-left: 0;
   }
   .nav-anios li ul{
-    background-color: #fff;
+    background-color: #fff; /*fondo año seleccionado*/
     padding-left: 0px;
     font-size: 12px;
   }
   .nav-anios li a:hover{
     border-left: 1px solid #428bca;
     padding-left: 16px;
-    color: #428bca;
+    color: #428bca; /*cambiado*/
     background-color: #fff;
   }
   .nav-anios li a:focus{
     background-color: #fff;
   }
   .nav-anios li ul a:hover{
-    border-left: 1px solid #428bca;
+    border-left: 1px solid #428bca;  /*cambiado*/
     padding-left: 26px;
   }
 
   .nav-anios .active > a{
-    border-left: 2px solid #428bca;
-    color: #1050a0;
+    border-left: 2px solid #428bca; /*el azul*/
+    color: #428bca; /*cambiado*/
     font-weight: bold;
   }
   .nav-anios .active > a:hover{
@@ -213,10 +213,10 @@ body {
     padding: 1px 5px;
   }
   .nav-dpa ul .active {
-    background: #428bca;
+    background: #428bca; /*cambiar*/
   }
   .nav-dpa ul li.active a {
-    background: #428bca;
+    background: #428bca; /*cambiar*/
     color: #fff;
   }
 
