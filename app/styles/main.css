@@ -747,3 +747,29 @@ div[growl] {
 .nav-anios .nav .nav.active{
   display: block;
 }
+
+.headerInfoGral{
+  font-weight: bold;
+  border-bottom-style: solid;
+  border-bottom-color: #bbb;
+  border-bottom-width:medium;
+  padding-bottom: 0.3em;
+}
+.emitidos, .nulos, .blancos, .abstencion, .validos{
+  border-top-style: solid;
+  border-top-color: #ccc;
+  border-top-width: thin;
+}
+.emitidos .dato{
+  text-indent: 2em;
+}
+.nulos .dato, .validos .dato, .blancos .dato{
+  text-indent: 4em;
+}
+
+.valor, .dato{
+  display: inline-block;
+  width: 32%;
+  /*border-style:solid;*/
+
+}

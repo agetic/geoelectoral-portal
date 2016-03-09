@@ -84,60 +84,45 @@
       <torta-bolivia id="torta" class="grafico" data="partidos" tab="{{tab}}" ng-if="isSelected(3)">
       </torta-bolivia>
     </div>
-    <table class="table table-condensed table-hover" ng-if="isSelected(5)">
-    <thead>
-      <tr>
-        <th>
-          Dato
-        </th>
-        <th class="numero" >
-          Valor
-        </th>
-        <th class="numero">
-          %
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr id="partido_{{datosGrales['INSCRITOS'].id_partido}}"  title="{{datosGrales['INSCRITOS'].partido_nombre}} {{datosGrales['INSCRITOS'].observacion}}" data-html="true" data-toggle="tooltip"
-      data-placement="{{$first?'bottom':'top'}}" class="tooltip-tabla" >
+    <div class="datosGrales"  ng-if="isSelected(5)">
+      <div class="headerInfoGral">
+        <span class="dato">Dato</span>
+        <span class="valor numero">Valor</span>
+        <span class="valor numero" >%</span>
+      </div>
+      <div class="inscritos" id="partido_{{datosGrales['INSCRITOS'].id_partido}}"  title="{{datosGrales['INSCRITOS'].partido_nombre}} {{datosGrales['INSCRITOS'].observacion}}">
+        <span class="dato">{{datosGrales['INSCRITOS'].sigla}} {{datosGrales['INSCRITOS'].candidato}}</span>
+        <span class="valor numero">{{datosGrales['INSCRITOS'].resultado | number}}</span>
+        <span class="valor numero" >{{datosGrales['INSCRITOS'].porcentaje | number:2}}%</span>
+        <div class="emitidos" id="partido_{{datosGrales['EMITIDOS'].id_partido}}"  title="{{datosGrales['EMITIDOS'].partido_nombre}} {{datosGrales['EMITIDOS'].observacion}}">
+          <span class="dato">{{datosGrales['EMITIDOS'].sigla}} {{datosGrales['EMITIDOS'].candidato}}</span>
+          <span class="valor numero">{{datosGrales['EMITIDOS'].resultado | number}}</span>
+          <span class="valor numero">{{datosGrales['EMITIDOS'].porcentaje | number:2}}%</span>
+          <div class="validos" id="partido_{{datosGrales['VALIDOS'].id_partido}}"  title="{{datosGrales['VALIDOS'].partido_nombre}} {{datosGrales['VALIDOS'].observacion}}">
+            <span class="dato">{{datosGrales['VALIDOS'].sigla}} {{datosGrales['VALIDOS'].candidato}}</span>
+            <span class="valor numero">{{datosGrales['VALIDOS'].resultado | number}}</span>
+            <span class="valor numero">{{datosGrales['VALIDOS'].porcentaje | number:2}}%</span>
+          </div>
+          <div class="nulos" id="partido_{{datosGrales['NULOS'].id_partido}}"  title="{{datosGrales['NULOS'].partido_nombre}} {{datosGrales['NULOS'].observacion}}">
+            <span class="dato">{{datosGrales['NULOS'].sigla}} {{datosGrales['NULOS'].candidato}}</span>
+            <span class="valor numero">{{datosGrales['NULOS'].resultado | number}}</span>
+            <span class="valor numero">{{datosGrales['NULOS'].porcentaje | number:2}}%</span>
+          </div>
+          <div class="blancos" id="partido_{{datosGrales['BLANCOS'].id_partido}}"  title="{{datosGrales['BLANCOS'].partido_nombre}} {{datosGrales['BLANCOS'].observacion}}">
+            <span class="dato" class="valor">{{datosGrales['BLANCOS'].sigla}} {{datosGrales['BLANCOS'].candidato}}</span>
+            <span class="valor numero">{{datosGrales['BLANCOS'].resultado | number}}</span>
+            <span class="valor numero">{{datosGrales['BLANCOS'].porcentaje | number:2}}%</span>
+          </div>
+        </div>
+        <div class="abstencion" id="partido_{{datosGrales['ABSTENCION'].id_partido}}"  title="{{datosGrales['ABSTENCION'].partido_nombre}} {{datosGrales['ABSTENCION'].observacion}}">
+          <span class="dato">{{datosGrales['ABSTENCION'].sigla}} {{datosGrales['ABSTENCION'].candidato}}</span>
+          <span class="valor numero">{{datosGrales['ABSTENCION'].resultado | number}}</span>
+          <span class="valor numero">{{datosGrales['ABSTENCION'].porcentaje | number:2}}%</span>
+        </div>
+      </div>
+    </div>
 
-        <td><b>{{datosGrales['INSCRITOS'].sigla}} {{datosGrales['INSCRITOS'].candidato}}</b></td>
-        <td class="numero"><b>{{datosGrales['INSCRITOS'].resultado | number}}</b></td>
-        <td class="numero"><b>{{datosGrales['INSCRITOS'].porcentaje | number:2}}%</b></td>
-      </tr>
-
-      <tr id="partido_{{datosGrales['EMITIDOS'].id_partido}}"  title="{{datosGrales['EMITIDOS'].partido_nombre}} {{datosGrales['EMITIDOS'].observacion}}" data-html="true" data-toggle="tooltip"
-      data-placement="{{$first?'bottom':'top'}}" class="tooltip-tabla" >
-
-        <td>{{datosGrales['EMITIDOS'].sigla}} {{datosGrales['EMITIDOS'].candidato}}</td>
-        <td class="numero">{{datosGrales['EMITIDOS'].resultado | number}}</td>
-        <td class="numero">{{datosGrales['EMITIDOS'].porcentaje | number:2}}%</td>
-      </tr>
-      <tr id="partido_{{datosGrales['VALIDOS'].id_partido}}"  title="{{datosGrales['VALIDOS'].partido_nombre}} {{datosGrales['VALIDOS'].observacion}}" data-html="true" data-toggle="tooltip"
-      data-placement="{{$first?'bottom':'top'}}" class="tooltip-tabla" >
-
-        <td>{{datosGrales['VALIDOS'].sigla}} {{datosGrales['VALIDOS'].candidato}}</td>
-        <td class="numero">{{datosGrales['VALIDOS'].resultado | number}}</td>
-        <td class="numero">{{datosGrales['VALIDOS'].porcentaje | number:2}}%</td>
-      </tr>
-      <tr id="partido_{{datosGrales['NULOS'].id_partido}}"  title="{{datosGrales['NULOS'].partido_nombre}} {{datosGrales['NULOS'].observacion}}" data-html="true" data-toggle="tooltip"
-      data-placement="{{$first?'bottom':'top'}}" class="tooltip-tabla" >
-
-        <td>{{datosGrales['NULOS'].sigla}} {{datosGrales['NULOS'].candidato}}</td>
-        <td class="numero">{{datosGrales['NULOS'].resultado | number}}</td>
-        <td class="numero">{{datosGrales['NULOS'].porcentaje | number:2}}%</td>
-      </tr>
-      <tr id="partido_{{datosGrales['BLANCOS'].id_partido}}"  title="{{datosGrales['BLANCOS'].partido_nombre}} {{datosGrales['BLANCOS'].observacion}}" data-html="true" data-toggle="tooltip"
-      data-placement="{{$first?'bottom':'top'}}" class="tooltip-tabla" >
-
-        <td>{{datosGrales['BLANCOS'].sigla}} {{datosGrales['BLANCOS'].candidato}}</td>
-        <td class="numero">{{datosGrales['BLANCOS'].resultado | number}}</td>
-        <td class="numero">{{datosGrales['BLANCOS'].porcentaje | number:2}}%</td>
-      </tr>
-    </tbody>
-
-  </table>
+    
   </div>
 </div>
   <!-- EstadisticS -->
