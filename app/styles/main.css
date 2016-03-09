@@ -760,7 +760,7 @@ div[growl] {
   border-top-color: #ccc;
   border-top-width: thin;
 }
-.emitidos .dato{
+.emitidos .dato, .abstencion .dato{
   text-indent: 2em;
 }
 .nulos .dato, .validos .dato, .blancos .dato{
