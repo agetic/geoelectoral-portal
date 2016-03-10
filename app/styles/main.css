@@ -104,7 +104,7 @@ body {
   }
   .nav > li > a{
     padding: 4px 15px;
-    color: #a5a5a5; /*años del menu*/
+    color: #a5a5a5; 
   }
   .col-sm-2.col-xs-3 a:hover{
     z-index: 1;
@@ -116,36 +116,36 @@ body {
     padding-left: 0;
   }
   .nav-anios li ul{
-    background-color: #fff; /*fondo año seleccionado*/
+    background-color: #fff;
     padding-left: 0px;
     font-size: 12px;
   }
   .nav-anios li a:hover{
-    border-left: 1px solid #428bca;
+    border-left: 1px solid #330033;
     padding-left: 16px;
-    color: #428bca; /*cambiado*/
+    color: #330033; /*cambiado*/
     background-color: #fff;
   }
   .nav-anios li a:focus{
     background-color: #fff;
   }
   .nav-anios li ul a:hover{
-    border-left: 1px solid #428bca;  /*cambiado*/
+    border-left: 1px solid #330033;  /*cambiado*/
     padding-left: 26px;
   }
 
   .nav-anios .active > a{
-    border-left: 2px solid #428bca; /*el azul*/
-    color: #428bca; /*cambiado*/
+    border-left: 2px solid #330033; /*el azul*/
+    color: #330033; /*cambiado*/
     font-weight: bold;
   }
   .nav-anios .active > a:hover{
-    border-left: 2px solid #428bca;
+    border-left: 2px solid #330033;
     padding-left: 15px;
-    color: #1050a0;
+    color: #330033; /*para el año que esta activo*/
   }
   .nav-anios li ul .active a:hover{
-    border-left: 2px solid #428bca;
+    border-left: 2px solid #330033;
     padding-left: 25px;
   }
   .nav-anios .active > ul{
@@ -171,19 +171,19 @@ body {
   }
   .nav-anios ul.nav li.active{
     padding-left: 23px;
-    color: #428bca;
-    border-left: 2px solid #428bca;
+    color: #330033;
+    border-left: 2px solid #330033;
     font-weight: bold;
   }
   .nav-anios ul.nav li.active:hover{
     padding-left: 23px;
-    border-left: 2px solid #428bca;
-    color: #428bca;
+    border-left: 2px solid #330033;
+    color: #330033;
   }
   .nav-anios ul.nav li:hover{
     padding-left: 26px;
-    border-left: 1px solid #428bca;
-    color: #428bca;
+    border-left: 1px solid #330033;
+    color: #330033;
   }
 
   /* Botones de seleccion de tipos dpa */
@@ -200,8 +200,8 @@ body {
   .nav-dpa ul li {
     margin: 0;
     display: inline-block;
-    background: #abcdef;
-    border: 1px solid #fff;
+    background: #fff;
+    border: 1px solid #999;
     border-radius: 3px;
     cursor: pointer;
     list-style: none;
@@ -211,12 +211,17 @@ body {
     padding: 0px;
     border-radius: 3px;
     padding: 1px 5px;
+    color: #999;
+  }
+  .nav-dpa ul li:hover a {  
+    background: #fff;
+    color: #330033;
   }
   .nav-dpa ul .active {
-    background: #428bca; /*cambiar*/
+    background: #330033; 
   }
   .nav-dpa ul li.active a {
-    background: #428bca; /*cambiar*/
+    background: #330033; 
     color: #fff;
   }
 
@@ -295,7 +300,7 @@ body {
   }
   /* Título Elecciones */
   .logo-adsib img {
-    height: 50px;
+    height: 70px;
   }
   .titulo {
     /*float: left;*/
@@ -417,7 +422,7 @@ body {
   }
   /* Space out the masthead */
   .btn-anios{
-    color: #428bca;
+    color: #330033;
     display: block;
     font-size: 1.5em;
     padding-top: 0;
@@ -487,7 +492,7 @@ body {
   .nav-dpa ul li {
     display: block;
     line-height: 18px;
-  }
+  } 
 }
 /* Estadísticas */
 .statistics .numero {
@@ -648,32 +653,34 @@ svg .hover:hover {
   margin-left: -1px;
 }
 .breadcrumb li svg path {
-  fill: #abcdef;
+  fill: #fff; /*atenuacion de path abajo abcdef*/
+  stroke: #999;
 }
 .breadcrumb li:hover a {
-  background: #abcdef;
-  color: #6E94C9;
+  background: #fff;
+  color: #330033;
 }
 .breadcrumb li:hover svg path {
-  fill: #abcdef;
+  fill: #fff; /*cuando asoma flecha*/ 
 }
 .breadcrumb li.active a {
-  background: #428bca;
+  background: #330033;
   color: #fff;
 }
 .breadcrumb li.active svg path {
-  fill: #428bca;
+  fill: #330033;
 }
 
 .breadcrumb li a{
   line-height: 32px;
   vertical-align: top;
-  color: #408FD8;
-  background: #abcdef;
+  color: #808090;/*#408FD8; letras atenuadas*/
+  background: #fff;
   display: inline-block;
   padding-left: 20px;
   padding-right: 2px;
   text-decoration: none;
+  border: 1px solid #999;
 }
 
 
