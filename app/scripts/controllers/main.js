@@ -348,7 +348,7 @@ angular.module('geoelectoralFrontendApp')
                         tipo = 'Elecciones Judiciales Tribunal Supremo de Justicia';
                         break;
                     case 26:
-                        tipo = 'Referendo Constitucional al 99,81% - OEP';
+                        tipo = 'Referendo Constitucional';
                         break;
                 }
                 //tipo=tipo.replace(' ',' ');
@@ -696,6 +696,7 @@ angular.module('geoelectoralFrontendApp')
                         if (response[2].data.dpas) { // En vista recintos adicionar el dpa superior
                             response[1].data.dpas.push(response[2].data.dpas[0]);
                         }
+                        //$scope.informacion = response[1].data.eleccion.informacion;//INFORMACION
                         //$scope.eleccion = response[1].data.eleccion;
                         $scope.dpaGeoJSON = reducePorAnio(response[0]);
                         $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
@@ -750,7 +751,8 @@ angular.module('geoelectoralFrontendApp')
                             $scope.eleccion.fecha = response[1].data.eleccion.fecha;
                         if (response[2].data.dpas) { // En vista recintos adicionar el dpa superior
                             response[1].data.dpas.push(response[2].data.dpas[0]);
-                        }
+                        }     
+                        //$scope.informacion = response[1].data.eleccion.informacion;
                         $scope.dpaGeoJSON = reducePorAnio(response[0]);
                         $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
                         $scope.partidosDepartamento = reducirDpasVista($scope.partidosDepartamento);
@@ -771,7 +773,7 @@ angular.module('geoelectoralFrontendApp')
                             if (l.anio == $scope.anio) {
                                 l.tipos_eleccion.forEach(function (t) {
                                     if (t.id_tipo_eleccion == $scope.currentDpa.idTipoEleccion) {
-                                        $scope.ctiposDpa = t;
+                                        $scope.ctiposDpa = t;                                        
                                     }
                                 });
                             }
