@@ -1,22 +1,22 @@
 /*@import url(//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,300,400,700);*/
 /*@import url(styles/open-sans.css);*/
 @font-face {
-  font-family: 'Lucida Sans';
+  font-family: 'OpenSans-Light-webfont';
   font-style: normal;
   font-weight: normal;
-  /*src: url(../fonts/OpenSans-Light-webfont.ttf) format('truetype');*/
+  src: url(../fonts/OpenSans-Light-webfont.ttf) format('truetype');
 }
 @font-face {
-  font-family: 'Lucida Sans';
+  font-family: 'OpenSans-LightItalic';
   font-style: italic;
   font-weight: normal;
-  /*src: url(../fonts/OpenSans-LightItalic.ttf) format('truetype');*/
+  src: url(../fonts/OpenSans-LightItalic.ttf) format('truetype');
 }
 
 html, body {
   height: 100%;
   width: 100%;
-  font-family: 'Lucida Sans';
+  font-family: 'OpenSans-Ligth';
 }
 /* Space out content a bit */
 body {
@@ -300,14 +300,14 @@ body {
   }
   /* Título Elecciones */
   .logo-adsib img {
-    height: 70px;
+    height: 78px;
   }
   .titulo {
     /*float: left;*/
     margin-top: 5px;
     /*margin-bottom: 0px;*/
     margin-right: 33%;
-    padding-left: 225px;
+    padding-left: 200px;
   }
   .nav-pestana768{
     display: none;
@@ -379,6 +379,7 @@ body {
   }
   .logo-adsib img {
     height: 32px;
+    background-color: #ffffff;
   }
   #header-titulo .titulo{
     padding-left: 152px;
@@ -779,4 +780,17 @@ div[growl] {
   width: 32%;
   /*border-style:solid;*/
 
+}
+
+.headerInfoMas{
+  font-weight: bold;
+  border-bottom-style: solid;
+  border-bottom-color: #bbb;
+  border-bottom-width:medium;
+  padding-top: 0.5em;
+  padding-bottom: 0.3em;
+}  
+.informacion{
+  border-bottom-width:medium;
+  padding-bottom: 0.3em;
 }
