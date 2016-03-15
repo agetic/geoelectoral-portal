@@ -16,7 +16,7 @@
 html, body {
   height: 100%;
   width: 100%;
-  font-family: 'OpenSans-Ligth';
+  font-family: 'Open Sans', sans-serif;
 }
 /* Space out content a bit */
 body {
@@ -787,10 +787,15 @@ div[growl] {
   border-bottom-style: solid;
   border-bottom-color: #bbb;
   border-bottom-width:medium;
-  padding-top: 0.5em;
+  border-top-style: solid;
+  border-top-color: #999;
+  border-top-width:medium;
+  padding-top: 1.0em;
   padding-bottom: 0.3em;
 }  
 .informacion{
   border-bottom-width:medium;
   padding-bottom: 0.3em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
 }

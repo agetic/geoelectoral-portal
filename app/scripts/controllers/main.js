@@ -696,7 +696,7 @@ angular.module('geoelectoralFrontendApp')
                         if (response[2].data.dpas) { // En vista recintos adicionar el dpa superior
                             response[1].data.dpas.push(response[2].data.dpas[0]);
                         }
-                        //$scope.informacion = response[1].data.eleccion.informacion;//INFORMACION
+                        $scope.informacion = response[1].data.eleccion.informacion;//INFORMACION
                         //$scope.eleccion = response[1].data.eleccion;
                         $scope.dpaGeoJSON = reducePorAnio(response[0]);
                         $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);

@@ -86,7 +86,7 @@
     </div>
     <div class="datosGrales"  ng-if="isSelected(5)">
       <div class="headerInfoGral">
-        <span class="dato">Dato</span>
+        <span class="dato">Datos</span>
         <span class="valor numero">Valor</span>
         <span class="valor numero" >%</span>
       </div>
@@ -120,6 +120,15 @@
           <span class="valor numero">{{datosGrales['ABSTENCION'].porcentaje | number:2}}%</span>
         </div>
       </div>
+        <div ng-if="informacion!=='' && informacion !== null">
+        <div class="headerInfoMas">
+          <span class="dato">Información</span>
+                   
+      </div>
+        <div class="informacion">
+            <p class="informacion">{{informacion}}</p>
+        </div>
+        </div>
     </div>
 
     
