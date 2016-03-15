@@ -473,8 +473,8 @@ angular.module('geoelectoralFrontendApp')
                     total += p.resultado;
                 });
                 partidos.forEach(function (p) {
-                    //p.porcentaje = Math.ceil((p.resultado / total) * 100 * 100) / 100;
-                    p.porcentaje = 0;
+                    p.porcentaje = Math.ceil((p.resultado / total) * 100 * 100) / 100;
+                    //p.porcentaje = 0;
                 });
                 return partidos;
             };
@@ -817,8 +817,8 @@ angular.module('geoelectoralFrontendApp')
                             });
                     });
                 totalPartidos.forEach(function (totalp, i) {
-                    //totalPartidos[i].porcentaje = parseInt(totalp.resultado / totalVotosP * 10000)/100;
-                    totalPartidos[i].porcentaje = 0;
+                    totalPartidos[i].porcentaje = parseInt(totalp.resultado / totalVotosP * 10000)/100;
+                    //totalPartidos[i].porcentaje = 0;
                 });
                 return totalPartidos;
             }
