@@ -72,7 +72,7 @@
         </tr>
       </tbody>
     </table>
-    <a id="linkcsv" type="button" ng-csv="getPartidosTable()" filename="partidos.csv" ng-if="isSelected(1)" decimal-separator="," field-separator=";">Descargar CSV (Tabla)</a>
+    <a id="linkcsv" type="button" ng-href= {{url_descarga_csv}}  ng-if="isSelected(1)" target="_self">Descargar CSV (Totales)</a>
     <a id="linkcsv" type="button" ng-csv="getDpaTable()" filename="{{getEleccion()}} - {{getLugar()}}.csv" ng-if="isSelected(1)" decimal-separator="," field-separator=";" class="pull-right">Descargar CSV (Mapa)  .</a>
     <!-- Barras -->
     <div>
@@ -84,54 +84,68 @@
       <torta-bolivia id="torta" class="grafico" data="partidos" tab="{{tab}}" ng-if="isSelected(3)">
       </torta-bolivia>
     </div>
-    <div class="datosGrales"  ng-if="isSelected(5) && mostrarDatosGenerales"> 
+
+    <div class="datosGrales"  ng-if="isSelected(5) && mostrarDatosGenerales">
       <div class="headerInfoGral">
         <span class="dato">Datos</span>
         <span class="valor numero">Valor</span>
         <span class="valor numero" >%</span>
       </div>
-      <div class="inscritos" id="partido_{{datosGrales['INSCRITOS'].id_partido}}"  title="{{datosGrales['INSCRITOS'].partido_nombre}} {{datosGrales['INSCRITOS'].observacion}}">
+      <div class="inscritos tooltip-tabla" id="partido_{{datosGrales['INSCRITOS'].id_partido}}"  title="{{datosGrales['INSCRITOS'].partido_nombre}} {{datosGrales['INSCRITOS'].observacion}}"  data-html="true" ng-click="seleccionarPadron()">
         <span class="dato">{{datosGrales['INSCRITOS'].sigla}} {{datosGrales['INSCRITOS'].candidato}}</span>
         <span class="valor numero">{{datosGrales['INSCRITOS'].resultado | number}}</span>
         <span class="valor numero" >{{datosGrales['INSCRITOS'].porcentaje | number:2}}%</span>
-        <div class="emitidos" id="partido_{{datosGrales['EMITIDOS'].id_partido}}"  title="{{datosGrales['EMITIDOS'].partido_nombre}} {{datosGrales['EMITIDOS'].observacion}}">
+      </div>
+        <div class="emitidos tooltip-tabla" id="partido_{{datosGrales['EMITIDOS'].id_partido}}"  title="{{datosGrales['EMITIDOS'].partido_nombre}} {{datosGrales['EMITIDOS'].observacion}}" data-html="true">
           <span class="dato">{{datosGrales['EMITIDOS'].sigla}} {{datosGrales['EMITIDOS'].candidato}}</span>
           <span class="valor numero">{{datosGrales['EMITIDOS'].resultado | number}}</span>
           <span class="valor numero">{{datosGrales['EMITIDOS'].porcentaje | number:2}}%</span>
-          <div class="validos" id="partido_{{datosGrales['VALIDOS'].id_partido}}"  title="{{datosGrales['VALIDOS'].partido_nombre}} {{datosGrales['VALIDOS'].observacion}}">
+        </div>
+          <div class="validos tooltip-tabla" id="partido_{{datosGrales['VALIDOS'].id_partido}}"  title="{{datosGrales['VALIDOS'].partido_nombre}} {{datosGrales['VALIDOS'].observacion}}" data-html="true">
             <span class="dato">{{datosGrales['VALIDOS'].sigla}} {{datosGrales['VALIDOS'].candidato}}</span>
             <span class="valor numero">{{datosGrales['VALIDOS'].resultado | number}}</span>
             <span class="valor numero">{{datosGrales['VALIDOS'].porcentaje | number:2}}%</span>
           </div>
-          <div class="nulos" id="partido_{{datosGrales['NULOS'].id_partido}}"  title="{{datosGrales['NULOS'].partido_nombre}} {{datosGrales['NULOS'].observacion}}">
+
+          <div class="nulos tooltip-tabla" id="partido_{{datosGrales['NULOS'].id_partido}}"  title="{{datosGrales['NULOS'].partido_nombre}} {{datosGrales['NULOS'].observacion}}" data-html="true">
             <span class="dato">{{datosGrales['NULOS'].sigla}} {{datosGrales['NULOS'].candidato}}</span>
             <span class="valor numero">{{datosGrales['NULOS'].resultado | number}}</span>
             <span class="valor numero">{{datosGrales['NULOS'].porcentaje | number:2}}%</span>
           </div>
+
+          <div class="blancos tooltip-tabla" id="partido_{{datosGrales['BLANCOS'].id_partido}}"  title="{{datosGrales['BLANCOS'].partido_nombre}} {{datosGrales['BLANCOS'].observacion}}" data-html="true" >
+            <span class="dato" class="valor">{{datosGrales['BLANCOS'].sigla}} {{datosGrales['BLANCOS'].candidato}}</span>
           <div class="blancos" id="partido_{{datosGrales['BLANCOS'].id_partido}}"  title="{{datosGrales['BLANCOS'].partido_nombre}} {{datosGrales['BLANCOS'].observacion}}">
             <span class="dato">{{datosGrales['BLANCOS'].sigla}} {{datosGrales['BLANCOS'].candidato}}</span>
             <span class="valor numero">{{datosGrales['BLANCOS'].resultado | number}}</span>
             <span class="valor numero">{{datosGrales['BLANCOS'].porcentaje | number:2}}%</span>
           </div>
-        </div>
-        <div class="abstencion" id="partido_{{datosGrales['ABSTENCION'].id_partido}}"  title="{{datosGrales['ABSTENCION'].partido_nombre}} {{datosGrales['ABSTENCION'].observacion}}">
+
+        <div class="abstencion tooltip-tabla" id="partido_{{datosGrales['ABSTENCION'].id_partido}}"  title="{{datosGrales['ABSTENCION'].partido_nombre}} {{datosGrales['ABSTENCION'].observacion}}" data-html="true" >
           <span class="dato">{{datosGrales['ABSTENCION'].sigla}} {{datosGrales['ABSTENCION'].candidato}}</span>
           <span class="valor numero">{{datosGrales['ABSTENCION'].resultado | number}}</span>
           <span class="valor numero">{{datosGrales['ABSTENCION'].porcentaje | number:2}}%</span>
         </div>
+
+    </div>
+<p ng-if="{{!descripcion}}">
+  {{descripcion}}
+</p>
+
       </div>
         <div ng-if="informacion!=='' && informacion !== null">
         <div class="headerInfoMas">
           <span class="dato">Información</span>
-                   
+
       </div>
         <div class="informacion">
             <p class="informacion">{{informacion}}</p>
         </div>
         </div>
     </div>
-    
-    
+
+
+
   </div>
 </div>
   <!-- EstadisticS -->
@@ -144,12 +158,12 @@
           </li>
 
       </ul>
-  </div> 
+  </div>
       <div class="navegacionMapa" id="navegacion_mobile" ng-show="isSelected(6)">
-          <div class="navegacionDpa"  ng-if="isSelected(6)"> 
+          <div class="navegacionDpa"  ng-if="isSelected(6)">
               <div class="opcion-navegacion">
                   Nivel de visualización:
-             
+
               <div class="pull-right">
                     <button type="button" class="btn btn-default"  ng-click="selectTab(4)">
                         <span class="glyphicon glyphicon-remove"></span>
@@ -157,7 +171,7 @@
 
               </div>
                </div>
-               
+
               <!--Migas de pan para mobile-->
               <div class="mobile">
               <ol id="mapa-breadcrumb" bread-crumbs ng-show="isSelected(6)"></ol>
@@ -183,9 +197,9 @@
               </div>
               </div>
           </div>
-        </div>    
+        </div>
   </div>
-  
+
     <div id="menu-anios" > <!--ng-show="isSelected(4)"-->
     <button class="btn btn-default btn-anios" type="button" data-toggle="dropdown"> {{anio}} - {{getEleccion()}}
     <span class="caret"></span>
@@ -201,8 +215,8 @@
     </li>
   </ul>
 </div>
-  
- 
+
+
 <!--<div id="menu-anios" ng-show="isSelected(4)">
     <button class="btn btn-default btn-anios" type="button" data-toggle="dropdown"> {{anio}} - {{getEleccion()}}
     <span class="caret"></span>
@@ -217,8 +231,8 @@
       </ul>
     </li>
   </ul>
-</div>  
--->  
+</div>
+-->
 <div class="nav-dpa">
   <ul><!-- Por ahora no se muestra la vista por recintos en toda Bolivia ni por mesas (ng-if)-->
     <li ng-repeat="a in ctiposDpa.id_tipos_dpa"
@@ -237,5 +251,4 @@
     </li>
   </ul>
 </div>
-
 <div id="tooltip-mapa"></div>
