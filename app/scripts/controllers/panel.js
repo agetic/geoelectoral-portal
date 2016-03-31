@@ -20,6 +20,15 @@ angular.module('geoelectoralFrontendApp')
       return $scope.tab === checkTab;
     };
     
+    $scope.isActiveTab = function(setTab,checkTab) {
+        if($scope.tab === setTab){
+            $scope.tab = checkTab;
+        }else{
+            $scope.tab = setTab;
+        }
+      
+    };
+    
     var w = angular.element($window);
     $scope.getWindowDimensions = function () {
         //$('.dropdown-submenu > a').submenupicker();

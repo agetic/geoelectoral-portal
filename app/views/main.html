@@ -34,25 +34,25 @@
         </li>
         <li ng-class="{active: isSelected(2)}">
           <!-- Bar Graph by Simple Icons from The Noun Project -->
-          <a href ng-click="selectTab(2)"><img src="images/icon_bar.svg" width="32" alt="Barras" title="Barras"></a>
+          <a href ng-click="isActiveTab(2,100)"><img src="images/icon_bar.svg" width="32" alt="Barras" title="Barras"></a>
         </li>
         <li ng-class="{active: isSelected(3)}">
           <!-- pie chart by Pham Thi Dieu Linh from The Noun Project -->
-          <a href ng-click="selectTab(3)"><img src="images/icon_pie.svg" width="32" alt="Torta" title="Torta"></a>
+          <a href ng-click="isActiveTab(3,100)"><img src="images/icon_pie.svg" width="32" alt="Torta" title="Torta"></a>
         </li>
         <li ng-class="{active: isSelected(1)}">
           <!-- Spreadsheet by dw from The Noun Project -->
-          <a href ng-click="selectTab(1)"><img src="images/icon_table.svg" width="32" alt="Tabla" title="Tabla"></a>
+          <a href ng-click="isActiveTab(1,100)"><img src="images/icon_table.svg" width="32" alt="Tabla" title="Tabla"></a>
         </li>
         <li ng-if="mostrarDatosGenerales" ng-class="{active: isSelected(5)}">
           <!-- Spreadsheet by dw from The Noun Project -->
-          <a href ng-click="selectTab(5)"><img src="images/icon_info.svg" width="32" alt="Datos generales" title="Datos generales"></a>
+          <a href ng-click="isActiveTab(5,100)"><img src="images/icon_info.svg" width="32" alt="Datos generales" title="Datos generales"></a>
         </li>
       </ul>
     </div>
   <div class="description" id="no_desborde">
     <!-- Tabla -->
-    <table class="table table-condensed table-hover" ng-if="isSelected(1)">
+    <table class="table table-condensed table-hover" ng-if="isSelected(1)" ng-hide="isSelected(100)">
       <thead>
         <tr>
           <th></th>
@@ -75,16 +75,16 @@
     <a id="linkcsv" type="button" ng-csv="getPartidosTable()" filename="partidos.csv" ng-if="isSelected(1)" decimal-separator="," field-separator=";">Descargar CSV (Tabla)</a>
     <a id="linkcsv" type="button" ng-csv="getDpaTable()" filename="{{getEleccion()}} - {{getLugar()}}.csv" ng-if="isSelected(1)" decimal-separator="," field-separator=";" class="pull-right">Descargar CSV (Mapa)  .</a>
     <!-- Barras -->
-    <div>
+    <div ng-hide="isSelected(100)">
       <barras-bolivia class="grafico" data="partidos" tab="{{tab}}" ng-if="isSelected(2)">
       </barras-bolivia>
     </div>
     <!-- Torta -->
-    <div id="alternado">
+    <div id="alternado" ng-hide="isSelected(100)">
       <torta-bolivia id="torta" class="grafico" data="partidos" tab="{{tab}}" ng-if="isSelected(3)">
       </torta-bolivia>
     </div>
-    <div class="datosGrales"  ng-if="isSelected(5) && mostrarDatosGenerales"> 
+    <div class="datosGrales"  ng-if="isSelected(5) && mostrarDatosGenerales" ng-hide="isSelected(100)"> 
       <div class="headerInfoGral">
         <span class="dato">Datos</span>
         <span class="valor numero">Valor</span>
