@@ -52,7 +52,7 @@ body {
 #menu-anios {
   border-radius: 4px;
   position: absolute;
-  width: 140px;
+  width: 194px;
   top: 80px;
   background: #fff;
   opacity: .7;
@@ -112,7 +112,7 @@ body {
   .nav-anios{
     left: auto;
     min-width: 132px;
-    max-width: 140px;
+    max-width: 192px;
     padding-left: 0;
   }
   .nav-anios li ul{
@@ -189,7 +189,7 @@ body {
   /* Botones de seleccion de tipos dpa */
   .nav-dpa {
     position: absolute;
-    bottom: 25px;
+    bottom: 1px;
   }
   .nav-dpa a {
     text-decoration: none;
@@ -230,13 +230,56 @@ body {
 .breadcrumb {
   margin-bottom: 0;
   padding: 0;
-  background-color: transparent;
+  background-color: transparent;  
 }
+
+/* breadcrumb separator */
+.breadcrumb > li + li:before {
+  /*content: "\003E";*/
+ content: "";
+ padding: 0;
+ margin-left: -16px;
+}
+.breadcrumb li svg {
+  position: relative;
+  margin-left: -1px;
+}
+.breadcrumb li svg path {
+  fill: #fff; /*atenuacion de path abajo abcdef*/
+  stroke: #999;
+}
+.breadcrumb li:hover a {
+  background: #fff;
+  color: #330033;
+}
+.breadcrumb li:hover svg path {
+  fill: #fff; /*cuando asoma flecha*/ 
+}
+.breadcrumb li.active a {
+  background: #330033;
+  color: #fff;
+}
+.breadcrumb li.active svg path {
+  fill: #330033;
+}
+
+.breadcrumb li a{
+  line-height: 32px;
+  vertical-align: top;
+  color: #808090;/*#408FD8; letras atenuadas*/
+  background: #fff;
+  display: inline-block;
+  padding-left: 20px;
+  padding-right: 2px;
+  text-decoration: none;
+  border: 1px solid #999;
+}
+
 #mapa-breadcrumb{
   position: absolute;
   top: auto;
   left: 5px;
-  bottom: 1px;
+  bottom: 40px;
   overflow: hidden;
   z-index: 2;
 }
@@ -286,11 +329,40 @@ body {
 .marketing p + h4 {
   margin-top: 28px;
 }
-@media screen and (min-width: 768px) and (max-width: 1024px) {
+
+/* Estadísticas */
+.statistics .numero {
+  text-align: right;
+}
+.statistics h3 {
+  margin-top: 0px;
+}
+.statistics table .bandera {
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  width: 20px;
+  height: 20px;
+}
+.statistics table .seleccionado {
+  border-radius: 0px !important;
+}
+
+  #logo-desktop{
+    background-color: transparent;  
+  }
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {  
   .footer {
     font-size: 10px;
     width: 360px;
     margin: -3px auto;
+  }
+  .nav-pestana768_titulo{
+      display: none;
+  }
+  #logo-mobile{
+      display: none;
   }
 }
 @media screen and (min-width: 768px) {
@@ -300,7 +372,14 @@ body {
   }
   /* Título Elecciones */
   .logo-adsib img {
-    height: 78px;
+    width:192px;    
+    background-color: transparent;
+  } 
+  .logo-adsib a{
+      background-color: transparent;
+  }
+  .logo-adsib a:hover{
+      background-color: transparent;
   }
   .titulo {
     /*float: left;*/
@@ -357,7 +436,7 @@ body {
   }
   .leaflet-top.leaflet-left {
     top: 71px;
-    left: 132px !important;
+    left: 190px !important;
   }
   #tab-map{
     display: none;
@@ -370,38 +449,54 @@ body {
   .leaflet-bottom.leaflet-right {
     opacity: .7;
   }
+  .nav-pestana768_titulo{
+      display: none;
+  }
+  #logo-mobile{
+      display: none;
+  }
+
 }
 /* Responsive: Portrait tablets and down 768 */
 @media screen and (max-width: 767px) {
   .header{
     width: 100%;
-    margin-top: -100px;
+    margin-top: -100px;    
   }
-  .logo-adsib img {
-    height: 32px;
-    background-color: #ffffff;
+  .logo-adsib img{
+    height: 45px;
+    background-color: #ffffff;   
   }
+ .logo-agetic-768 img {
+    height: 29px;
+    background-color: #ffffff;    
+  } 
   #header-titulo .titulo{
-    padding-left: 152px;
+    /*padding-left: 152px;
     margin-top: 0;
-    font-size: 13px;
+    font-size: 13px;*/
+    display: none;
   }
   .nav-pestana{
     display: none;
   }
   .nav-pestana768{
     position: absolute;
-    top: 61px;
+    bottom: 0.5px;
     left: 0px;
     clear: both;
-    z-index: 3;
+    z-index: 3;      
   }
 
   #menu-anios {
-    top: 106px;
+    top: 2px;
+    /*right: 29px;*/
     background: none;
     height: auto;
     bottom: auto;
+    width: auto;
+    left:48px;
+    
   }
   #fondo-mapa{
     padding-top: 125px;
@@ -423,12 +518,17 @@ body {
   }
   /* Space out the masthead */
   .btn-anios{
-    color: #330033;
+    color: #000;
     display: block;
-    font-size: 1.5em;
-    padding-top: 0;
-    padding-bottom: 0;
+    font-size: 0.9em;
+    padding-top: 1px;
+    padding-bottom: 1px;   
     border: none;
+    text-align: justify;
+    height: 45px;
+    width: auto;
+    background-color: #fff;
+    white-space: normal;
   }
   .nav-anios .active > a{
     background: #fff;
@@ -438,7 +538,7 @@ body {
   }
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
-    border-bottom: 0;
+    border-bottom: 0;        
   }
   .leaflet-top.leaflet-left {
     top: 55px;
@@ -449,9 +549,9 @@ body {
     position: absolute;
     background: #fff;
     width: 100%;
-    bottom: 10px;
-    top: 103px;
-    z-index: 1001;
+    bottom: 42px;   
+    z-index: 1001;   
+    font-size: 0.8em;
   }
   body {
     padding-bottom: 0px;
@@ -470,6 +570,7 @@ body {
     background: #fff;
     width: 100%;
     padding-right: 10px;
+    height:50px;
   }
   .geoelectoral-titulo {
     margin-top: 5px;
@@ -486,32 +587,197 @@ body {
     width: 200px;
   }
   .nav-dpa {
-    font-size: 10px;
-    bottom: auto;
-    top: 138px;
+  
+    display: none;
   }
   .nav-dpa ul li {
     display: block;
     line-height: 18px;
   } 
+ 
+.nav-pills > li.active > a, 
+.nav-pills > li.active > a:hover, 
+.nav-pills > li.active > a:focus  {
+    
+    background-color: #fff;
 }
-/* Estadísticas */
-.statistics .numero {
-  text-align: right;
+.nav-anios {
+    min-width: 132px;
+    max-width: 270px;
 }
-.statistics h3 {
-  margin-top: 0px;
+#no_desborde {
+   /*font-size: 0.8em;*/
+   max-height: 400px;
+   min-width: 300px;
+   max-width: 400px;
+   overflow: auto;
 }
-.statistics table .bandera {
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  border-radius: 20px;
-  width: 20px;
-  height: 20px;
+.nav-pestana768_titulo {
+    display: block;
+    font-size: 0.9em;
+    padding-top: 1px;
+    padding-bottom: 1px;   
+    text-align: justify;
+    background-color: transparent;
+    white-space: normal;
+    top: 65px;
+    position: absolute;
+    left: 7px;
+    clear: both;
+    z-index: 3; 
+    max-width: 150px;
+  }
+  .caret-right {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 2px;
+  vertical-align: middle;
+  border-left: 4px solid;
+  border-bottom: 4px solid transparent;
+  border-top: 4px solid transparent;
 }
-.statistics table .seleccionado {
-  border-radius: 0px !important;
+.nav-pestana768_titulo .nav > li > a{
+    background-color: transparent;
+    padding: 4px 15px;
+    color: #000;
+    border-color: #fff;  
 }
+ 
+.menu-dpa .navegacionMapa{
+    opacity: 0.9;
+    position: absolute;
+    background: #fff;
+    width: 80%;
+    top: 112px;
+    left: 20px;
+    z-index: 101;   
+    font-size: 1em;
+    height: 350px;
+  }
+  .dpa-container{
+      position: relative;
+    top: 150px;
+  }
+  .nav-dpa-mobile {
+    font-size: 1.1em;
+    top: auto;
+  }
+  .nav-dpa-mobile ul li {
+    display: block;
+    line-height: 25px;
+    margin: 0;
+    background: #fff;
+    border: 1px solid #999;
+    border-radius: 3px;
+    cursor: pointer;
+    list-style: none;
+    width: 125px;
+  } 
+  .nav-dpa-mobile a {
+    text-decoration: none;
+  }
+  .nav-dpa-mobile ul {
+    padding: 5px;
+  }
+ 
+  .nav-dpa-mobile ul li a {
+    padding: 0px;
+    border-radius: 3px;
+    padding: 1px 5px;
+    color: #999;
+  }
+  .nav-dpa-mobile ul li:hover a {  
+    background: #fff;
+    color: #330033;
+  }
+  .nav-dpa-mobile ul .active {
+    background: #330033; 
+  }
+  .nav-dpa-mobile ul li.active a {
+    background: #330033; 
+    color: #fff;
+  }
+ 
+  .mobile{
+      top: 30px; 
+      left: 5px;
+      overflow: hidden;
+      margin-top: 30px;
+      height: auto;
+      
+  }
+  #mapa-breadcrumb{
+      top: 30px;
+  }
+.breadcrumb > li {
+    display: block;
+}
+  
+  .breadcrumb-mobile {
+  margin-bottom: 0;
+  padding: 0;
+  background-color: transparent;  
+}
+
+ breadcrumb separator 
+.breadcrumb-mobile > li + li:before {
+ content: "";
+ padding: 0;
+ margin-left: -16px;
+}
+.breadcrumb-mobile li svg {
+  position: relative;
+  margin-left: -1px;
+}
+.breadcrumb-mobile li svg path {
+  fill: #fff; 
+  stroke: #999;
+}
+.breadcrumb-mobile li:hover a {
+  background: #fff;
+  color: #330033;
+}
+.breadcrumb-mobile li:hover svg path {
+  fill: #fff;
+}
+.breadcrumb-mobile li.active a {
+  background: #330033;
+  color: #fff;
+}
+.breadcrumb-mobile li.active svg path {
+  fill: #330033;
+}
+
+.breadcrumb-mobile li a{
+  line-height: 32px;
+  vertical-align: top;
+  color: #808090;
+  background: #fff;
+  display: inline-block;
+  padding-left: 20px;
+  padding-right: 2px;
+  text-decoration: none;
+  border: 1px solid #999;
+}
+
+#logo-desktop{
+      display: none;
+  }
+
+  .botonX{
+      right: 5px !important;
+  }
+  .opcion-navegacion{
+      top: 5px;
+      left: 5px;
+      margin-left: 5px;
+   }
+  
+}
+/*FIN responsive: Portrait tablets and down 768*/
+
+
 
 
 /* Tooltip */
@@ -642,47 +908,6 @@ svg .hover:hover {
   background-color: none;
 }
 
-/* breadcrumb separator */
-.breadcrumb > li + li:before {
-  /*content: "\003E";*/
- content: "";
- padding: 0;
- margin-left: -16px;
-}
-.breadcrumb li svg {
-  position: relative;
-  margin-left: -1px;
-}
-.breadcrumb li svg path {
-  fill: #fff; /*atenuacion de path abajo abcdef*/
-  stroke: #999;
-}
-.breadcrumb li:hover a {
-  background: #fff;
-  color: #330033;
-}
-.breadcrumb li:hover svg path {
-  fill: #fff; /*cuando asoma flecha*/ 
-}
-.breadcrumb li.active a {
-  background: #330033;
-  color: #fff;
-}
-.breadcrumb li.active svg path {
-  fill: #330033;
-}
-
-.breadcrumb li a{
-  line-height: 32px;
-  vertical-align: top;
-  color: #808090;/*#408FD8; letras atenuadas*/
-  background: #fff;
-  display: inline-block;
-  padding-left: 20px;
-  padding-right: 2px;
-  text-decoration: none;
-  border: 1px solid #999;
-}
 
 
 /* Growl Notifications */

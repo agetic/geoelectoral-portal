@@ -28,6 +28,9 @@ angular.module('geoelectoralFrontendApp')
                     iniMapa=false;
                     scope.selectTab(4);
                 }
+                scope.isMobile=function(){
+                    return true;
+                };
             }else{
                 scope.selectTab(1);
             }

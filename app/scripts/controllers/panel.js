@@ -19,7 +19,7 @@ angular.module('geoelectoralFrontendApp')
     $scope.isSelected = function(checkTab) {
       return $scope.tab === checkTab;
     };
-
+    
     var w = angular.element($window);
     $scope.getWindowDimensions = function () {
         //$('.dropdown-submenu > a').submenupicker();
@@ -45,7 +45,8 @@ angular.module('geoelectoralFrontendApp')
       },
       defaults: {
         zoomControl: false,
-        scrollWheelZoom: true,
+        scrollWheelZoom: false,
+        doubleClickZoom: false,
         maxZoom: 17,
         minZoom: 2,
         attributionControl: false,
@@ -153,7 +154,39 @@ angular.module('geoelectoralFrontendApp')
       //adicionar zoom control
       L.control.zoom({position:'topleft',zoomInTitle:'Acercar',zoomOutTitle:'Alejar'}).addTo(map);
 
-      //crear el control de circulos
+     
+
+      var controlCentrar = L.control({position: 'topleft'});
+      controlCentrar.onAdd = function (map) {
+        var div = L.DomUtil.create('div','leaflet-bar');
+        div.innerHTML = '<a id="ctrl-centrar" title="Ajustar Mapa"><img width="24" height="24"></a>';
+        return div;
+      }
+      controlCentrar.addTo(map);
+
+      // Leyenda para las burbujas
+      var burbujaLeyenda = L.control({position: 'bottomright'});
+      burbujaLeyenda.onAdd = function (map) {
+        var div = L.DomUtil.create('div','leaflet-bar');
+        div.innerHTML = '<a id="bubble-legend"></a>';
+        return div;
+      }
+      burbujaLeyenda.addTo(map);
+      d3.select('.leaflet-bottom.leaflet-right').classed('hidden',true);
+
+      PanelFactory.makeLegend();
+
+      var tituloMapa = L.control({position:'bottomleft'});
+      tituloMapa.onAdd = function(map) {
+        var div = L.DomUtil.create('div','leaflet-bar');
+        div.id = 'header-titulo';
+        div.innerHTML = $('#header').html();
+        $('#header').css('z-index','-1');
+        return div;
+      }
+      tituloMapa.addTo(map);
+      
+       //crear el control de circulos
       var controlCirculo = L.control({position: 'topleft'});
 
       controlCirculo.onAdd = function (map) {
@@ -185,36 +218,6 @@ angular.module('geoelectoralFrontendApp')
         L.DomEvent.stopPropagation(d3.event); // stop the zoom
       });
       //document.getElementById ("ctrl-circulo").addEventListener ("click", controlCirculoClick, false);
-
-      var controlCentrar = L.control({position: 'topleft'});
-      controlCentrar.onAdd = function (map) {
-        var div = L.DomUtil.create('div','leaflet-bar');
-        div.innerHTML = '<a id="ctrl-centrar" title="Ajustar Mapa"><img width="24" height="24"></a>';
-        return div;
-      }
-      controlCentrar.addTo(map);
-
-      // Leyenda para las burbujas
-      var burbujaLeyenda = L.control({position: 'bottomright'});
-      burbujaLeyenda.onAdd = function (map) {
-        var div = L.DomUtil.create('div','leaflet-bar');
-        div.innerHTML = '<a id="bubble-legend"></a>';
-        return div;
-      }
-      burbujaLeyenda.addTo(map);
-      d3.select('.leaflet-bottom.leaflet-right').classed('hidden',true);
-
-      PanelFactory.makeLegend();
-
-      var tituloMapa = L.control({position:'bottomleft'});
-      tituloMapa.onAdd = function(map) {
-        var div = L.DomUtil.create('div','leaflet-bar');
-        div.id = 'header-titulo';
-        div.innerHTML = $('#header').html();
-        $('#header').css('z-index','-1');
-        return div;
-      }
-      tituloMapa.addTo(map);
 
       //var layersControl = new L.Control.Layers(baseMaps, overlayMaps);
       var layersControl = new L.Control.Layers(baseMaps, null, {position: 'topleft'});

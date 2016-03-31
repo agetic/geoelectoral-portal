@@ -1,12 +1,12 @@
 
 <!-- Grafico Mapa -->
-<ol id="mapa-breadcrumb" bread-crumbs ng-show="isSelected(4)"></ol>
+<ol id="mapa-breadcrumb" bread-crumbs ng-hide="isMobile()"></ol>
 
   <!-- EstadisticS -->
     <div class="nav-pestana768">
-      <ul class="nav nav-tabs pull-right">
+      <ul class="nav nav-pills">
         <li id="tab-map" ng-class="{active: isSelected(4)}">
-          <a href ng-click="selectTab(4)"><img src="images/icon_mundo.svg" width="54" alt="Mapa" title="Mapa"></a>
+          <a href ng-click="selectTab(4); isMobile()"><img src="images/icon_world.svg" width="32" alt="Mapa" title="Mapa"></a>
         </li>
         <li ng-class="{active: isSelected(2)}">
           <!-- Bar Graph by Simple Icons from The Noun Project -->
@@ -20,7 +20,7 @@
           <!-- Spreadsheet by dw from The Noun Project -->
           <a href ng-click="selectTab(1)"><img src="images/icon_table.svg" width="32" alt="Tabla" title="Tabla"></a>
         </li>
-        <li ng-class="{active: isSelected(5)}">
+        <li ng-if="mostrarDatosGenerales" ng-class="{active: isSelected(5)}">
           <!-- Spreadsheet by dw from The Noun Project -->
           <a href ng-click="selectTab(5)"><img src="images/icon_info.svg" width="32" alt="Datos generales" title="Datos generales"></a>
         </li>
@@ -50,7 +50,7 @@
         </li>
       </ul>
     </div>
-  <div class="description">
+  <div class="description" id="no_desborde">
     <!-- Tabla -->
     <table class="table table-condensed table-hover" ng-if="isSelected(1)">
       <thead>
@@ -80,7 +80,7 @@
       </barras-bolivia>
     </div>
     <!-- Torta -->
-    <div>
+    <div id="alternado">
       <torta-bolivia id="torta" class="grafico" data="partidos" tab="{{tab}}" ng-if="isSelected(3)">
       </torta-bolivia>
     </div>
@@ -109,7 +109,7 @@
             <span class="valor numero">{{datosGrales['NULOS'].porcentaje | number:2}}%</span>
           </div>
           <div class="blancos" id="partido_{{datosGrales['BLANCOS'].id_partido}}"  title="{{datosGrales['BLANCOS'].partido_nombre}} {{datosGrales['BLANCOS'].observacion}}">
-            <span class="dato" class="valor">{{datosGrales['BLANCOS'].sigla}} {{datosGrales['BLANCOS'].candidato}}</span>
+            <span class="dato">{{datosGrales['BLANCOS'].sigla}} {{datosGrales['BLANCOS'].candidato}}</span>
             <span class="valor numero">{{datosGrales['BLANCOS'].resultado | number}}</span>
             <span class="valor numero">{{datosGrales['BLANCOS'].porcentaje | number:2}}%</span>
           </div>
@@ -130,14 +130,81 @@
         </div>
         </div>
     </div>
-
+    
     
   </div>
 </div>
   <!-- EstadisticS -->
+  <div class="menu-dpa">
+  <div class="nav-pestana768_titulo">
+      <ul class="nav nav-tabs">
+          <li id="tab" ng-class="{active: isSelected(6)}">
+              <a href ng-click="selectTab(6)">{{obtenerDpa()}}<br /> {{obtenerNombreDpa()}}
+                  <span class="caret-right"></span></a>
+          </li>
 
-<div id="menu-anios" ng-show="isSelected(4)">
-  <button class="btn btn-default btn-anios" type="button" data-toggle="dropdown">{{anio}}
+      </ul>
+  </div> 
+      <div class="navegacionMapa" id="navegacion_mobile" ng-show="isSelected(6)">
+          <div class="navegacionDpa"  ng-if="isSelected(6)"> 
+              <div class="opcion-navegacion">
+                  Nivel de visualización:
+             
+              <div class="pull-right">
+                    <button type="button" class="btn btn-default"  ng-click="selectTab(4)">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+
+              </div>
+               </div>
+               
+              <!--Migas de pan para mobile-->
+              <div class="mobile">
+              <ol id="mapa-breadcrumb" bread-crumbs ng-show="isSelected(6)"></ol>
+              </div>
+              <div class="dpa-container" ng-show="isSelected(6)">
+              <div class="nav-dpa-mobile">
+                  <ul><!-- Por ahora no se muestra la vista por recintos en toda Bolivia ni por mesas (ng-if)-->
+                      <li ng-repeat="a in ctiposDpa.id_tipos_dpa"
+                          ng-if="a!=7 && a!=9 && !(currentDpa.idTipoEleccion==1&&a==5) && !(currentDpa.idTipoDpaActual<2 && (a==6 || a==8))"
+                          ng-click="setTipoDpa(a,ctiposDpa.id_tipo_eleccion)"
+                          ng-class="{active: getTipoDpa()==a}">
+                          <span ng-switch="a">
+                              <a ng-switch-when="1">País</a>
+                              <a ng-switch-when="2">Departamentos</a>
+                              <a ng-switch-when="3">Provincias</a>
+                              <a ng-switch-when="4">Municipios</a>
+                              <a ng-switch-when="5">Circunscripciones</a>
+                              <a ng-switch-when="6" ng-if="currentDpa.idTipoDpaActual>=2">Recintos</a>
+                              <a ng-switch-when="8" ng-if="currentDpa.idTipoDpaActual>=2">Recintos</a>
+                          </span>
+                      </li>
+                  </ul>
+              </div>
+              </div>
+          </div>
+        </div>    
+  </div>
+  
+    <div id="menu-anios" > <!--ng-show="isSelected(4)"-->
+    <button class="btn btn-default btn-anios" type="button" data-toggle="dropdown"> {{anio}} - {{getEleccion()}}
+    <span class="caret"></span>
+  </button>
+  <ul class="nav-anios affix-anios" ng-class="anios_tipo()">
+    <li ng-class="{active: a.anio === anio}" ng-repeat="a in aniosLista" >
+
+      <ul class="nav">
+        <li ng-click="setAnioIndex_e(a.anio, b.id_tipo_eleccion)" ng-repeat="b in a.tipos_eleccion" ng-class="{active: getTipoEleccion()==b.id_tipo_eleccion}">
+          {{a.anio}} - {{getNombreTipoEleccion(b.id_tipo_eleccion)}}
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+  
+ 
+<!--<div id="menu-anios" ng-show="isSelected(4)">
+    <button class="btn btn-default btn-anios" type="button" data-toggle="dropdown"> {{anio}} - {{getEleccion()}}
     <span class="caret"></span>
   </button>
   <ul class="nav-anios affix-anios" ng-class="anios_tipo()">
@@ -145,13 +212,13 @@
       <a tabindex="0" ng-click="setAnioIndex($index)">{{a.anio}}</a>
       <ul class="nav" ng-show="a.anio===anio">
         <li ng-click="setTipoEleccion(b.id_tipo_eleccion)" ng-repeat="b in a.tipos_eleccion" ng-class="{active: getTipoEleccion()==b.id_tipo_eleccion}">
-          {{getNombreTipoEleccion(b.id_tipo_eleccion)}}
+          {{a.anio}} - {{getNombreTipoEleccion(b.id_tipo_eleccion)}}
         </li>
       </ul>
     </li>
   </ul>
-</div>
-
+</div>  
+-->  
 <div class="nav-dpa">
   <ul><!-- Por ahora no se muestra la vista por recintos en toda Bolivia ni por mesas (ng-if)-->
     <li ng-repeat="a in ctiposDpa.id_tipos_dpa"
@@ -159,7 +226,7 @@
         ng-click="setTipoDpa(a,ctiposDpa.id_tipo_eleccion)"
         ng-class="{active: getTipoDpa()==a}">
       <span ng-switch="a">
-        <a ng-switch-when="1">Pais</a>
+        <a ng-switch-when="1">País</a>
         <a ng-switch-when="2">Departamentos</a>
         <a ng-switch-when="3">Provincias</a>
         <a ng-switch-when="4">Municipios</a>

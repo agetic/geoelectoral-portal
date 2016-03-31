@@ -269,6 +269,34 @@ angular.module('geoelectoralFrontendApp')
                 }
                 return titulo;
             };
+            $scope.obtenerNombreDpa = function () {
+                var titulo = $scope.currentDpa.dpaNombre;
+                
+                    $scope.tiposDpa.some(function (e) {
+                        if (e.idTipoDpa === $scope.currentDpa.idTipoDpaActual) {
+                            titulo = ''+titulo;
+                            return true;
+                        }
+                    });
+                
+                return titulo;
+            };
+            $scope.obtenerDpa = function () {
+                var titulo = $scope.currentDpa.dpaNombre;
+                
+                    $scope.tiposDpa.some(function (e) {
+                        if (e.idTipoDpa === $scope.currentDpa.idTipoDpaActual) {
+                            titulo = capitalize(e.nombre);
+                            return true;
+                        }
+                    });
+                
+                
+                return titulo;
+                
+            };
+            
+                       
             $scope.getNombreTipoEleccion = function (idTipoEleccion) {
                 var tipo = '';
                 switch (idTipoEleccion) {
@@ -365,7 +393,7 @@ angular.module('geoelectoralFrontendApp')
             $scope.setAnioIndex = function (index) {
                 //$scope.partidoSeleccionado = null;
                 $scope.e.anioIndex = index;
-                $scope.anio = $scope.anios[$scope.e.anioIndex];
+                $scope.anio = $scope.anios[$scope.e.anioIndex];                
                 $scope.aniosLista.some(function (adet) {
                     if (adet.anio == $scope.anio) {
                         var ite = 0;
@@ -395,7 +423,74 @@ angular.module('geoelectoralFrontendApp')
                 });
                 $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
             };
+            
+            //Establece año y tipo de elección a mostrar
+            $scope.setAnioIndex_e = function (anio, idTipoEleccion) {
+                var indice=0;
+                var index;
+                $scope.aniosLista.forEach(function (a){
+                    if(a.anio==anio){
+                        index= indice;
+                    }
+                    else{
+                        indice = indice +1;
+                    }
+                });
+                $scope.e.anioIndex = index;
+                $scope.anio = $scope.anios[$scope.e.anioIndex];
+                $scope.e.anteriorDpa = angular.copy($scope.currentDpa);
+                $scope.aniosLista.some(function (adet) {
+                    if (adet.anio == $scope.anio) {
+                        var ite = 0;
+                        adet.tipos_eleccion.some(function (tEle, i) {
+                            if (tEle.id_tipo_eleccion == $scope.currentDpa.idTipoEleccion) {
+                                ite = i;
+                                return true;
+                            }
+                        });
+                        $scope.currentDpa.idTipoEleccion = idTipoEleccion;
+                        $scope.aniosLista.forEach(function (l) {
+                    if (l.anio == $scope.anio) {
+                        l.tipos_eleccion.forEach(function (t) {
+                            if (t.id_tipo_eleccion == $scope.currentDpa.idTipoEleccion) {
+                                // Verificar si existe el tipo dpa actual
+                                if (!t.id_tipos_dpa.some(function (td) {
+                                    if (td == $scope.currentDpa.idTipoDpa)
+                                        return true;
+                                })) {
+                                    $scope.currentDpa.idTipoDpa = t.id_tipos_dpa[0];
+                                    if (t.id_tipos_dpa[0] == 1)
+                                        $scope.currentDpa.idTipoDpa = t.id_tipos_dpa[1];
+                                }
 
+                                $scope.ctiposDpa = t;
+                            }
+                        });
+                    }
+                        });
+                        if (adet.tipos_eleccion[ite].id_tipos_dpa.indexOf($scope.currentDpa.idTipoDpa) < 0) {
+                            switch (adet.tipos_eleccion[ite].id_tipo_eleccion) {
+                                case 1:
+                                    $scope.currentDpa.idTipoDpa = adet.tipos_eleccion[ite].id_tipos_dpa[1];
+                                    $scope.currentDpa.idTipoEleccion = adet.tipos_eleccion[ite].id_tipo_eleccion;
+                                    break;
+                                case 2:
+                                case 6:
+                                case 7:
+                                    $scope.currentDpa.idTipoDpa = adet.tipos_eleccion[ite].id_tipos_dpa[0];
+                                    $scope.currentDpa.idTipoEleccion = adet.tipos_eleccion[ite].id_tipo_eleccion;
+                                    break;
+                            }
+                        }
+                        return true;
+                    }
+                });
+                recargarMapa();
+                $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
+            };           
+            //FIN 
+            
+            
             // Establecer el tipo de dpa para mostrar en el mapa
             $scope.setTipoDpa = function (idTipoDpa, idTipoEleccion) {
                 $scope.e.anteriorDpa = angular.copy($scope.currentDpa);
@@ -440,7 +535,7 @@ angular.module('geoelectoralFrontendApp')
                     }
                 });
                 recargarMapa();
-            };
+            };           
             $scope.getTipoEleccion = function () {
                 return $scope.currentDpa.idTipoEleccion;
             };
@@ -821,6 +916,10 @@ angular.module('geoelectoralFrontendApp')
                     //totalPartidos[i].porcentaje = 0;
                 });
                 return totalPartidos;
+            }
+            
+            function alterna_nav($scope) {
+                $scope.alternado.show = !$scope.alternado.show;
             }
 
         });
