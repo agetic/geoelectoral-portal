@@ -16,9 +16,11 @@ angular.module('geoelectoralFrontendApp')
             var eleccionesUrl2 = host + api + '/elecciones2?anio={anio}&id_tipo_dpa={idTipoDpa}&id_dpa={idDpa}&id_tipo_eleccion={idTipoEleccion}&formato=json';
             var eleccionesDeptoUrl = host + api + '/elecciones?anio={anio}&id_tipo_dpa={idTipoDpa}&id_dpa={idDpa}&id_tipo_eleccion={idTipoEleccion}&formato=json';
             var dpaGeoJSONUrl = host + api + '/proxy';
+            var archivoCsv = host + api + '/elecciones/archivoCsv';
 
             var primeraVez = true; // Variable para simular entrada por primera vez al sistema (/)
 
+            $scope.ruta = archivoCsv;
             $scope.mapControl = {ajustar: true};
             $scope.date = new Date();
 
@@ -34,12 +36,16 @@ angular.module('geoelectoralFrontendApp')
                 {idTipoDpa: 8, nombre: 'cir_recinto', idTipoDpaSuperior: 5}
             ];
             $scope.partidoSeleccionado = null;
+            $scope.padronSeleccionado = null;
             $scope.e = {};
             $scope.anio = $scope.anios[$scope.e.anioIndex];
             $scope.partidos = [];
             $scope.datosGrales = [];
             $scope.partidosDepartamento = [];
             $scope.eleccion = null;
+            $scope.id_eleccion = 1;
+            $scope.url_descarga_csv = null;
+            $scope.descripcion = null;
             $scope.dpaGeoJSON = [];
             $scope.gris = ENV.color;
             $scope.porcetajeGroup = 3; // 3% Porcentaje de agrupación
@@ -216,6 +222,44 @@ angular.module('geoelectoralFrontendApp')
                 return pdatos;
             }
 
+            $scope.getDpaPartidoTable = function(){
+              var dpa = 'dpa';
+              $scope.tiposDpa.some(function (t) {
+                  if (t.idTipoDpa == $scope.currentDpa.idTipoDpa) {
+                      dpa = t.nombre;
+                      return true;
+                  }
+              });
+              var pdatos = [{//id:'id',
+                      //color:'color',
+                      dpa: dpa,
+                      votos: 'votos',
+                      habilitados : 'habilitados',
+                      validos : 'validos',
+                      porcentaje: 'porcentaje',
+                      sigla: 'sigla',
+                      nombre: 'partido'}];
+              $scope.partidosDepartamento.forEach(function (pD) {
+                  pD.partidos.sort(function (a, b) {
+                      return a.resultado < b.resultado;
+                  });
+                  pD.partidos.forEach(function (p) {
+                      var d = new Object();
+                      //d.id = p.id_partido;
+                      //d.color = p.color;
+                      d.dpa = pD.dpa_nombre;
+                      d.votos = p.resultado;
+                      d.habilitados = pD.datosGrales['INSCRITOS'].resultado;
+                      d.validos = pD.datosGrales['VALIDOS'].resultado;
+                      d.porcentaje = p.porcentaje;
+                      d.sigla = p.sigla;
+                      d.nombre = p.partido_nombre;
+                      pdatos.push(d);
+                  });
+
+              });
+              return pdatos;
+            }
 
             // Crear tabla con los datos del mapa mostrado actualmente
             $scope.getDpaTable = function () {
@@ -271,32 +315,32 @@ angular.module('geoelectoralFrontendApp')
             };
             $scope.obtenerNombreDpa = function () {
                 var titulo = $scope.currentDpa.dpaNombre;
-                
+
                     $scope.tiposDpa.some(function (e) {
                         if (e.idTipoDpa === $scope.currentDpa.idTipoDpaActual) {
                             titulo = ''+titulo;
                             return true;
                         }
                     });
-                
+
                 return titulo;
             };
             $scope.obtenerDpa = function () {
                 var titulo = $scope.currentDpa.dpaNombre;
-                
+
                     $scope.tiposDpa.some(function (e) {
                         if (e.idTipoDpa === $scope.currentDpa.idTipoDpaActual) {
                             titulo = capitalize(e.nombre);
                             return true;
                         }
                     });
-                
-                
+
+
                 return titulo;
-                
+
             };
-            
-                       
+
+
             $scope.getNombreTipoEleccion = function (idTipoEleccion) {
                 var tipo = '';
                 switch (idTipoEleccion) {
@@ -393,7 +437,7 @@ angular.module('geoelectoralFrontendApp')
             $scope.setAnioIndex = function (index) {
                 //$scope.partidoSeleccionado = null;
                 $scope.e.anioIndex = index;
-                $scope.anio = $scope.anios[$scope.e.anioIndex];                
+                $scope.anio = $scope.anios[$scope.e.anioIndex];
                 $scope.aniosLista.some(function (adet) {
                     if (adet.anio == $scope.anio) {
                         var ite = 0;
@@ -423,7 +467,7 @@ angular.module('geoelectoralFrontendApp')
                 });
                 $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
             };
-            
+
             //Establece año y tipo de elección a mostrar
             $scope.setAnioIndex_e = function (anio, idTipoEleccion) {
                 var indice=0;
@@ -487,10 +531,10 @@ angular.module('geoelectoralFrontendApp')
                 });
                 recargarMapa();
                 $location.path('/elecciones/' + $scope.anio + '/dpa/' + $scope.currentDpa.idDpa);
-            };           
-            //FIN 
-            
-            
+            };
+            //FIN
+
+
             // Establecer el tipo de dpa para mostrar en el mapa
             $scope.setTipoDpa = function (idTipoDpa, idTipoEleccion) {
                 $scope.e.anteriorDpa = angular.copy($scope.currentDpa);
@@ -535,7 +579,7 @@ angular.module('geoelectoralFrontendApp')
                     }
                 });
                 recargarMapa();
-            };           
+            };
             $scope.getTipoEleccion = function () {
                 return $scope.currentDpa.idTipoEleccion;
             };
@@ -561,6 +605,14 @@ angular.module('geoelectoralFrontendApp')
                 }
             };
 
+            $scope.seleccionarPadron = function(){
+              if ($scope.partidoSeleccionado === $scope.datosGrales['INSCRITOS']) {
+                  $scope.partidoSeleccionado = null;
+              } else {
+                  $scope.partidoSeleccionado = $scope.datosGrales['INSCRITOS'];
+              }
+            };
+
             // Funciones
             var calcularPorcentaje = function (partidos) {
                 var total = 0;
@@ -581,12 +633,12 @@ angular.module('geoelectoralFrontendApp')
             var eliminarValidos = function (partidos) {
                 // TODO eliminar cuando cambie la fecha
                 // BEGIN Provisional verificar en la observación sólo del 2016
-                function esPartidoDel2016(p) {
-                    return /24-02-2016/.exec(p.observacion);
-                }
-                if (partidos.some(esPartidoDel2016)) {
-                    return partidos
-                }
+                // function esPartidoDel2016(p) {
+                //     return /24-02-2016/.exec(p.observacion);
+                // }
+                // if (partidos.some(esPartidoDel2016)) {
+                //     return partidos
+                // }
                 // END Provisional verificar en la observación sólo del 2016
                 partidos.forEach(function (p, i) {
                     if (p.sigla === 'VALIDOS') {
@@ -635,9 +687,22 @@ angular.module('geoelectoralFrontendApp')
                 });
                 return partidos;
             };
+
+            /**
+             * Funcion que añade al arreglo dpas la información general de una elección; es decir: inscritos, válidos, nulos, blancos, emitidos
+             *
+             */
+            var establecerDatosGrales = function (dpas){
+              return dpas.map(function (d) {
+                  d.datosGrales = $scope.datosGrales;
+                  return d;
+              });
+            };
+
             var establecerColorValidos = function (dpas) {
                 return dpas.map(function (d) {
                     d.partidos = eliminarValidos(d.partidos);
+                    d.datosGrales = $scope.datosGrales;
                     return d;
                 });
             };
@@ -654,10 +719,11 @@ angular.module('geoelectoralFrontendApp')
                             votosDpa.push(v);
                         }
                     });
-                }
-                ;
+                };
                 return votosDpa;
             };
+
+
 
             /**
              * Funcion que se conecta con el segundo método de ws que obtiene los tipo de partido (2,3,4,5)
@@ -695,7 +761,6 @@ angular.module('geoelectoralFrontendApp')
                         //partido.sigla="TOTAL "+partido.sigla;
                         partidosPorSigla[partido.sigla]=partido;
                     });
-
                     var arrayAuxiliar=[];
                     for(var i in partidosPorSigla)
                         {
@@ -708,7 +773,6 @@ angular.module('geoelectoralFrontendApp')
                             arrayAuxiliar.push(partidosPorSigla[i]);
                           }
                           $scope.datosGrales=partidosPorSigla;
-
 
                 }, function (error) {
                     console.warn("Error en la conexión a GeoElectoral API");
@@ -748,7 +812,6 @@ angular.module('geoelectoralFrontendApp')
                 // GeoJSON político administrativo de Bolivia
                 $scope.currentDpa.lz = 1;
                 $scope.currentDpa.fecha = $scope.eleccion.fecha;
-
                 // BEGIN Cambiar el estado de tipoDpa (TODO: provisional hasta encontrar la forma correcta)
                 if (primeraVez) {
                     switch ($scope.currentDpa.idTipoEleccion) {
@@ -760,7 +823,6 @@ angular.module('geoelectoralFrontendApp')
                     primeraVez = false;
                 }
                 // END Cambiar el estado de tipoDpa (TODO: provisional hasta encontrar la forma correcta)
-
                 promises.push($http.get(dpaGeoJSONUrl, {params: $scope.currentDpa}));
                 // Elecciones a nivel departamento
                 promises.push($http.get(eleccionesDeptoUrl.replace(/{anio}/g, $scope.anio)
@@ -776,6 +838,7 @@ angular.module('geoelectoralFrontendApp')
 
                 $q.all(promises).then(function (response) {
                     if (response[0].data.lz) {
+                      //debugger
                         var lzData = LZString.decompressFromEncodedURIComponent(response[0].data.lz);
                         response[0].data = JSON.parse(lzData);
                     }
@@ -791,11 +854,21 @@ angular.module('geoelectoralFrontendApp')
                         if (response[2].data.dpas) { // En vista recintos adicionar el dpa superior
                             response[1].data.dpas.push(response[2].data.dpas[0]);
                         }
+
+                        $scope.descripcion = response[1].data.eleccion.descripcion;
+                        $scope.id_eleccion = response[1].data.eleccion.id_eleccion;
+                        $scope.url_descarga_csv = archivoCsv + '?anio={anio}&idTipoEleccion={idTipoEleccion}';
+                        $scope.url_descarga_csv = $scope.url_descarga_csv.replace(/{anio}/g, $scope.anio);
+                        $scope.url_descarga_csv = $scope.url_descarga_csv.replace(/{idTipoEleccion}/g, response[1].data.eleccion.id_tipo_eleccion);
+
                         $scope.informacion = response[1].data.eleccion.informacion;//INFORMACION
                         //$scope.eleccion = response[1].data.eleccion;
                         $scope.dpaGeoJSON = reducePorAnio(response[0]);
+
+
                         $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
                         $scope.partidosDepartamento = reducirDpasVista($scope.partidosDepartamento);
+                        //$scope.partidosDepartamento = establecerDatosGrales($scope.partidosDepartamento);
                         if (response[2].data.dpas && response[2].data.dpas[0].partidos) {
                             $scope.partidos = eliminarValidos(response[2].data.dpas[0].partidos);
                         } else {
@@ -846,11 +919,12 @@ angular.module('geoelectoralFrontendApp')
                             $scope.eleccion.fecha = response[1].data.eleccion.fecha;
                         if (response[2].data.dpas) { // En vista recintos adicionar el dpa superior
                             response[1].data.dpas.push(response[2].data.dpas[0]);
-                        }     
+                        }
                         //$scope.informacion = response[1].data.eleccion.informacion;
                         $scope.dpaGeoJSON = reducePorAnio(response[0]);
                         $scope.partidosDepartamento = establecerColorValidos(response[1].data.dpas);
                         $scope.partidosDepartamento = reducirDpasVista($scope.partidosDepartamento);
+                        //$scope.partidosDepartamento = establecerDatosGrales($scope.partidosDepartamento);
                         if (response[2].data.dpas && response[2].data.dpas[0].partidos) {
                             $scope.partidos = eliminarValidos(response[2].data.dpas[0].partidos);
 
@@ -868,7 +942,7 @@ angular.module('geoelectoralFrontendApp')
                             if (l.anio == $scope.anio) {
                                 l.tipos_eleccion.forEach(function (t) {
                                     if (t.id_tipo_eleccion == $scope.currentDpa.idTipoEleccion) {
-                                        $scope.ctiposDpa = t;                                        
+                                        $scope.ctiposDpa = t;
                                     }
                                 });
                             }
@@ -917,7 +991,8 @@ angular.module('geoelectoralFrontendApp')
                 });
                 return totalPartidos;
             }
-            
+
+
             function alterna_nav($scope) {
                 $scope.alternado.show = !$scope.alternado.show;
             }

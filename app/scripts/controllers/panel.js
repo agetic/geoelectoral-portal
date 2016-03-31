@@ -77,6 +77,7 @@ angular.module('geoelectoralFrontendApp')
     var svg,g;
     var reset = function(){};
     var circulos = function(){};
+    var circulosPadron = function(){};
 
 
     leafletData.getMap('mapa').then(function(objmap) {
@@ -163,7 +164,7 @@ angular.module('geoelectoralFrontendApp')
       //adicionar zoom control
       L.control.zoom({position:'topleft',zoomInTitle:'Acercar',zoomOutTitle:'Alejar'}).addTo(map);
 
-     
+
 
       var controlCentrar = L.control({position: 'topleft'});
       controlCentrar.onAdd = function (map) {
@@ -194,7 +195,7 @@ angular.module('geoelectoralFrontendApp')
         return div;
       }
       tituloMapa.addTo(map);
-      
+
        //crear el control de circulos
       var controlCirculo = L.control({position: 'topleft'});
 
@@ -236,6 +237,10 @@ angular.module('geoelectoralFrontendApp')
 
     // Llevarlo como factory
     function isBurbujaEnabled(){
+      if($scope.partidoSeleccionado){
+        if($scope.partidoSeleccionado.sigla == 'INSCRITOS')
+          return true;
+      }
       return (d3.select('#ctrl-circulo').attr('fill')=='#000');
     }
     function controlCirculoHide() {
@@ -300,18 +305,29 @@ angular.module('geoelectoralFrontendApp')
 
       /* Funciones  y variables necesarias */
       var votos = $scope.partidosDepartamento;
-      var partido = $scope.partidoSeleccionado;
+      var partido = $scope.partidoSeleccionado ? $scope.partidoSeleccionado : $scope.padronSeleccionado;
+      //console.log(partido);
       // Tooltip container
       var div = d3.select('#tooltip-mapa')
           .attr('class', 'tooltip-mapa')
           .style('display','block')
           .style('opacity', 1e-6);
-      var tooltipTpl = [
-          '<strong>{sigla}</strong>',
-          '<div>Porcentaje: {porcentaje}%</div>',
-          '<div>Votos: {votos}</div>',
-          '<div>{lugar}</div>',
-        ].join('');
+      if(isBurbujaEnabled()){
+        var tooltipTpl = [
+            '<strong>{sigla}</strong>',
+            '<div>Total inscritos: {inscritos}</div>',
+            '<div>{lugar}</div>',
+          ].join('');
+      }
+      else {
+        var tooltipTpl = [
+            '<strong>{sigla}</strong>',
+            '<div>Porcentaje: {porcentaje}%</div>',
+            '<div>Votos: {votos}</div>',
+            '<div>{lugar}</div>',
+          ].join('');
+
+      }
 
       var tooltipTplBlank = [
           '<strong>{sigla}</strong>',
@@ -348,9 +364,9 @@ angular.module('geoelectoralFrontendApp')
           if( e.touches[0].pageX > parseInt(d3.select('#mapa').style('width'))-parseInt(div.style('width')) ){
             div.style('left', (e.touches[0].pageX - parseInt(div.style('width'))) + 'px')
           }
-
           var toolt = tooltipTpl.replace(/{sigla}/g, d.partido.sigla)
                            .replace(/{porcentaje}/g, d.partido.porcentaje)
+                           .replace(/{inscritos}/g, d3.format(',d')(d.partido.inscritos))
                            .replace(/{votos}/g, d3.format(',d')(d.partido.resultado))
                            .replace(/{lugar}/g, d.properties.nombre);
           if (d.partido.sigla === undefined) {
@@ -410,6 +426,7 @@ angular.module('geoelectoralFrontendApp')
         if(d.properties.id_tipo_dpa==$scope.currentDpa.idTipoDpa) {
           var toolt = tooltipTpl.replace(/{sigla}/g, d.partido.sigla)
                              .replace(/{porcentaje}/g, d.partido.porcentaje)
+                             .replace(/{inscritos}/g, d3.format(',d')(d.partido.inscritos))
                              .replace(/{votos}/g, d3.format(',d')(d.partido.resultado))
                              .replace(/{lugar}/g, d.properties.nombre);
           div
@@ -454,9 +471,13 @@ angular.module('geoelectoralFrontendApp')
         }
         return max.porcentaje;
       };
-
+      /*
+      ** d: datos geométricos; el arreglo properties contiene los datos del dpa
+      ** votos: arreglo que contiene info del dpa y de los partidos que participan en él
+      ** partido: arreglo con los datos del partido y resultados
+      */
       var partidoSeleccionado = function(d, votos, partido) {
-        var gana = partidoGanador(d, votos);
+        var gana = partidoGanador(d, votos); //function partidoGanador devuelve el ganador
         var max = { porcentaje: 0 };
         votos.forEach(function(v) {
           if(d.properties.codigo === v.dpa_codigo) {
@@ -502,7 +523,7 @@ angular.module('geoelectoralFrontendApp')
 
       var setColorPartido = function(d, votos, partido) {
         var colorEscala, color;
-        if(d.properties.id_tipo_dpa==$scope.currentDpa.idTipoDpa) {
+        if(d.properties.id_tipo_dpa==$scope.currentDpa.idTipoDpa ) {
           if (partido && verPartidoSeleccionado()) {
             d.partido = partidoSeleccionado(d, votos, partido);
             colorEscala = d3.scale.linear().domain([0, maximoPorcentaje(d, votos, partido, $scope.currentDpa)]);
@@ -568,7 +589,7 @@ angular.module('geoelectoralFrontendApp')
         g.selectAll('circle').remove();
         PanelFactory.maxRadio(votos,map.getZoom());
         if(isBurbujaEnabled()){
-          circulos();
+          circulosPadron();
         }
         if($scope.mapControl.ajustar){
           $scope.centrarMapa();
@@ -582,7 +603,11 @@ angular.module('geoelectoralFrontendApp')
         this.stream.point(point.x, point.y);
       }
 
+      //dibuja las burbujas
       circulos = function() {
+        if($scope.padronSeleccionado && !$scope.partidoSeleccionado){
+
+        }
         collection.features.forEach(function(p) {
           var punto = path.centroid(p);
           //if(punto[0] && p.partido.porcentaje>0 && p.partido.porcentaje<100 && p.properties.extent){
@@ -610,6 +635,44 @@ angular.module('geoelectoralFrontendApp')
         PanelFactory.changeLegend(map.getZoom());
 
       }
+      circulosPadron = function() {
+        if(!partido)
+          return;
+        collection.features.forEach(function(p) {
+          var punto = path.centroid(p);
+
+         if(p.properties.id_tipo_dpa==$scope.currentDpa.idTipoDpa) {
+          if(punto[0] && partido.porcentaje>0 && partido.porcentaje<=100 ){
+
+            g.append('circle')
+                    .attr('fill','#808080')
+                    .attr('stroke','#bbb')
+                    .attr('opacity','.7')
+                    .on('dblclick',function(){ L.DomEvent.stopPropagation(d3.event); })
+                    .on('mouseover', function(d){ mouseover(d); })
+                    .on('mousemove', function(){ mousemove(p); })
+                    .on('mouseout', mouseout)
+                    .on('touchstart',function(){ countTouch(this,p); })
+                    .on('mousedown', function(){ mousedown(p); })
+                    .on('mouseup', function(){ mouseup(p); })
+                    .attr('class','circulo '+controlCirculoHide())
+                    .attr('cx', punto[0])
+                    .attr('cy', punto[1])
+                    //.attr('r', ((0.250*Math.pow(2,map.getZoom()))* (p.partido.resultado/5000)/100  ));
+                    // .attr('r', PanelFactory.radioFromCant(p.partido.resultado,map.getZoom()) );
+                    .attr('r', PanelFactory.radioFromCant(p.partido.inscritos,map.getZoom()) );
+          }
+         }
+        });
+        PanelFactory.changeLegend(map.getZoom());
+
+
+
+
+    };
+
+
+
       map.on('viewreset', reset, svg);
       reset();
 
@@ -618,6 +681,7 @@ angular.module('geoelectoralFrontendApp')
 
     $scope.$watch('dpaGeoJSON', graficarMapa);
     $scope.$watch('partidoSeleccionado', graficarMapa);
+    $scope.$watch('padronSeleccionado', graficarMapa);
 
 
   });
