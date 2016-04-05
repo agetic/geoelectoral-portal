@@ -160,10 +160,10 @@
 <!-- EstadisticS -->
 <div class="menu-dpa">
     <div class="nav-pestana768_titulo">
-        <ul class="nav nav-tabs">
-            <li id="tab" ng-class="{active: isSelected(6)}">
+        <ul class="nav nav-pills dpa">
+            <li id="pill-dpa" ng-class="{active: isSelected(6)}">
                 <a href ng-click="selectTab(6)">{{obtenerDpa()}}<br /> {{obtenerNombreDpa()}}
-                    <span class="caret-right"></span></a>
+                    <span class="caret"></span></a>
             </li>
 
         </ul>
@@ -215,10 +215,10 @@
     </button>
     <ul class="nav-anios affix-anios" ng-class="anios_tipo()">
         <li ng-class="{active: a.anio === anio}" ng-repeat="a in aniosLista" >
-
+            
             <ul class="nav">
                 <li ng-click="setAnioIndex_e(a.anio, b.id_tipo_eleccion)" ng-repeat="b in a.tipos_eleccion" ng-class="{active: getTipoEleccion() == b.id_tipo_eleccion}">
-                    {{a.anio}} - {{getNombreTipoEleccion(b.id_tipo_eleccion)}}
+                    <div class="row"> <div class="pull-left" >{{a.anio}} - </div><div class="columna-eleccion pull-left"> {{getNombreTipoEleccion(b.id_tipo_eleccion)}}</div></div>
                 </li>
             </ul>
         </li>
