@@ -104,7 +104,7 @@ body {
   }
   .nav > li > a{
     padding: 4px 15px;
-    color: #a5a5a5; 
+    color: #a5a5a5;
   }
   .col-sm-2.col-xs-3 a:hover{
     z-index: 1;
@@ -213,15 +213,15 @@ body {
     padding: 1px 5px;
     color: #999;
   }
-  .nav-dpa ul li:hover a {  
+  .nav-dpa ul li:hover a {
     background: #fff;
     color: #330033;
   }
   .nav-dpa ul .active {
-    background: #330033; 
+    background: #330033;
   }
   .nav-dpa ul li.active a {
-    background: #330033; 
+    background: #330033;
     color: #fff;
   }
 
@@ -230,7 +230,7 @@ body {
 .breadcrumb {
   margin-bottom: 0;
   padding: 0;
-  background-color: transparent;  
+  background-color: transparent;
 }
 
 /* breadcrumb separator */
@@ -253,7 +253,7 @@ body {
   color: #330033;
 }
 .breadcrumb li:hover svg path {
-  fill: #fff; /*cuando asoma flecha*/ 
+  fill: #fff; /*cuando asoma flecha*/
 }
 .breadcrumb li.active a {
   background: #330033;
@@ -349,10 +349,10 @@ body {
 }
 
   #logo-desktop{
-    background-color: transparent;  
+    background-color: transparent;
   }
 
-@media screen and (min-width: 768px) and (max-width: 1024px) {  
+@media screen and (min-width: 768px) and (max-width: 1024px) {
   .footer {
     font-size: 10px;
     width: 360px;
@@ -372,9 +372,9 @@ body {
   }
   /* Título Elecciones */
   .logo-adsib img {
-    width:192px;    
+    width:192px;
     background-color: transparent;
-  } 
+  }
   .logo-adsib a{
       background-color: transparent;
   }
@@ -461,16 +461,16 @@ body {
 @media screen and (max-width: 767px) {
   .header{
     width: 100%;
-    margin-top: -100px;    
+    margin-top: -100px;
   }
   .logo-adsib img{
     height: 45px;
-    background-color: #ffffff;   
+    background-color: #ffffff;
   }
  .logo-agetic-768 img {
     height: 29px;
-    background-color: #ffffff;    
-  } 
+    background-color: #ffffff;
+  }
   #header-titulo .titulo{
     /*padding-left: 152px;
     margin-top: 0;
@@ -485,7 +485,7 @@ body {
     bottom: 0.5px;
     left: 0px;
     clear: both;
-    z-index: 3;      
+    z-index: 3;
   }
 
   #menu-anios {
@@ -496,7 +496,7 @@ body {
     bottom: auto;
     width: auto;
     left:48px;
-    
+
   }
   #fondo-mapa{
     padding-top: 125px;
@@ -522,7 +522,7 @@ body {
     display: block;
     font-size: 0.9em;
     padding-top: 1px;
-    padding-bottom: 1px;   
+    padding-bottom: 1px;
     border: none;
     text-align: justify;
     height: 45px;
@@ -538,7 +538,7 @@ body {
   }
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
-    border-bottom: 0;        
+    border-bottom: 0;
   }
   .leaflet-top.leaflet-left {
     top: 55px;
@@ -549,8 +549,8 @@ body {
     position: absolute;
     background: #fff;
     width: 100%;
-    bottom: 42px;   
-    z-index: 1001;   
+    bottom: 42px;
+    z-index: 1001;
     font-size: 0.8em;
   }
   body {
@@ -587,18 +587,18 @@ body {
     width: 200px;
   }
   .nav-dpa {
-  
+
     display: none;
   }
   .nav-dpa ul li {
     display: block;
     line-height: 18px;
-  } 
- 
-.nav-pills > li.active > a, 
-.nav-pills > li.active > a:hover, 
+  }
+
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
 .nav-pills > li.active > a:focus  {
-    
+
     background-color: #fff;
 }
 .nav-anios {
@@ -616,7 +616,7 @@ body {
     display: block;
     font-size: 0.9em;
     padding-top: 1px;
-    padding-bottom: 1px;   
+    padding-bottom: 1px;
     text-align: justify;
     background-color: transparent;
     white-space: normal;
@@ -624,7 +624,7 @@ body {
     position: absolute;
     left: 7px;
     clear: both;
-    z-index: 3; 
+    z-index: 3;
     max-width: 150px;
   }
   .caret-right {
@@ -641,9 +641,9 @@ body {
     background-color: transparent;
     padding: 4px 15px;
     color: #000;
-    border-color: #fff;  
+    border-color: #fff;
 }
- 
+
 .menu-dpa .navegacionMapa{
     opacity: 0.9;
     position: absolute;
@@ -651,7 +651,7 @@ body {
     width: 80%;
     top: 112px;
     left: 20px;
-    z-index: 101;   
+    z-index: 101;
     font-size: 1em;
     height: 350px;
   }
@@ -673,39 +673,39 @@ body {
     cursor: pointer;
     list-style: none;
     width: 125px;
-  } 
+  }
   .nav-dpa-mobile a {
     text-decoration: none;
   }
   .nav-dpa-mobile ul {
     padding: 5px;
   }
- 
+
   .nav-dpa-mobile ul li a {
     padding: 0px;
     border-radius: 3px;
     padding: 1px 5px;
     color: #999;
   }
-  .nav-dpa-mobile ul li:hover a {  
+  .nav-dpa-mobile ul li:hover a {
     background: #fff;
     color: #330033;
   }
   .nav-dpa-mobile ul .active {
-    background: #330033; 
+    background: #330033;
   }
   .nav-dpa-mobile ul li.active a {
-    background: #330033; 
+    background: #330033;
     color: #fff;
   }
- 
+
   .mobile{
-      top: 30px; 
+      top: 30px;
       left: 5px;
       overflow: hidden;
       margin-top: 30px;
       height: auto;
-      
+
   }
   #mapa-breadcrumb{
       top: 30px;
@@ -713,14 +713,14 @@ body {
 .breadcrumb > li {
     display: block;
 }
-  
+
   .breadcrumb-mobile {
   margin-bottom: 0;
   padding: 0;
-  background-color: transparent;  
+  background-color: transparent;
 }
 
- breadcrumb separator 
+ breadcrumb separator
 .breadcrumb-mobile > li + li:before {
  content: "";
  padding: 0;
@@ -731,7 +731,7 @@ body {
   margin-left: -1px;
 }
 .breadcrumb-mobile li svg path {
-  fill: #fff; 
+  fill: #fff;
   stroke: #999;
 }
 .breadcrumb-mobile li:hover a {
@@ -773,7 +773,7 @@ body {
       left: 5px;
       margin-left: 5px;
    }
-  
+
 }
 /*FIN responsive: Portrait tablets and down 768*/
 
@@ -981,17 +981,35 @@ div[growl] {
   display: block;
 }
 
+.datosGrales{
+  padding-top: 0.4em;
+}
+
+.container-info-descarga{
+  border-bottom: 2px solid #ddd;
+}
+
+span.dato{
+  padding-left: 1em;
+  text-transform: lowercase;;
+}
+span.dato::first-letter{
+  text-transform: uppercase;
+}
+.container-info-tecnica{
+  overflow: hidden;
+  border-bottom: 2px solid #ddd;
+}
 .headerInfoGral{
   font-weight: bold;
-  border-bottom-style: solid;
-  border-bottom-color: #bbb;
-  border-bottom-width:medium;
   padding-bottom: 0.3em;
+  border-bottom: 2px solid #ddd;
 }
 .emitidos, .nulos, .blancos, .abstencion, .validos{
   border-top-style: solid;
-  border-top-color: #ccc;
+  border-top-color: #ddd;
   border-top-width: thin;
+
 }
 .emitidos .dato, .abstencion .dato{
   text-indent: 2em;
@@ -1003,24 +1021,29 @@ div[growl] {
 .valor, .dato{
   display: inline-block;
   width: 32%;
-  /*border-style:solid;*/
-
 }
 
 .headerInfoMas{
   font-weight: bold;
-  border-bottom-style: solid;
+  border-bottom: 2px solid #ddd;
+  /*border-bottom-style: solid;
   border-bottom-color: #bbb;
-  border-bottom-width:medium;
-  border-top-style: solid;
-  border-top-color: #999;
-  border-top-width:medium;
-  padding-top: 1.0em;
+  border-bottom-width:medium;*/
+  /*border-top: 2px solid #ddd;*/
+  /*border-top-style: solid;
+  border-top-color: #ddd;
+  border-top-width:medium;*/
+  padding-top: 0.3em;
+  margin-top: 0.2em;
   padding-bottom: 0.3em;
-}  
+}
 .informacion{
-  border-bottom-width:medium;
-  padding-bottom: 0.3em;
+  padding-top: 0.2em;
   padding-left: 0.5em;
   padding-right: 0.5em;
+  text-align: justify;
+}
+.informacion p.links{
+
+
 }

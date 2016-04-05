@@ -20,7 +20,7 @@
             <!-- Spreadsheet by dw from The Noun Project -->
             <a href ng-click="selectTab(1)"><img src="images/icon_table.svg" width="32" alt="Tabla" title="Tabla"></a>
         </li>
-        <li ng-if="mostrarDatosGenerales" ng-class="{active: isSelected(5)}">
+        <li  ng-class="{active: isSelected(5)}">
             <!-- Spreadsheet by dw from The Noun Project -->
             <a href ng-click="selectTab(5)"><img src="images/icon_info.svg" width="32" alt="Datos generales" title="Datos generales"></a>
         </li>
@@ -44,7 +44,7 @@
                 <!-- Spreadsheet by dw from The Noun Project -->
                 <a href ng-click="isActiveTab(1, 100)"><img src="images/icon_table.svg" width="32" alt="Tabla" title="Tabla"></a>
             </li>
-            <li ng-if="mostrarDatosGenerales" ng-class="{active: isSelected(5)}">
+            <li  ng-class="{active: isSelected(5)}">
                 <!-- Spreadsheet by dw from The Noun Project -->
                 <a href ng-click="isActiveTab(5, 100)"><img src="images/icon_info.svg" width="32" alt="Datos generales" title="Datos generales"></a>
             </li>
@@ -72,8 +72,8 @@
                 </tr>
             </tbody>
         </table>
-        <a id="linkcsv" type="button" ng-href= {{url_descarga_csv}}  ng-if="isSelected(1)" target="_self">Descargar CSV (Totales)</a>
-        <a id="linkcsv" type="button" ng-csv="getDpaTable()" filename="{{getEleccion()}} - {{getLugar()}}.csv" ng-if="isSelected(1)" decimal-separator="," field-separator=";" class="pull-right">Descargar CSV (Mapa)  .</a>
+        <!-- <a id="linkcsv" type="button" ng-href= {{url_descarga_csv}}  ng-if="isSelected(1)" target="_self">Descargar CSV (Totales)</a>
+        <a id="linkcsv" type="button" ng-csv="getDpaTable()" filename="{{getEleccion()}} - {{getLugar()}}.csv" ng-if="isSelected(1)" decimal-separator="," field-separator=";" class="pull-right">Descargar CSV (Mapa)  .</a> -->
         <!-- Barras -->
         <div ng-hide="isSelected(100)">
             <barras-bolivia class="grafico" data="partidos" tab="{{tab}}" ng-if="isSelected(2)">
@@ -84,7 +84,11 @@
             <torta-bolivia id="torta" class="grafico" data="partidos" tab="{{tab}}" ng-if="isSelected(3)">
             </torta-bolivia>
         </div>
-        <div class="datosGrales"  ng-if="isSelected(5) && mostrarDatosGenerales" ng-hide="isSelected(100)"> 
+
+        <!--Información-->
+        <div class="datosGrales"  ng-if="isSelected(5)" ng-hide="isSelected(100)">
+          <!--Información técnica-->
+          <div class="container-info-tecnica" ng-if="mostrarDatosGenerales">
             <div class="headerInfoGral">
                 <span class="dato">Datos</span>
                 <span class="valor numero">Valor</span>
@@ -93,45 +97,59 @@
             <div class="inscritos tooltip-tabla" id="partido_{{datosGrales['INSCRITOS'].id_partido}}"  title="{{datosGrales['INSCRITOS'].partido_nombre}} {{datosGrales['INSCRITOS'].observacion}}"  data-html="true" ng-click="seleccionarPadron()">
                 <span class="dato">{{datosGrales['INSCRITOS'].sigla}} {{datosGrales['INSCRITOS'].candidato}}</span>
                 <span class="valor numero">{{datosGrales['INSCRITOS'].resultado| number}}</span>
-                <span class="valor numero" >{{datosGrales['INSCRITOS'].porcentaje| number:2}}%</span>
+                <span class="valor numero" >{{datosGrales['INSCRITOS'].porcentaje| number:2}}</span>
             </div>
             <div class="emitidos tooltip-tabla" id="partido_{{datosGrales['EMITIDOS'].id_partido}}"  title="{{datosGrales['EMITIDOS'].partido_nombre}} {{datosGrales['EMITIDOS'].observacion}}" data-html="true">
                 <span class="dato">{{datosGrales['EMITIDOS'].sigla}} {{datosGrales['EMITIDOS'].candidato}}</span>
                 <span class="valor numero">{{datosGrales['EMITIDOS'].resultado| number}}</span>
-                <span class="valor numero">{{datosGrales['EMITIDOS'].porcentaje| number:2}}%</span>
+                <span class="valor numero">{{datosGrales['EMITIDOS'].porcentaje| number:2}}</span>
             </div>
             <div class="validos tooltip-tabla" id="partido_{{datosGrales['VALIDOS'].id_partido}}"  title="{{datosGrales['VALIDOS'].partido_nombre}} {{datosGrales['VALIDOS'].observacion}}" data-html="true">
                 <span class="dato">{{datosGrales['VALIDOS'].sigla}} {{datosGrales['VALIDOS'].candidato}}</span>
                 <span class="valor numero">{{datosGrales['VALIDOS'].resultado| number}}</span>
-                <span class="valor numero">{{datosGrales['VALIDOS'].porcentaje| number:2}}%</span>
+                <span class="valor numero">{{datosGrales['VALIDOS'].porcentaje| number:2}}</span>
             </div>
 
             <div class="nulos tooltip-tabla" id="partido_{{datosGrales['NULOS'].id_partido}}"  title="{{datosGrales['NULOS'].partido_nombre}} {{datosGrales['NULOS'].observacion}}" data-html="true">
                 <span class="dato">{{datosGrales['NULOS'].sigla}} {{datosGrales['NULOS'].candidato}}</span>
                 <span class="valor numero">{{datosGrales['NULOS'].resultado| number}}</span>
-                <span class="valor numero">{{datosGrales['NULOS'].porcentaje| number:2}}%</span>
+                <span class="valor numero">{{datosGrales['NULOS'].porcentaje| number:2}}</span>
             </div>
 
             <div class="blancos tooltip-tabla" id="partido_{{datosGrales['BLANCOS'].id_partido}}"  title="{{datosGrales['BLANCOS'].partido_nombre}} {{datosGrales['BLANCOS'].observacion}}" data-html="true" >
                 <span class="dato">{{datosGrales['BLANCOS'].sigla}} {{datosGrales['BLANCOS'].candidato}}</span>
                 <span class="valor numero">{{datosGrales['BLANCOS'].resultado| number}}</span>
-                <span class="valor numero">{{datosGrales['BLANCOS'].porcentaje| number:2}}%</span>
+                <span class="valor numero">{{datosGrales['BLANCOS'].porcentaje| number:2}}</span>
             </div>
 
             <div class="abstencion tooltip-tabla" id="partido_{{datosGrales['ABSTENCION'].id_partido}}"  title="{{datosGrales['ABSTENCION'].partido_nombre}} {{datosGrales['ABSTENCION'].observacion}}" data-html="true" >
                 <span class="dato">{{datosGrales['ABSTENCION'].sigla}} {{datosGrales['ABSTENCION'].candidato}}</span>
                 <span class="valor numero">{{datosGrales['ABSTENCION'].resultado| number}}</span>
-                <span class="valor numero">{{datosGrales['ABSTENCION'].porcentaje| number:2}}%</span>
+                <span class="valor numero">{{datosGrales['ABSTENCION'].porcentaje| number:2}}</span>
             </div>
-
-        
-        <div ng-if="informacion !== '' && informacion !== null">
+          </div>
+          <!--Fin información técnica-->
+          <!--Zona de descarga-->
+          <div class="container-info-descarga">
+            <div class="headerInfoMas" style="margin-top:0;">
+              <span class="dato">Descargar datos</span>
+            </div>
+            <div class="informacion">
+              <p>
+                <a id="linkcsv" type="button" ng-href= {{url_descarga_csv}}>  <span class="glyphicon glyphicon-download-alt"></span> Descargar resultados de toda la elección (CSV)</a> <br>
+                <a id="linkcsv" type="button" ng-csv="getDpaTable()" filename="{{getEleccion()}} - {{getLugar()}}.csv" decimal-separator="," field-separator=";"><span class="glyphicon glyphicon-download-alt"></span> Descargar resultados de la vista actual del mapa (CSV)</a>
+              </p>
+            </div>
+          </div>
+          <!--Fin zona de descarga-->
+          <!--Información de la elección-->
+          <div class="container-info-eleccion" ng-if="informacion !== '' && informacion !== null">
             <div class="headerInfoMas">
                 <span class="dato">Información</span>
-
             </div>
             <div class="informacion">
                 <p class="informacion">{{informacion}}</p>
+                <!-- <p class="informacion">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> -->
             </div>
         </div>
     </div>
