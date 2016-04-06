@@ -132,11 +132,11 @@
           <!--Zona de descarga-->
           <div class="container-info-descarga">
             <div class="headerInfoMas" style="margin-top:0;">
-              <span class="dato">Descargar datos</span>
+              <span class="dato">Descargas</span>
             </div>
             <div class="informacion">
               <p>
-                <a id="linkcsv" type="button" ng-href= {{url_descarga_csv}}>  <span class="glyphicon glyphicon-download-alt"></span> Descargar resultados de toda la elección (CSV)</a> <br>
+                <!-- <a id="linkcsv" type="button" ng-href= {{url_descarga_csv}}>  <span class="glyphicon glyphicon-download-alt"></span> Descargar resultados de la elección (CSV)</a> <br> -->
                 <a id="linkcsv" type="button" ng-csv="getDpaTable()" filename="{{getEleccion()}} - {{getLugar()}}.csv" decimal-separator="," field-separator=";"><span class="glyphicon glyphicon-download-alt"></span> Descargar resultados de la vista actual del mapa (CSV)</a>
               </p>
             </div>
@@ -215,7 +215,7 @@
     </button>
     <ul class="nav-anios affix-anios" ng-class="anios_tipo()">
         <li ng-class="{active: a.anio === anio}" ng-repeat="a in aniosLista" >
-            
+
             <ul class="nav">
                 <li ng-click="setAnioIndex_e(a.anio, b.id_tipo_eleccion)" ng-repeat="b in a.tipos_eleccion" ng-class="{active: getTipoEleccion() == b.id_tipo_eleccion}">
                     <div class="row"> <div class="pull-left" >{{a.anio}} - </div><div class="columna-eleccion pull-left"> {{getNombreTipoEleccion(b.id_tipo_eleccion)}}</div></div>
