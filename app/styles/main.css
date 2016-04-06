@@ -667,7 +667,7 @@ body {
   }
   .nav-dpa-mobile ul li {
     display: inline-block;
-    line-height: 25px;
+    line-height: 20px;
     margin: 0;
     background: #fff;
     border: 1px solid #999;
@@ -710,7 +710,7 @@ body {
 
   }
   #mapa-breadcrumb{
-      top: 30px;
+      top: 15px;
       height: auto;
       bottom: auto;
   }
@@ -728,7 +728,7 @@ body {
  
 /* breadcrumb separator */
 .breadcrumb > li + li:before {
-  content: "\003E\003E";
+  content: "\276F\00a0";
  /*padding: 0;*/
  margin-left: -16px;
  color: #330033;
@@ -767,6 +767,7 @@ body {
   text-decoration: none;
   border: none;
   min-width: 50px;
+  height: 25px;
  
 }
 
