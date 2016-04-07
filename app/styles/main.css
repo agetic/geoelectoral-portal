@@ -225,6 +225,10 @@ body {
     color: #fff;
   }
 
+  #no_desborde {
+   
+   padding-right: 10px;
+}
 
 
 .breadcrumb {
@@ -352,6 +356,16 @@ body {
     background-color: transparent;
   }
 
+  
+  .tooltip-tabla{
+      z-index: 5000;
+  }
+   
+ .columna-eleccion{
+   max-width: 130px;
+ }
+  
+  
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   .footer {
     font-size: 10px;
@@ -496,7 +510,7 @@ body {
     bottom: auto;
     width: auto;
     left:48px;
-    z-index: 1070;
+    /*z-index: 1070;*/
     
   }
   #fondo-mapa{
@@ -613,6 +627,7 @@ body {
    min-width: 300px;
    max-width: 400px;
    overflow: auto;
+   padding-right: 0px;
 }
 .nav-pestana768_titulo {
     display: block;
@@ -827,6 +842,7 @@ svg:active, svg g:active {
 .affix-anios, .tooltip-tabla {
   cursor: pointer;
 }
+
 
 /* Mapa */
 svg .departamentos path {

@@ -72,7 +72,7 @@
                 </tr>
             </tbody>
         </table>
-        <!-- <a id="linkcsv" type="button" ng-href= {{url_descarga_csv}}  ng-if="isSelected(1)" target="_self">Descargar CSV (Totales)</a>
+                <!-- <a id="linkcsv" type="button" ng-href= {{url_descarga_csv}}  ng-if="isSelected(1)" target="_self">Descargar CSV (Totales)</a>
         <a id="linkcsv" type="button" ng-csv="getDpaTable()" filename="{{getEleccion()}} - {{getLugar()}}.csv" ng-if="isSelected(1)" decimal-separator="," field-separator=";" class="pull-right">Descargar CSV (Mapa)  .</a> -->
         <!-- Barras -->
         <div ng-hide="isSelected(100)">
@@ -218,7 +218,7 @@
             
             <ul class="nav">
                 <li ng-click="setAnioIndex_e(a.anio, b.id_tipo_eleccion)" ng-repeat="b in a.tipos_eleccion" ng-class="{active: getTipoEleccion() == b.id_tipo_eleccion}">
-                    <div class="row"> <div class="pull-left" >{{a.anio}} - </div><div class="columna-eleccion pull-left"> {{getNombreTipoEleccion(b.id_tipo_eleccion)}}</div></div>
+                    <div class="row"> <div class="pull-left" >{{a.anio}}&nbsp</div><div class="columna-eleccion pull-left"> {{getNombreTipoEleccion(b.id_tipo_eleccion)}}</div></div>
                 </li>
             </ul>
         </li>
